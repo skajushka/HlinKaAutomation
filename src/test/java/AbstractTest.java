@@ -5,10 +5,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import java.util.concurrent.TimeUnit;
+
 public abstract class AbstractTest {
 
-    WebDriver webDriver;
-    WebElement webElement;
+    protected static WebDriver webDriver;
+    protected static WebElement webElement;
 
     @BeforeMethod
     public void openWebsite() {
@@ -20,7 +22,7 @@ public abstract class AbstractTest {
     }
 
     @AfterMethod
-    public void closeWebsite() {
+    public void tearDown() {
         webDriver.quit();
     }
 }

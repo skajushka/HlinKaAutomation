@@ -4,15 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class LoginPage {
-    private final By _editLogin =By.id("login");
-    private final By _editPassword =By.id("password");
+public class LoginPage extends PageObject {
+
+    private final By _editLogin = By.id("login");
+    private final By _editPassword = By.id("password");
     private final By _buttonLogin = By.xpath("//input[@class='save']");
 
-    private WebDriver webDriver;
-
-    public LoginPage(WebDriver driver) {
-        this.webDriver = driver;
+    public LoginPage(WebDriver webDriver) {
+        super(webDriver);
     }
 
     private WebElement editLogin() {
@@ -27,10 +26,17 @@ public class LoginPage {
         return webDriver.findElement(_buttonLogin);
     }
 
-    public void signIn(String login, String password) {
-        editLogin().clear();
-        editLogin().sendKeys(login);
-        editPassword().sendKeys(password);
-        buttonLogin().click();
+    public void enterLogin(String login) {
+        this.editLogin().clear();
+        this.editLogin().sendKeys(login);
+    }
+
+    public void enterPassword(String password) {
+        this.editPassword().clear();
+        this.editPassword().sendKeys(password);
+    }
+
+    public void submit() {
+        this.buttonLogin().click();
     }
 }

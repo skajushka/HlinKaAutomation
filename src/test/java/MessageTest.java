@@ -15,6 +15,7 @@ public class MessageTest extends AbstractTest {
     public void testCreateMessage(String login, String password) {
 
         //login
+
         LoginPage pageLogin = new LoginPage(webDriver);
 
         try {
@@ -26,7 +27,9 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException("Test ended with critical error");
         }
 
-        pageLogin.signIn(login, password);
+        pageLogin.enterLogin(login);
+        pageLogin.enterPassword(password);
+        pageLogin.submit();
 
         // create new message
 
@@ -85,7 +88,9 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException("Test ended with critical error");
         }
 
-        pageLogin.signIn(login, password);
+        pageLogin.enterLogin(login);
+        pageLogin.enterPassword(password);
+        pageLogin.submit();
 
         //create new message
 
