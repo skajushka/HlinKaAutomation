@@ -14,15 +14,15 @@ public class LoginPage extends PageObject {
         super(webDriver);
     }
 
-    private WebElement editLogin() {
+    public WebElement editLogin() {
         return webDriver.findElement(_editLogin);
     }
 
-    private WebElement editPassword() {
+    public WebElement editPassword() {
         return webDriver.findElement(_editPassword);
     }
 
-    private WebElement buttonLogin() {
+    public WebElement buttonLogin() {
         return webDriver.findElement(_buttonLogin);
     }
 

@@ -1,6 +1,8 @@
+import com.qulix.pages.ListMessagesPage;
 import com.qulix.pages.LoginPage;
 
-import com.qulix.pages.MessagePage;
+import com.qulix.pages.CreateMessagePage;
+import com.qulix.pages.ShowMessagePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -19,7 +21,7 @@ public class MessageTest extends AbstractTest {
         LoginPage pageLogin = new LoginPage(webDriver);
 
         try {
-            webDriver.findElement(By.id("login"));
+            pageLogin.editLogin();
             System.out.println("Login page is opened");
         } catch (NoSuchElementException e) {
             System.out.println("Login page is not opened");
@@ -31,13 +33,17 @@ public class MessageTest extends AbstractTest {
         pageLogin.enterPassword(password);
         pageLogin.submit();
 
-        // create new message
+        // go to New Message page
 
-        WebElement webElement = webDriver.findElement(By.linkText("New Message"));
-        webElement.click();
+        ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
+        listMessagesPage.findNewMessageTab().click();
+
+        // send new message
+
+        CreateMessagePage messagePage = new CreateMessagePage(webDriver);
 
         try {
-            webDriver.findElement(By.name("create"));
+            messagePage.findButtonCreate();
             System.out.println("Create Message page is opened");
         } catch (NoSuchElementException e) {
             System.out.println("Create Message page is not opened");
@@ -45,30 +51,24 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException("Test ended with a critical error");
         }
 
-        //send new message
-
-        MessagePage messagePage = new MessagePage(webDriver);
         messagePage.sendMessage();
 
         //find newly created message in Message List
 
-        webElement = webDriver.findElement(By.linkText("Message List"));
-        webElement.click();
-
-        webElement = webDriver.findElement(By.name("allUsers"));
-        webElement.click();
+        ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
+        showMessagePage.findTabToMessagesList().click();
+        listMessagesPage.findAllUsersMessagesOption().click();
 
         try {
             do {
-                webDriver.findElement(By.linkText("Next")).click();
-            } while (webDriver.findElement(By.linkText("Next")).isDisplayed());
+                listMessagesPage.findNextButton().click();
+            } while (listMessagesPage.findNextButton().isDisplayed());
         } catch (NoSuchElementException e) {
             System.out.println("Next button is not present on the page");
         }
 
-        WebElement lastRow = webDriver.findElement(By.xpath("//table/tbody/tr[last()]"));
-        Assert.assertTrue(lastRow.getText().contains("New Message by Kate"));
-        Assert.assertTrue(lastRow.getText().contains("This is the text of a new message"));
+        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains("New Message by Kate"));
+        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains("This is the text of a new message"));
     }
 
     @Test
@@ -80,7 +80,7 @@ public class MessageTest extends AbstractTest {
         LoginPage pageLogin = new LoginPage(webDriver);
 
         try {
-            webDriver.findElement(By.id("login"));
+            pageLogin.editLogin();
             System.out.println("Login page is opened");
         } catch (NoSuchElementException e) {
             System.out.println("Login page is not opened");
@@ -92,13 +92,27 @@ public class MessageTest extends AbstractTest {
         pageLogin.enterPassword(password);
         pageLogin.submit();
 
-        //create new message
-
-        webElement = webDriver.findElement(By.linkText("New Message"));
-        webElement.click();
+        //make sure that Message list page is opened
+        ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
 
         try {
-            webDriver.findElement(By.name("create"));
+            listMessagesPage.findPageTitle();
+            System.out.println("Message List page is opened");
+        } catch (NoSuchElementException e) {
+            System.out.println("Message List page is not opened");
+            webDriver.quit();
+            throw new RuntimeException("Test ended with critical error");
+        }
+
+        // go to New Message page
+        listMessagesPage.findNewMessageTab().click();
+
+        // send new message
+
+        CreateMessagePage messagePage = new CreateMessagePage(webDriver);
+
+        try {
+            messagePage.findButtonCreate();
             System.out.println("Create Message page is opened");
         } catch (NoSuchElementException e) {
             System.out.println("Create Message page is not opened");
@@ -106,16 +120,13 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException("Test ended with a critical error");
         }
 
-        //send new message
-
-        MessagePage messagePage = new MessagePage(webDriver);
         messagePage.sendMessage();
 
         // assert if message shown is the same that was created
+        ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
 
         try {
-            WebElement showMessageNote = webDriver.findElement(By.xpath("/html/body/div[5]/h1"));
-            showMessageNote.getText().contains("Show Message");
+            showMessagePage.findShowMessageNote().getText().contains("Show Message");
             System.out.println("Show Message page is opened");
         } catch (NoSuchElementException e) {
             System.out.println("Create Message page is not opened");
@@ -123,29 +134,64 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException("Test ended with a critical error");
         }
 
-        WebElement showMessageHeadline = webDriver.findElement(By.xpath("/html/body/div[5]/div[1]/table/tbody/tr[1]/td[2]"));
-        Assert.assertTrue(showMessageHeadline.getText().contains("New Message by Kate"));
-        WebElement showMessageText = webDriver.findElement(By.xpath("/html/body/div[5]/div[1]/table/tbody/tr[3]/td[2]"));
-        Assert.assertTrue(showMessageText.getText().contains("This is the text of a new message"));
+
+        Assert.assertTrue(showMessagePage.findMessageHeadline().getText().contains("New Message by Kate"));
+        Assert.assertTrue(showMessagePage.findMessageText().getText().contains("This is the text of a new message"));
 
         //find newly created message in Message List
 
-        webElement = webDriver.findElement(By.linkText("Message List"));
-        webElement.click();
-
-        webElement = webDriver.findElement(By.name("allUsers"));
-        webElement.click();
+        showMessagePage.findTabToMessagesList().click();
+        listMessagesPage.findAllUsersMessagesOption().click();
 
         try {
             do {
-                webDriver.findElement(By.linkText("Next")).click();
-            } while (webDriver.findElement(By.linkText("Next")).isDisplayed());
+                listMessagesPage.findNextButton().click();
+            } while (listMessagesPage.findNextButton().isDisplayed());
         } catch (NoSuchElementException e) {
             System.out.println("Next button is not present on the page");
         }
 
-        WebElement lastRow1 = webDriver.findElement(By.xpath("//table/tbody/tr[last()]"));
-        Assert.assertTrue(lastRow1.getText().contains("New Message by Kate"));
-        Assert.assertTrue(lastRow1.getText().contains("This is the text of a new message"));
+        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains("New Message by Kate"));
+        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains("This is the text of a new message"));
+
+        //select and view newly created message
+        listMessagesPage.findViewButton().click();
+
+        try {
+            showMessagePage.findShowMessageNote().getText().contains("Show Message");
+            System.out.println("Show Message page is opened");
+        } catch (NoSuchElementException e) {
+            System.out.println("Create Message page is not opened");
+            webDriver.quit();
+            throw new RuntimeException("Test ended with a critical error");
+        }
+
+        Assert.assertTrue(showMessagePage.findMessageHeadline().getText().contains("New Message by Kate"));
+        Assert.assertTrue(showMessagePage.findMessageText().getText().contains("This is the text of a new message"));
+
+        //go to Messages List and view created message in the table
+
+        showMessagePage.findTabToMessagesList().click();
+
+        try {
+            listMessagesPage.findPageTitle();
+            System.out.println("Message List page is opened");
+        } catch (NoSuchElementException e) {
+            System.out.println("Message List page is not opened");
+            webDriver.quit();
+            throw new RuntimeException("Test ended with critical error");
+        }
+
+        try {
+            do {
+                listMessagesPage.findNextButton().click();
+            } while (listMessagesPage.findNextButton().isDisplayed());
+        } catch (NoSuchElementException e) {
+            System.out.println("Next button is not present on the page");
+        }
+
+        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains("New Message by Kate"));
+        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains("This is the text of a new message"));
     }
 }
+
