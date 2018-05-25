@@ -1,16 +1,38 @@
 import com.qulix.pages.ListMessagesPage;
 import com.qulix.pages.LoginPage;
-
 import com.qulix.pages.CreateMessagePage;
 import com.qulix.pages.ShowMessagePage;
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import java.util.Properties;
+
 public class MessageTest extends AbstractTest {
+
+    private Properties messages;
+
+    private static String RESOURCE_PATH = "MessageTest/settings.properties";
+    private static String CRITICAL_ERROR_MESSAGE = "criticalError.message";
+    private static String LOGIN_PAGE_SUCCESS = "loginPage.success";
+    private static String LOGIN_PAGE_FAILED = "loginPage.failed";
+    private static String CREATE_MESSAGE_PAGE_SUCCESS = "createMessagePage.success";
+    private static String CREATE_MESSAGE_PAGE_FAILED = "createMessagePage.failed";
+    private static String NO_NEXT_BUTTON_ERROR = "error.noNextButton";
+    private static String LIST_MESSAGES_PAGE_SUCCESS = "listMessagePage.success";
+    private static String LIST_MESSAGES_PAGE_FAILED = "listMessagePage.failed";
+    private static String SHOW_MESSAGE_HEADLINE = "showMessageHeadline";
+    private static String SHOW_MESSAGE_PAGE_SUCCESS = "showMessagePage.success";
+    private static String SHOW_MESSAGE_PAGE_FAILED = "showMessagePage.failed";
+
+    private String MESSAGE_HEADLINE = "New Message by Kate";
+    private String MESSAGE_TEXT = "This is the text of a new message";
+
+    public MessageTest() {
+        this.messages = ResourceFactory.getResources(MessageTest.RESOURCE_PATH);
+    }
 
     @Test
     @Parameters({"Login", "Password"})
@@ -22,11 +44,11 @@ public class MessageTest extends AbstractTest {
 
         try {
             pageLogin.editLogin();
-            System.out.println("Login page is opened");
+            System.out.println(messages.get(LOGIN_PAGE_SUCCESS));
         } catch (NoSuchElementException e) {
-            System.out.println("Login page is not opened");
+            System.out.println(messages.get(LOGIN_PAGE_FAILED));
             webDriver.quit();
-            throw new RuntimeException("Test ended with critical error");
+            throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
         pageLogin.enterLogin(login);
@@ -44,11 +66,11 @@ public class MessageTest extends AbstractTest {
 
         try {
             messagePage.findButtonCreate();
-            System.out.println("Create Message page is opened");
+            System.out.println(messages.get(CREATE_MESSAGE_PAGE_SUCCESS));
         } catch (NoSuchElementException e) {
-            System.out.println("Create Message page is not opened");
+            System.out.println(messages.get(CREATE_MESSAGE_PAGE_FAILED));
             webDriver.quit();
-            throw new RuntimeException("Test ended with a critical error");
+            throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
         messagePage.sendMessage();
@@ -64,11 +86,11 @@ public class MessageTest extends AbstractTest {
                 listMessagesPage.findNextButton().click();
             } while (listMessagesPage.findNextButton().isDisplayed());
         } catch (NoSuchElementException e) {
-            System.out.println("Next button is not present on the page");
+            System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
         }
 
-        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains("New Message by Kate"));
-        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains("This is the text of a new message"));
+        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_HEADLINE));
+        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_TEXT));
     }
 
     @Test
@@ -81,11 +103,11 @@ public class MessageTest extends AbstractTest {
 
         try {
             pageLogin.editLogin();
-            System.out.println("Login page is opened");
+            System.out.println(messages.get(LOGIN_PAGE_SUCCESS));
         } catch (NoSuchElementException e) {
-            System.out.println("Login page is not opened");
+            System.out.println(messages.get(LOGIN_PAGE_FAILED));
             webDriver.quit();
-            throw new RuntimeException("Test ended with critical error");
+            throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
         pageLogin.enterLogin(login);
@@ -97,11 +119,11 @@ public class MessageTest extends AbstractTest {
 
         try {
             listMessagesPage.findPageTitle();
-            System.out.println("Message List page is opened");
+            System.out.println(messages.get(LIST_MESSAGES_PAGE_SUCCESS));
         } catch (NoSuchElementException e) {
-            System.out.println("Message List page is not opened");
+            System.out.println(messages.get(LIST_MESSAGES_PAGE_FAILED));
             webDriver.quit();
-            throw new RuntimeException("Test ended with critical error");
+            throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
         // go to New Message page
@@ -113,11 +135,11 @@ public class MessageTest extends AbstractTest {
 
         try {
             messagePage.findButtonCreate();
-            System.out.println("Create Message page is opened");
+            System.out.println(messages.get(CREATE_MESSAGE_PAGE_SUCCESS));
         } catch (NoSuchElementException e) {
-            System.out.println("Create Message page is not opened");
+            System.out.println(messages.get(CREATE_MESSAGE_PAGE_FAILED));
             webDriver.quit();
-            throw new RuntimeException("Test ended with a critical error");
+            throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
         messagePage.sendMessage();
@@ -126,17 +148,17 @@ public class MessageTest extends AbstractTest {
         ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
 
         try {
-            showMessagePage.findShowMessageNote().getText().contains("Show Message");
-            System.out.println("Show Message page is opened");
+            showMessagePage.findShowMessageNote().getText().contains((CharSequence) messages.get(SHOW_MESSAGE_HEADLINE));
+            System.out.println(messages.get(SHOW_MESSAGE_PAGE_SUCCESS));
         } catch (NoSuchElementException e) {
-            System.out.println("Create Message page is not opened");
+            System.out.println(messages.get(SHOW_MESSAGE_PAGE_FAILED));
             webDriver.quit();
-            throw new RuntimeException("Test ended with a critical error");
+            throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
 
-        Assert.assertTrue(showMessagePage.findMessageHeadline().getText().contains("New Message by Kate"));
-        Assert.assertTrue(showMessagePage.findMessageText().getText().contains("This is the text of a new message"));
+        Assert.assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
+        Assert.assertTrue(showMessagePage.findMessageText().getText().contains(MESSAGE_TEXT));
 
         //find newly created message in Message List
 
@@ -148,26 +170,26 @@ public class MessageTest extends AbstractTest {
                 listMessagesPage.findNextButton().click();
             } while (listMessagesPage.findNextButton().isDisplayed());
         } catch (NoSuchElementException e) {
-            System.out.println("Next button is not present on the page");
+            System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
         }
 
-        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains("New Message by Kate"));
-        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains("This is the text of a new message"));
+        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_HEADLINE));
+        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_TEXT));
 
         //select and view newly created message
         listMessagesPage.findViewButton().click();
 
         try {
-            showMessagePage.findShowMessageNote().getText().contains("Show Message");
-            System.out.println("Show Message page is opened");
+            showMessagePage.findShowMessageNote().getText().contains((CharSequence) messages.get(SHOW_MESSAGE_HEADLINE));
+            System.out.println(messages.get(SHOW_MESSAGE_PAGE_SUCCESS));
         } catch (NoSuchElementException e) {
-            System.out.println("Create Message page is not opened");
+            System.out.println(messages.get(SHOW_MESSAGE_PAGE_FAILED));
             webDriver.quit();
-            throw new RuntimeException("Test ended with a critical error");
+            throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
-        Assert.assertTrue(showMessagePage.findMessageHeadline().getText().contains("New Message by Kate"));
-        Assert.assertTrue(showMessagePage.findMessageText().getText().contains("This is the text of a new message"));
+        Assert.assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
+        Assert.assertTrue(showMessagePage.findMessageText().getText().contains(MESSAGE_TEXT));
 
         //go to Messages List and view created message in the table
 
@@ -175,11 +197,11 @@ public class MessageTest extends AbstractTest {
 
         try {
             listMessagesPage.findPageTitle();
-            System.out.println("Message List page is opened");
+            System.out.println(messages.get(LIST_MESSAGES_PAGE_SUCCESS));
         } catch (NoSuchElementException e) {
-            System.out.println("Message List page is not opened");
+            System.out.println(messages.get(LIST_MESSAGES_PAGE_FAILED));
             webDriver.quit();
-            throw new RuntimeException("Test ended with critical error");
+            throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
         try {
@@ -187,11 +209,11 @@ public class MessageTest extends AbstractTest {
                 listMessagesPage.findNextButton().click();
             } while (listMessagesPage.findNextButton().isDisplayed());
         } catch (NoSuchElementException e) {
-            System.out.println("Next button is not present on the page");
+            System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
         }
 
-        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains("New Message by Kate"));
-        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains("This is the text of a new message"));
+        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_HEADLINE));
+        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_TEXT));
     }
 }
 
