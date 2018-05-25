@@ -38,7 +38,8 @@ public class MessageTest extends AbstractTest {
     @Parameters({"Login", "Password"})
     public void testCreateMessage(String login, String password) {
 
-        //login
+        //steps 1 and 2 are executed in @BeforeTest section of AbstractTest
+        //step 3 - login
 
         LoginPage pageLogin = new LoginPage(webDriver);
 
@@ -55,12 +56,22 @@ public class MessageTest extends AbstractTest {
         pageLogin.enterPassword(password);
         pageLogin.submit();
 
-        // go to New Message page
+        //step 3 - make sure that Message list page is opened
 
         ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
+
+        try {
+            listMessagesPage.findPageTitle();
+            System.out.println(messages.get(LIST_MESSAGES_PAGE_SUCCESS));
+        } catch (NoSuchElementException e) {
+            System.out.println(messages.get(LIST_MESSAGES_PAGE_FAILED));
+            webDriver.quit();
+            throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
+        }
+
         listMessagesPage.findNewMessageTab().click();
 
-        // send new message
+        // step 4 - open Create message page
 
         CreateMessagePage messagePage = new CreateMessagePage(webDriver);
 
@@ -73,11 +84,25 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
+        // step 5 - send message
+
         messagePage.sendMessage();
 
-        //find newly created message in Message List
+        //step 6 - verify that Show message page is opened
 
         ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
+
+        try {
+            showMessagePage.findShowMessageNote().getText().contains((CharSequence) messages.get(SHOW_MESSAGE_HEADLINE));
+            System.out.println(messages.get(SHOW_MESSAGE_PAGE_SUCCESS));
+        } catch (NoSuchElementException e) {
+            System.out.println(messages.get(SHOW_MESSAGE_PAGE_FAILED));
+            webDriver.quit();
+            throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
+        }
+
+        //step 7 - open Message List page and verify that new message is presented in the list
+
         showMessagePage.findTabToMessagesList().click();
         listMessagesPage.findAllUsersMessagesOption().click();
 
@@ -94,8 +119,8 @@ public class MessageTest extends AbstractTest {
     @Test
     @Parameters({"Login", "Password"})
     public void testShowMessage (String login, String password) {
-
-        //login
+        //steps 1 and 2 are executed in @BeforeTest section of AbstractTest
+        //step 3 - login
 
         LoginPage pageLogin = new LoginPage(webDriver);
 
@@ -112,7 +137,7 @@ public class MessageTest extends AbstractTest {
         pageLogin.enterPassword(password);
         pageLogin.submit();
 
-        //make sure that Message list page is opened
+        //step 3 - make sure that Message list page is opened
         ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
 
         try {
@@ -124,10 +149,10 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
-        // go to New Message page
+        // step 4 - go to New Message page
         listMessagesPage.findNewMessageTab().click();
 
-        // send new message
+        // step 5 - send new message
 
         CreateMessagePage messagePage = new CreateMessagePage(webDriver);
 
@@ -142,7 +167,7 @@ public class MessageTest extends AbstractTest {
 
         messagePage.sendMessage();
 
-        // assert if message shown is the same that was created
+        // step 6 - assert if message shown is the same that was created
         ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
 
         try {
@@ -154,11 +179,10 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
-
         Assert.assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
         Assert.assertTrue(showMessagePage.findMessageText().getText().contains(MESSAGE_TEXT));
 
-        //find newly created message in Message List
+        //step 7 - find newly created message in Message List
 
         showMessagePage.findTabToMessagesList().click();
         listMessagesPage.findAllUsersMessagesOption().click();
@@ -172,7 +196,7 @@ public class MessageTest extends AbstractTest {
         Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_HEADLINE));
         Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_TEXT));
 
-        //select and view newly created message
+        //step 8 - select and view newly created message
         listMessagesPage.findViewButton().click();
 
         try {
@@ -187,7 +211,7 @@ public class MessageTest extends AbstractTest {
         Assert.assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
         Assert.assertTrue(showMessagePage.findMessageText().getText().contains(MESSAGE_TEXT));
 
-        //go to Messages List and view created message in the table
+        //step 9 - go to Messages List and view created message in the table
 
         showMessagePage.findTabToMessagesList().click();
 
