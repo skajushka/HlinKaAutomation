@@ -82,9 +82,7 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.findAllUsersMessagesOption().click();
 
         try {
-            do {
-                listMessagesPage.findNextButton().click();
-            } while (listMessagesPage.findNextButton().isDisplayed());
+            listMessagesPage.clickNextButton();
         } catch (NoSuchElementException e) {
             System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
         }
@@ -166,9 +164,7 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.findAllUsersMessagesOption().click();
 
         try {
-            do {
-                listMessagesPage.findNextButton().click();
-            } while (listMessagesPage.findNextButton().isDisplayed());
+            listMessagesPage.clickNextButton();
         } catch (NoSuchElementException e) {
             System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
         }
@@ -205,9 +201,7 @@ public class MessageTest extends AbstractTest {
         }
 
         try {
-            do {
-                listMessagesPage.findNextButton().click();
-            } while (listMessagesPage.findNextButton().isDisplayed());
+            listMessagesPage.clickNextButton();
         } catch (NoSuchElementException e) {
             System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
         }

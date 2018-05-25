@@ -38,6 +38,13 @@ public class ListMessagesPage extends PageObject {
 
     public WebElement findViewButton() {
        return webDriver.findElement(_viewButton);
+    }
 
+    public void clickNextButton() {
+        ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
+
+        do {
+            listMessagesPage.findNextButton().click();
+        } while (listMessagesPage.findNextButton().isDisplayed());
     }
 }
