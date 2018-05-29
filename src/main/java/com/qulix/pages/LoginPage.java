@@ -6,24 +6,24 @@ import org.openqa.selenium.WebElement;
 
 public class LoginPage extends PageObject {
 
-    private final By _editLogin = By.id("login");
-    private final By _editPassword = By.id("password");
-    private final By _buttonLogin = By.xpath("//input[@class='save']");
+    private final By editLogin = By.id("login");
+    private final By editPassword = By.id("password");
+    private final By buttonLogin = By.xpath("//input[@class='save']");
 
     public LoginPage(WebDriver webDriver) {
         super(webDriver);
     }
 
     public WebElement editLogin() {
-        return webDriver.findElement(_editLogin);
+        return webDriver.findElement(editLogin);
     }
 
     public WebElement editPassword() {
-        return webDriver.findElement(_editPassword);
+        return webDriver.findElement(editPassword);
     }
 
     public WebElement buttonLogin() {
-        return webDriver.findElement(_buttonLogin);
+        return webDriver.findElement(buttonLogin);
     }
 
     public void enterLogin(String login) {

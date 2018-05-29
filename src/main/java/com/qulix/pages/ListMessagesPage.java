@@ -5,39 +5,44 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class ListMessagesPage extends PageObject {
-    private final By _pageTitle = By.xpath("/html/body/div[5]/h1");
-    private final By _newMessageTab = By.linkText("New Message");
-    private final By _allUsersMessagesOption = By.name("allUsers");
-    private final By _nextButton = By.linkText("Next");
-    private final By _lastTableRow = By.xpath("//table/tbody/tr[last()]");
-    private final By _viewButton = By.linkText("View");
+    private final By pageTitle = By.xpath("/html/body/div[5]/h1");
+    private final By newMessageTab = By.linkText("New Message");
+    private final By allUsersMessagesOption = By.name("allUsers");
+    private final By nextButton = By.linkText("Next");
+    private final By lastTableRow = By.xpath("//table/tbody/tr[last()]");
+    private final By viewButton = By.linkText("View");
+    private final By editButton = By.linkText("Edit");
 
     public ListMessagesPage(WebDriver webDriver) {
         super(webDriver);
     }
 
     public WebElement findNewMessageTab() {
-        return webDriver.findElement(_newMessageTab);
+        return webDriver.findElement(newMessageTab);
     }
 
     public WebElement findAllUsersMessagesOption() {
-        return webDriver.findElement(_allUsersMessagesOption);
+        return webDriver.findElement(allUsersMessagesOption);
     }
 
     public WebElement findNextButton() {
-        return webDriver.findElement(_nextButton);
+        return webDriver.findElement(nextButton);
     }
 
     public WebElement findLastTableRow() {
-        return webDriver.findElement(_lastTableRow);
+        return webDriver.findElement(lastTableRow);
     }
 
     public WebElement findPageTitle() {
-        return webDriver.findElement(_pageTitle);
+        return webDriver.findElement(pageTitle);
     }
 
     public WebElement findViewButton() {
-       return webDriver.findElement(_viewButton);
+       return webDriver.findElement(viewButton);
+    }
+
+    public WebElement findEditButton() {
+        return webDriver.findElement(editButton);
     }
 
     public void clickNextButton() {

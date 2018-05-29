@@ -12,7 +12,7 @@ public abstract class AbstractTest {
 
     @BeforeMethod
     public void openWebsite() {
-        System.setProperty("webdriver.chrome.driver", "D:/automation/teachingproject-master/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:/Users/SidorenkoEV/IdeaProjects/HlinKaAutomation/chromedriver.exe");
         webDriver = new ChromeDriver();
         webDriver.get("http://localhost:8080/QulixTeachingSite");
         webElement = webDriver.findElement(By.linkText("qulixteachingsite.UserController"));

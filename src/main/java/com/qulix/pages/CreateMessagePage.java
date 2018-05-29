@@ -6,30 +6,42 @@ import org.openqa.selenium.WebElement;
 
 public class CreateMessagePage extends PageObject {
 
-    private final By _editHeadline = By.id("headline");
-    private final By _editText = By.xpath("//input[@id='text']");
-    private final By _buttonCreate = By.id("create");
+    private final By editHeadline = By.id("headline");
+    private final By editText = By.id("text");
+    private final By buttonCreate = By.id("create");
+
+    private String MESSAGE_HEADLINE = "New Message by Kate";
+    private String MESSAGE_TEXT = "This is the text of a new message";
 
     public CreateMessagePage(WebDriver webDriver) {
         super(webDriver);
     }
 
     public WebElement editHeadline() {
-        return webDriver.findElement(_editHeadline);
+        return webDriver.findElement(editHeadline);
     }
 
     public WebElement editText() {
-        return webDriver.findElement(_editText);
+        return webDriver.findElement(editText);
     }
 
     public WebElement findButtonCreate() {
-        return webDriver.findElement(_buttonCreate);
+        return webDriver.findElement(buttonCreate);
     }
 
-    public void sendMessage() {
+
+
+    public void enterMessageHeadline() {
         editHeadline().clear();
-        editHeadline().sendKeys("New Message by Kate");
-        editText().sendKeys("This is the text of a new message");
+        editHeadline().sendKeys(MESSAGE_HEADLINE);
+    }
+
+    public void enterMessageText() {
+        editText().clear();
+        editText().sendKeys(MESSAGE_TEXT);
+    }
+
+    public void clickSendButton() {
         findButtonCreate().click();
     }
 }

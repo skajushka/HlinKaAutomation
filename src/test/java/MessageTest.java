@@ -4,11 +4,12 @@ import com.qulix.pages.CreateMessagePage;
 import com.qulix.pages.ShowMessagePage;
 
 import org.openqa.selenium.NoSuchElementException;
-import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.util.Properties;
+
+import static org.testng.Assert.*;
 
 public class MessageTest extends AbstractTest {
 
@@ -27,8 +28,8 @@ public class MessageTest extends AbstractTest {
     private static String SHOW_MESSAGE_PAGE_SUCCESS = "showMessagePage.success";
     private static String SHOW_MESSAGE_PAGE_FAILED = "showMessagePage.failed";
 
-    private String MESSAGE_HEADLINE = "New Message by Kate";
-    private String MESSAGE_TEXT = "This is the text of a new message";
+    private static String MESSAGE_HEADLINE = "New Message by Kate";
+    private static String MESSAGE_TEXT = "This is the text of a new message";
 
     public MessageTest() {
         this.messages = ResourceFactory.getResources(MessageTest.RESOURCE_PATH);
@@ -36,15 +37,15 @@ public class MessageTest extends AbstractTest {
 
     @Test
     @Parameters({"Login", "Password"})
-    public void testCreateMessage(String login, String password) {
+    public void createMessageTest(String login, String password) {
 
         //steps 1 and 2 are executed in @BeforeTest section of AbstractTest
         //step 3 - login
 
-        LoginPage pageLogin = new LoginPage(webDriver);
+        LoginPage loginPage = new LoginPage(webDriver);
 
         try {
-            pageLogin.editLogin();
+            loginPage.editLogin();
             System.out.println(messages.get(LOGIN_PAGE_SUCCESS));
         } catch (NoSuchElementException e) {
             System.out.println(messages.get(LOGIN_PAGE_FAILED));
@@ -52,9 +53,9 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
-        pageLogin.enterLogin(login);
-        pageLogin.enterPassword(password);
-        pageLogin.submit();
+        loginPage.enterLogin(login);
+        loginPage.enterPassword(password);
+        loginPage.submit();
 
         //step 3 - make sure that Message list page is opened
 
@@ -86,7 +87,9 @@ public class MessageTest extends AbstractTest {
 
         // step 5 - send message
 
-        messagePage.sendMessage();
+        messagePage.enterMessageHeadline();
+        messagePage.enterMessageText();
+        messagePage.clickSendButton();
 
         //step 6 - verify that Show message page is opened
 
@@ -112,20 +115,20 @@ public class MessageTest extends AbstractTest {
             System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
         }
 
-        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_HEADLINE));
-        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_TEXT));
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_HEADLINE));
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_TEXT));
     }
 
     @Test
     @Parameters({"Login", "Password"})
-    public void testShowMessage (String login, String password) {
+    public void showMessageTest(String login, String password) {
         //steps 1 and 2 are executed in @BeforeTest section of AbstractTest
         //step 3 - login
 
-        LoginPage pageLogin = new LoginPage(webDriver);
+        LoginPage loginPage = new LoginPage(webDriver);
 
         try {
-            pageLogin.editLogin();
+            loginPage.editLogin();
             System.out.println(messages.get(LOGIN_PAGE_SUCCESS));
         } catch (NoSuchElementException e) {
             System.out.println(messages.get(LOGIN_PAGE_FAILED));
@@ -133,9 +136,9 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
-        pageLogin.enterLogin(login);
-        pageLogin.enterPassword(password);
-        pageLogin.submit();
+        loginPage.enterLogin(login);
+        loginPage.enterPassword(password);
+        loginPage.submit();
 
         //step 3 - make sure that Message list page is opened
         ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
@@ -165,7 +168,9 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
-        messagePage.sendMessage();
+        messagePage.enterMessageHeadline();
+        messagePage.enterMessageText();
+        messagePage.clickSendButton();
 
         // step 6 - assert if message shown is the same that was created
         ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
@@ -179,8 +184,8 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
-        Assert.assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
-        Assert.assertTrue(showMessagePage.findMessageText().getText().contains(MESSAGE_TEXT));
+        assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
+        assertTrue(showMessagePage.findMessageText().getText().contains(MESSAGE_TEXT));
 
         //step 7 - find newly created message in Message List
 
@@ -193,8 +198,8 @@ public class MessageTest extends AbstractTest {
             System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
         }
 
-        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_HEADLINE));
-        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_TEXT));
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_HEADLINE));
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_TEXT));
 
         //step 8 - select and view newly created message
         listMessagesPage.findViewButton().click();
@@ -208,8 +213,8 @@ public class MessageTest extends AbstractTest {
             throw new RuntimeException((String) messages.get(CRITICAL_ERROR_MESSAGE));
         }
 
-        Assert.assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
-        Assert.assertTrue(showMessagePage.findMessageText().getText().contains(MESSAGE_TEXT));
+        assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
+        assertTrue(showMessagePage.findMessageText().getText().contains(MESSAGE_TEXT));
 
         //step 9 - go to Messages List and view created message in the table
 
@@ -230,8 +235,8 @@ public class MessageTest extends AbstractTest {
             System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
         }
 
-        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_HEADLINE));
-        Assert.assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_TEXT));
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_HEADLINE));
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_TEXT));
     }
 }
 
