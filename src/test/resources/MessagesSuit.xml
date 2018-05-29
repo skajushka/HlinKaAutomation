@@ -7,8 +7,8 @@
         <classes>
             <class name="MessageTest">
                 <methods>
-                    <include name="testCreateMessage"/>
-                    <include name="testShowMessage"/>
+                    <include name="createMessageTest"/>
+                    <include name="showMessageTest"/>
                 </methods>
             </class>
         </classes>
