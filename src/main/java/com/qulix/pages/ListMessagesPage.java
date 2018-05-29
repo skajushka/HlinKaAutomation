@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class ListMessagesPage extends PageObject {
+
     private final By pageTitle = By.xpath("/html/body/div[5]/h1");
     private final By newMessageTab = By.linkText("New Message");
     private final By allUsersMessagesOption = By.name("allUsers");

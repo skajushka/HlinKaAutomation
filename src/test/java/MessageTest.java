@@ -45,7 +45,7 @@ public class MessageTest extends AbstractTest {
         LoginPage loginPage = new LoginPage(webDriver);
 
         try {
-            loginPage.editLogin();
+            loginPage.findLoginField();
             System.out.println(messages.get(LOGIN_PAGE_SUCCESS));
         } catch (NoSuchElementException e) {
             System.out.println(messages.get(LOGIN_PAGE_FAILED));
@@ -128,7 +128,7 @@ public class MessageTest extends AbstractTest {
         LoginPage loginPage = new LoginPage(webDriver);
 
         try {
-            loginPage.editLogin();
+            loginPage.findLoginField();
             System.out.println(messages.get(LOGIN_PAGE_SUCCESS));
         } catch (NoSuchElementException e) {
             System.out.println(messages.get(LOGIN_PAGE_FAILED));
