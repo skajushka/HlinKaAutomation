@@ -26,17 +26,11 @@ public class LoginPage extends PageObject {
         return webDriver.findElement(buttonLogin);
     }
 
-    public void enterLogin(String login) {
+    public void login(String login, String password) {
         this.findLoginField().clear();
         this.findLoginField().sendKeys(login);
-    }
-
-    public void enterPassword(String password) {
         this.findPasswordField().clear();
         this.findPasswordField().sendKeys(password);
-    }
-
-    public void submit() {
         this.findButtonLogin().click();
     }
 }

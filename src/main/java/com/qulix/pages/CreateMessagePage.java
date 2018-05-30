@@ -29,19 +29,11 @@ public class CreateMessagePage extends PageObject {
         return webDriver.findElement(buttonCreate);
     }
 
-
-
-    public void enterMessageHeadline() {
+    public void sentMessage() {
         editHeadline().clear();
         editHeadline().sendKeys(MESSAGE_HEADLINE);
-    }
-
-    public void enterMessageText() {
         editText().clear();
         editText().sendKeys(MESSAGE_TEXT);
-    }
-
-    public void clickSendButton() {
         findButtonCreate().click();
     }
 }

@@ -18,6 +18,7 @@ public class StartPage extends PageObject {
     }
 
     public WebElement findUserControllerLink() {
+        System.out.println(webDriver);
         return webDriver.findElement(userControllerLink);
     }
 }
