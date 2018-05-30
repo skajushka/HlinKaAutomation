@@ -9,6 +9,7 @@
                 <methods>
                     <include name="createMessageTest"/>
                     <include name="showMessageTest"/>
+                    <include name="editMessageTest"/>
                 </methods>
             </class>
         </classes>

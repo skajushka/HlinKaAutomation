@@ -38,13 +38,18 @@ public class ListMessagesPage extends PageObject {
         return webDriver.findElement(pageTitle);
     }
 
-    public WebElement findViewButton() {
-       return webDriver.findElement(viewButton);
+    public WebElement getLastRowEditButton() {
+        WebElement expectedLastTableRow = webDriver.findElement(lastTableRow);
+        WebElement expectedEditButton = expectedLastTableRow.findElement(editButton);
+        return expectedEditButton;
     }
 
-    public WebElement findEditButton() {
-        return webDriver.findElement(editButton);
+    public WebElement getLastRowViewButton() {
+        WebElement expectedLastTableRow = webDriver.findElement(lastTableRow);
+        WebElement expectedViewButton = expectedLastTableRow.findElement(viewButton);
+        return expectedViewButton;
     }
+
 
     public void clickNextButton() {
         ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
