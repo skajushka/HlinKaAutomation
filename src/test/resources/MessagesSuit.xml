@@ -11,6 +11,7 @@
                     <include name="showMessageTest"/>
                     <include name="editMessageTest"/>
                     <include name="deleteMessageTest"/>
+                    <include name="createMessageWithoutSaving"/>
                 </methods>
             </class>
         </classes>

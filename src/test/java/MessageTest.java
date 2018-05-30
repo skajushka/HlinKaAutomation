@@ -32,8 +32,7 @@ public class MessageTest extends AbstractTest {
         CreateMessagePage createMessagePage = new CreateMessagePage(webDriver);
         ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
 
-        //steps 1 and 2 are executed in @BeforeTest section of AbstractTest
-
+        //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened
         loginToTestSite(login,password);
         assertTrue(listMessagesPage.findPageTitle().isDisplayed());
@@ -70,7 +69,7 @@ public class MessageTest extends AbstractTest {
         CreateMessagePage createMessagePage = new CreateMessagePage(webDriver);
         ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
 
-        //steps 1 and 2 are executed in @BeforeTest section of AbstractTest
+        //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened
 
         loginToTestSite(login, password);
@@ -125,7 +124,7 @@ public class MessageTest extends AbstractTest {
         ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
         EditMessagePage editMessagePage = new EditMessagePage(webDriver);
 
-        //steps 1 and 2 are executed in @BeforeTest section of AbstractTest
+        //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened
 
         loginToTestSite(login, password);
@@ -189,7 +188,7 @@ public class MessageTest extends AbstractTest {
         CreateMessagePage createMessagePage = new CreateMessagePage(webDriver);
         ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
 
-        //steps 1 and 2 are executed in @BeforeTest section of AbstractTest
+        //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened
         loginToTestSite(login, password);
 
@@ -224,6 +223,45 @@ public class MessageTest extends AbstractTest {
         }
 
         assertFalse(listMessagesPage.findLastTableRow().getText().contains(lastMessageDate));
+    }
+
+    @Test
+    @Parameters({"Login", "Password"})
+    public void createMessageWithoutSavingTest(String login, String password) {
+
+        ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
+        CreateMessagePage createMessagePage = new CreateMessagePage(webDriver);
+
+        //steps 1 and 2 are tested in LoginTest
+        //step 3 - login and make sure that Message list page is opened; remember the creation date of the last message
+        loginToTestSite(login, password);
+        listMessagesPage.findAllUsersMessagesOption().click();
+
+        try {
+            listMessagesPage.clickNextButton();
+        } catch (NoSuchElementException e) {
+            System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
+        }
+
+        //remember the last row in the Message List
+        String lastTableRowText = listMessagesPage.findLastTableRow().getText();
+
+        //step 4 - go to Create Message page
+        listMessagesPage.findNewMessageTab().click();
+
+        //step 5 - go to Messages List without saving new message
+        createMessagePage.fillInMessageFields();
+
+        //step 6 - verify that no new messages were added to the list
+        createMessagePage.findTabToMessagesList().click();
+
+        try {
+            listMessagesPage.clickNextButton();
+        } catch (NoSuchElementException e) {
+            System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
+        }
+
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(lastTableRowText));
     }
 
     private void loginToTestSite(String login, String password) {

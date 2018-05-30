@@ -9,6 +9,7 @@ public class CreateMessagePage extends PageObject {
     private final By editHeadline = By.id("headline");
     private final By editText = By.id("text");
     private final By buttonCreate = By.id("create");
+    private final By tabToMessagesList = By.linkText("Message List");
 
     private String MESSAGE_HEADLINE = "New Message by Kate";
     private String MESSAGE_TEXT = "This is the text of a new message";
@@ -29,11 +30,22 @@ public class CreateMessagePage extends PageObject {
         return webDriver.findElement(buttonCreate);
     }
 
+    public WebElement findTabToMessagesList() {
+        return webDriver.findElement(tabToMessagesList);
+    }
+
     public void sentMessage() {
         editHeadline().clear();
         editHeadline().sendKeys(MESSAGE_HEADLINE);
         editText().clear();
         editText().sendKeys(MESSAGE_TEXT);
         findButtonCreate().click();
+    }
+
+    public void fillInMessageFields() {
+        editHeadline().clear();
+        editHeadline().sendKeys(MESSAGE_HEADLINE);
+        editText().clear();
+        editText().sendKeys(MESSAGE_TEXT);
     }
 }
