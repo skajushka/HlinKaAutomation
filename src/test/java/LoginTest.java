@@ -25,12 +25,4 @@ public class LoginTest extends AbstractTest {
         assertTrue(loginPage.findPasswordField().isDisplayed());
         assertTrue(loginPage.findButtonLogin().isDisplayed());
     }
-
-
-
-
-
-
-
-
 }

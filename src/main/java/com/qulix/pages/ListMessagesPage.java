@@ -13,6 +13,8 @@ public class ListMessagesPage extends PageObject {
     private final By lastTableRow = By.xpath("//table/tbody/tr[last()]");
     private final By viewButton = By.linkText("View");
     private final By editButton = By.linkText("Edit");
+    private final By deleteButton = By.linkText("Delete");
+    private final By lastRowMessageCreationDate = By.xpath("/html/body/div[5]/div[2]/table/tbody/tr[last()]/td[5]");
 
     public ListMessagesPage(WebDriver webDriver) {
         super(webDriver);
@@ -50,6 +52,16 @@ public class ListMessagesPage extends PageObject {
         return expectedViewButton;
     }
 
+    public WebElement getLastRowDeleteButton() {
+        WebElement expectedLastTableRow = webDriver.findElement(lastTableRow);
+        WebElement expectedDeletedButton = expectedLastTableRow.findElement(deleteButton);
+        return expectedDeletedButton;
+    }
+
+    public WebElement getLastMessageCreationDate() {
+        WebElement lastMessageCreationDate = webDriver.findElement(lastTableRow).findElement(lastRowMessageCreationDate);
+        return lastMessageCreationDate;
+    }
 
     public void clickNextButton() {
         ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);

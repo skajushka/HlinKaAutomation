@@ -88,7 +88,6 @@ public class MessageTest extends AbstractTest {
         //step 7 - find newly created message in Message List
         showMessagePage.findTabToMessagesList().click();
         listMessagesPage.findAllUsersMessagesOption().click();
-        listMessagesPage.findAllUsersMessagesOption().click();
 
         try {
             listMessagesPage.clickNextButton();
@@ -156,7 +155,6 @@ public class MessageTest extends AbstractTest {
 
         //step 8 - assert that Edit Message page is opened and message is displayed correctly
         listMessagesPage.getLastRowEditButton().click();
-        /*listMessagesPage.findEditButton().click();*/
         assertTrue(editMessagePage.findMessageHeadline().getAttribute("value").contains(MESSAGE_HEADLINE));
         assertTrue(editMessagePage.findMessageText().getAttribute("value").contains(MESSAGE_TEXT));
 
@@ -181,6 +179,51 @@ public class MessageTest extends AbstractTest {
 
         assertTrue(listMessagesPage.findLastTableRow().getText().contains(EDITED_MESSAGE_HEADLINE));
         assertTrue(listMessagesPage.findLastTableRow().getText().contains(EDITED_MESSAGE_TEXT));
+    }
+
+    @Test
+    @Parameters({"Login", "Password"})
+    public void deleteMessageTest(String login, String password) {
+
+        ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
+        CreateMessagePage createMessagePage = new CreateMessagePage(webDriver);
+        ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
+
+        //steps 1 and 2 are executed in @BeforeTest section of AbstractTest
+        //step 3 - login and make sure that Message list page is opened
+        loginToTestSite(login, password);
+
+        //step 4 - go to Create Message page
+        listMessagesPage.findNewMessageTab().click();
+
+        //step 5 - sent message?????
+        createMessagePage.sentMessage(); //may be additional check is needed
+
+        //step 6 - make sure that newly created message is correctly displayed on Show Message page
+        assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE)); //may be more precise assertion is needed??? (to use date, for example)
+        assertTrue(showMessagePage.findMessageText().getText().contains(MESSAGE_TEXT));
+
+        //step 7 - go to Message List page and make sure that new message is displayed there
+        showMessagePage.findTabToMessagesList().click();
+
+        try {
+            listMessagesPage.clickNextButton();
+        } catch (NoSuchElementException e) {
+            System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
+        }
+
+        //step 8 - delete recently created message and make sure it's not displayed in the list anymore
+
+        String lastMessageDate = listMessagesPage.getLastMessageCreationDate().toString();
+        listMessagesPage.getLastRowDeleteButton().click();
+
+        try {
+            listMessagesPage.clickNextButton();
+        } catch (NoSuchElementException e) {
+            System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
+        }
+
+        assertFalse(listMessagesPage.findLastTableRow().getText().contains(lastMessageDate));
     }
 
     private void loginToTestSite(String login, String password) {
