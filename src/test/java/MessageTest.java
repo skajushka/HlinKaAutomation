@@ -2,6 +2,7 @@ import com.qulix.helpers.ResourceFactory;
 import com.qulix.pages.*;
 
 import org.openqa.selenium.NoSuchElementException;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -24,15 +25,24 @@ public class MessageTest extends AbstractTest {
         this.messages = ResourceFactory.getResources(MessageTest.RESOURCE_PATH);
     }
 
+    private ListMessagesPage listMessagesPage;
+    private CreateMessagePage createMessagePage;
+    private ShowMessagePage showMessagePage;
+    private EditMessagePage editMessagePage;
+
+    @BeforeMethod
+    public void initPages() {
+        listMessagesPage = new ListMessagesPage(webDriver);
+        createMessagePage = new CreateMessagePage(webDriver);
+        showMessagePage = new ShowMessagePage(webDriver);
+        editMessagePage = new EditMessagePage(webDriver);
+    }
+
     @Test
     @Parameters({"Login", "Password"})
     public void createMessageTest(String login, String password) {
 
-        ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
-        CreateMessagePage createMessagePage = new CreateMessagePage(webDriver);
-        ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
-
-        //steps 1 and 2 are tested in LoginTest
+         //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened
         loginToTestSite(login,password);
         assertTrue(listMessagesPage.findPageTitle().isDisplayed());
@@ -42,7 +52,7 @@ public class MessageTest extends AbstractTest {
         assertTrue(createMessagePage.findButtonCreate().isDisplayed());
 
         // step 5 - send message?????
-        createMessagePage.sentMessage();
+        createMessagePage.createMessage();
 
         //step 6 - verify that Show message page is opened
         assertTrue(showMessagePage.findShowMessageNote().isDisplayed());
@@ -65,10 +75,6 @@ public class MessageTest extends AbstractTest {
     @Parameters({"Login", "Password"})
     public void showMessageTest(String login, String password) {
 
-        ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
-        CreateMessagePage createMessagePage = new CreateMessagePage(webDriver);
-        ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
-
         //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened
 
@@ -78,7 +84,7 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.findNewMessageTab().click();
 
         // step 5 - send new message?????
-        createMessagePage.sentMessage();
+        createMessagePage.createMessage();
 
         // step 6 - assert if message shown is the same that was created
         assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
@@ -119,11 +125,6 @@ public class MessageTest extends AbstractTest {
     @Parameters({"Login", "Password"})
     public void editMessageTest(String login, String password) {
 
-        ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
-        CreateMessagePage createMessagePage = new CreateMessagePage(webDriver);
-        ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
-        EditMessagePage editMessagePage = new EditMessagePage(webDriver);
-
         //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened
 
@@ -133,7 +134,7 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.findNewMessageTab().click();
 
         // step 5 - send new message?????
-        createMessagePage.sentMessage();
+        createMessagePage.createMessage();
 
         //step 6 - assert that Show message page is displayed and message is shown correctly
         assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
@@ -184,10 +185,6 @@ public class MessageTest extends AbstractTest {
     @Parameters({"Login", "Password"})
     public void deleteMessageTest(String login, String password) {
 
-        ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
-        CreateMessagePage createMessagePage = new CreateMessagePage(webDriver);
-        ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
-
         //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened
         loginToTestSite(login, password);
@@ -196,7 +193,7 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.findNewMessageTab().click();
 
         //step 5 - sent message?????
-        createMessagePage.sentMessage(); //may be additional check is needed
+        createMessagePage.createMessage(); //may be additional check is needed
 
         //step 6 - make sure that newly created message is correctly displayed on Show Message page
         assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE)); //may be more precise assertion is needed??? (to use date, for example)
@@ -228,9 +225,6 @@ public class MessageTest extends AbstractTest {
     @Test
     @Parameters({"Login", "Password"})
     public void createMessageWithoutSavingTest(String login, String password) {
-
-        ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
-        CreateMessagePage createMessagePage = new CreateMessagePage(webDriver);
 
         //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened; remember the creation date of the last message

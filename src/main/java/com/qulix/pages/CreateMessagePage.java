@@ -34,7 +34,7 @@ public class CreateMessagePage extends PageObject {
         return webDriver.findElement(tabToMessagesList);
     }
 
-    public void sentMessage() {
+    public void createMessage() {
         editHeadline().clear();
         editHeadline().sendKeys(MESSAGE_HEADLINE);
         editText().clear();
