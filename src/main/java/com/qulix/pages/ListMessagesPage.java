@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class ListMessagesPage extends PageObject {
 
     private final By pageTitle = By.xpath("/html/body/div[5]/h1");
@@ -11,6 +13,7 @@ public class ListMessagesPage extends PageObject {
     private final By allUsersMessagesOption = By.name("allUsers");
     private final By nextButton = By.linkText("Next");
     private final By lastTableRow = By.xpath("//table/tbody/tr[last()]");
+    private final By beforeLastTableRow = By.xpath("//table/tbody/tr[last()-1]");
     private final By viewButton = By.linkText("View");
     private final By editButton = By.linkText("Edit");
     private final By deleteButton = By.linkText("Delete");
@@ -34,6 +37,10 @@ public class ListMessagesPage extends PageObject {
 
     public WebElement findLastTableRow() {
         return webDriver.findElement(lastTableRow);
+    }
+
+    public WebElement findBeforeTheLastTableRow() {
+        return webDriver.findElement(beforeLastTableRow);
     }
 
     public WebElement findPageTitle() {
@@ -70,4 +77,10 @@ public class ListMessagesPage extends PageObject {
             listMessagesPage.findNextButton().click();
         } while (listMessagesPage.findNextButton().isDisplayed());
     }
+
+ /*   public void getLastPage() {
+        List<WebElement> pagination = webDriver.findElements(By.xpath("/html/body/div[5]/div[4]/a"));
+        WebElement lastPage = pagination.get(pagination.size());
+        System.out.println(lastPage);
+    }*/
 }

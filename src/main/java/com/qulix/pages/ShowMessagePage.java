@@ -9,6 +9,8 @@ public class ShowMessagePage extends PageObject {
     private final By showMessageNote = By.xpath("/html/body/div[5]/h1");
     private final By messageHeadline = By.xpath("/html/body/div[5]/div[1]/table/tbody/tr[1]/td[2]");
     private final By messageText = By.xpath("/html/body/div[5]/div[1]/table/tbody/tr[3]/td[2]");
+    private final By tabToNewMessage = By.linkText("New Message");
+    private final By messageCreationDate = By.xpath("/html/body/div[5]/div[1]/table/tbody/tr[4]/td[2]");
 
     public ShowMessagePage(WebDriver webDriver) {
         super(webDriver);
@@ -28,5 +30,13 @@ public class ShowMessagePage extends PageObject {
 
     public WebElement findMessageText() {
         return webDriver.findElement(messageText);
+    }
+
+    public WebElement findTabToNewMessage() {
+        return webDriver.findElement(tabToNewMessage);
+    }
+
+    public WebElement findMessageCreationDate() {
+        return webDriver.findElement(messageCreationDate);
     }
 }

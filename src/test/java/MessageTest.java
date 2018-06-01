@@ -2,6 +2,7 @@ import com.qulix.helpers.ResourceFactory;
 import com.qulix.pages.*;
 
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -20,6 +21,10 @@ public class MessageTest extends AbstractTest {
     private static String MESSAGE_TEXT = "This is the text of a new message";
     private String EDITED_MESSAGE_HEADLINE = "Edited Message by Kate";
     private String EDITED_MESSAGE_TEXT = "This is the text of edited message";
+    private String FIRST_TEST_MESSAGE_HEADLINE = "First test message";
+    private String FIRST_TEST_MESSAGE_TEXT = "This is the text of the first message";
+    private String SECOND_TEST_MESSAGE_HEADLINE = "Second test message";
+    private String SECOND_TEST_MESSAGE_TEXT = "This is the text of the second message";
 
     public MessageTest() {
         this.messages = ResourceFactory.getResources(MessageTest.RESOURCE_PATH);
@@ -38,7 +43,7 @@ public class MessageTest extends AbstractTest {
         editMessagePage = new EditMessagePage(webDriver);
     }
 
-    @Test
+/*    @Test
     @Parameters({"Login", "Password"})
     public void createMessageTest(String login, String password) {
 
@@ -256,6 +261,48 @@ public class MessageTest extends AbstractTest {
         }
 
         assertTrue(listMessagesPage.findLastTableRow().getText().contains(lastTableRowText));
+    }*/
+
+    @Test
+    @Parameters({"Login", "Password"})
+    public void createTwoMessagesTest(String login, String password) {
+        //steps 1 and 2 are tested in LoginTest
+        //step 3 - login and make sure that Message list page is opened; remember the creation date of the last message
+        loginToTestSite(login, password);
+
+        //step 4 - go to Create Message page
+        listMessagesPage.findNewMessageTab().click();
+
+        //step 5 - create message
+        createMessagePage.createMessage(FIRST_TEST_MESSAGE_HEADLINE, FIRST_TEST_MESSAGE_TEXT);
+
+        //step 6 - send message
+        assertEquals(showMessagePage.findMessageHeadline().getText(), FIRST_TEST_MESSAGE_HEADLINE);
+        assertEquals(showMessagePage.findMessageText().getText(), FIRST_TEST_MESSAGE_TEXT);
+
+        //step 7 - open New Message page
+        showMessagePage.findTabToNewMessage().click();
+        assertTrue(createMessagePage.findButtonCreate().isDisplayed());
+
+        //step 8 - fill in Message fields
+        createMessagePage.createMessage(SECOND_TEST_MESSAGE_HEADLINE, SECOND_TEST_MESSAGE_TEXT);
+
+        //step 9 - click create and verify the message was created with correct data
+        assertEquals(showMessagePage.findMessageHeadline().getText(), SECOND_TEST_MESSAGE_HEADLINE);
+        assertEquals(showMessagePage.findMessageText().getText(), SECOND_TEST_MESSAGE_TEXT);
+
+        showMessagePage.findTabToMessagesList().click();
+        listMessagesPage.findAllUsersMessagesOption().click();
+
+        try {
+            listMessagesPage.clickNextButton();
+        } catch (NoSuchElementException e) {
+            System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
+        }
+
+        //step 10 - verify that both messages are in the Message list
+        assertTrue(listMessagesPage.findBeforeTheLastTableRow().getText().contains(FIRST_TEST_MESSAGE_HEADLINE));
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(SECOND_TEST_MESSAGE_HEADLINE));
     }
 
     private void loginToTestSite(String login, String password) {
@@ -263,6 +310,5 @@ public class MessageTest extends AbstractTest {
         LoginPage loginPage = new LoginPage(webDriver);
         startPage.findUserControllerLink().click();
         loginPage.login(login, password);
-
     }
 }
