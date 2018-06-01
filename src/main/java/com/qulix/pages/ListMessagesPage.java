@@ -9,6 +9,7 @@ import java.util.List;
 public class ListMessagesPage extends PageObject {
 
     private final By pageTitle = By.xpath("/html/body/div[5]/h1");
+    private final By userGreeting = By.xpath("/html/body/div[5]/div[1]");
     private final By newMessageTab = By.linkText("New Message");
     private final By allUsersMessagesOption = By.name("allUsers");
     private final By nextButton = By.linkText("Next");
@@ -18,6 +19,7 @@ public class ListMessagesPage extends PageObject {
     private final By editButton = By.linkText("Edit");
     private final By deleteButton = By.linkText("Delete");
     private final By lastRowMessageCreationDate = By.xpath("/html/body/div[5]/div[2]/table/tbody/tr[last()]/td[5]");
+    private final By logoutButton = By.linkText("Logout");
 
     public ListMessagesPage(WebDriver webDriver) {
         super(webDriver);
@@ -70,6 +72,14 @@ public class ListMessagesPage extends PageObject {
         return lastMessageCreationDate;
     }
 
+    public WebElement findLogoutButton() {
+        return webDriver.findElement(logoutButton);
+    }
+
+    public WebElement finsUserGreeting() {
+        return webDriver.findElement(userGreeting);
+    }
+
     public void clickNextButton() {
         ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
 
@@ -77,10 +87,4 @@ public class ListMessagesPage extends PageObject {
             listMessagesPage.findNextButton().click();
         } while (listMessagesPage.findNextButton().isDisplayed());
     }
-
- /*   public void getLastPage() {
-        List<WebElement> pagination = webDriver.findElements(By.xpath("/html/body/div[5]/div[4]/a"));
-        WebElement lastPage = pagination.get(pagination.size());
-        System.out.println(lastPage);
-    }*/
 }

@@ -13,6 +13,7 @@
                     <include name="deleteMessageTest"/>
                     <include name="createMessageWithoutSavingTest"/>
                     <include name="createTwoMessagesTest"/>
+                    <include name="viewOtherUsersMessagesTest"/>
                 </methods>
             </class>
         </classes>

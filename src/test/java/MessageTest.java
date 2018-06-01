@@ -2,7 +2,6 @@ import com.qulix.helpers.ResourceFactory;
 import com.qulix.pages.*;
 
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -25,6 +24,9 @@ public class MessageTest extends AbstractTest {
     private String FIRST_TEST_MESSAGE_TEXT = "This is the text of the first message";
     private String SECOND_TEST_MESSAGE_HEADLINE = "Second test message";
     private String SECOND_TEST_MESSAGE_TEXT = "This is the text of the second message";
+    private String SECOND_USER_LOGIN = "jdoe";
+    private String SECOND_USER_MESSAGE_HEADLINE = "New Message by John Doe";
+    private String SECOND_USER_MESSAGE_TEXT = "This is the text of a new John's message";
 
     public MessageTest() {
         this.messages = ResourceFactory.getResources(MessageTest.RESOURCE_PATH);
@@ -34,6 +36,7 @@ public class MessageTest extends AbstractTest {
     private CreateMessagePage createMessagePage;
     private ShowMessagePage showMessagePage;
     private EditMessagePage editMessagePage;
+    private LoginPage loginPage;
 
     @BeforeMethod
     public void initPages() {
@@ -41,9 +44,10 @@ public class MessageTest extends AbstractTest {
         createMessagePage = new CreateMessagePage(webDriver);
         showMessagePage = new ShowMessagePage(webDriver);
         editMessagePage = new EditMessagePage(webDriver);
+        loginPage = new LoginPage(webDriver);
     }
 
-/*    @Test
+    @Test
     @Parameters({"Login", "Password"})
     public void createMessageTest(String login, String password) {
 
@@ -57,7 +61,7 @@ public class MessageTest extends AbstractTest {
         assertTrue(createMessagePage.findButtonCreate().isDisplayed());
 
         // step 5 - send message?????
-        createMessagePage.createMessage();
+        createMessagePage.createMessage(MESSAGE_HEADLINE, MESSAGE_TEXT);
 
         //step 6 - verify that Show message page is opened
         assertTrue(showMessagePage.findShowMessageNote().isDisplayed());
@@ -89,7 +93,7 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.findNewMessageTab().click();
 
         // step 5 - send new message?????
-        createMessagePage.createMessage();
+        createMessagePage.createMessage(MESSAGE_HEADLINE, MESSAGE_TEXT);
 
         // step 6 - assert if message shown is the same that was created
         assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
@@ -139,7 +143,7 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.findNewMessageTab().click();
 
         // step 5 - send new message?????
-        createMessagePage.createMessage();
+        createMessagePage.createMessage(MESSAGE_HEADLINE, MESSAGE_TEXT);
 
         //step 6 - assert that Show message page is displayed and message is shown correctly
         assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
@@ -198,7 +202,7 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.findNewMessageTab().click();
 
         //step 5 - sent message?????
-        createMessagePage.createMessage(); //may be additional check is needed
+        createMessagePage.createMessage(MESSAGE_HEADLINE, MESSAGE_TEXT); //may be additional check is needed
 
         //step 6 - make sure that newly created message is correctly displayed on Show Message page
         assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE)); //may be more precise assertion is needed??? (to use date, for example)
@@ -249,7 +253,7 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.findNewMessageTab().click();
 
         //step 5 - go to Messages List without saving new message
-        createMessagePage.fillInMessageFields();
+        createMessagePage.fillInMessageFields(MESSAGE_HEADLINE, MESSAGE_TEXT);
 
         //step 6 - verify that no new messages were added to the list
         createMessagePage.findTabToMessagesList().click();
@@ -261,7 +265,7 @@ public class MessageTest extends AbstractTest {
         }
 
         assertTrue(listMessagesPage.findLastTableRow().getText().contains(lastTableRowText));
-    }*/
+    }
 
     @Test
     @Parameters({"Login", "Password"})
@@ -304,6 +308,110 @@ public class MessageTest extends AbstractTest {
         assertTrue(listMessagesPage.findBeforeTheLastTableRow().getText().contains(FIRST_TEST_MESSAGE_HEADLINE));
         assertTrue(listMessagesPage.findLastTableRow().getText().contains(SECOND_TEST_MESSAGE_HEADLINE));
     }
+
+    @Test
+    @Parameters({"Login", "Password"})
+    public void viewOtherUsersMessagesTest(String login, String password) {
+
+        //steps 1 and 2 are tested in LoginTest
+        //step 3 - login and make sure that Message list page is opened; remember the creation date of the last message
+        loginToTestSite(login, password);
+
+        //step 4 - go to Create Message page
+        listMessagesPage.findNewMessageTab().click();
+
+        //step5 - send new message
+        createMessagePage.createMessage(MESSAGE_HEADLINE, MESSAGE_TEXT);
+
+        //strep6 - verify that correct message is shown on Show page
+        assertEquals(showMessagePage.findMessageHeadline().getText(), MESSAGE_HEADLINE);
+        assertEquals(showMessagePage.findMessageText().getText(), MESSAGE_TEXT);
+
+        //step 7 - Go to Message List and verify that message is shown there
+        showMessagePage.findTabToMessagesList().click();
+        listMessagesPage.findAllUsersMessagesOption().click();
+
+        try {
+            listMessagesPage.clickNextButton();
+        } catch (NoSuchElementException e) {
+            System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
+        }
+
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_HEADLINE));
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_TEXT));
+
+        //step 8 - view created message
+        listMessagesPage.getLastRowViewButton().click();
+        assertTrue(showMessagePage.findMessageHeadline().getText().contains(MESSAGE_HEADLINE));
+        assertTrue(showMessagePage.findMessageText().getText().contains(MESSAGE_TEXT));
+
+        //step 9 - return to message list
+        showMessagePage.findTabToMessagesList().click();
+
+        try {
+            listMessagesPage.clickNextButton();
+        } catch (NoSuchElementException e) {
+            System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
+        }
+
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_HEADLINE));
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(MESSAGE_TEXT));
+        String adminMessage = listMessagesPage.findLastTableRow().getText();
+
+        //step 10
+        listMessagesPage.findLogoutButton().click();
+        assertTrue(loginPage.findButtonLogin().isDisplayed());
+
+        //step 11
+        loginPage.login(SECOND_USER_LOGIN, password);
+
+        assertTrue(listMessagesPage.findPageTitle().isDisplayed());
+        assertTrue(listMessagesPage.finsUserGreeting().getText().contains("Hello John Doe!"));
+
+        //step 12
+        listMessagesPage.findNewMessageTab().click();
+        createMessagePage.createMessage(SECOND_USER_MESSAGE_HEADLINE, SECOND_USER_MESSAGE_TEXT);
+
+        assertEquals(showMessagePage.findMessageHeadline().getText(), SECOND_USER_MESSAGE_HEADLINE);
+        assertEquals(showMessagePage.findMessageText().getText(), SECOND_USER_MESSAGE_TEXT);
+
+        showMessagePage.findTabToMessagesList().click();
+        listMessagesPage.findAllUsersMessagesOption().click(); //we have a bug here - need to recheck
+
+        try {
+            listMessagesPage.clickNextButton();
+        } catch (NoSuchElementException e) {
+            System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
+        }
+
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(SECOND_USER_MESSAGE_HEADLINE));
+        assertTrue(listMessagesPage.findLastTableRow().getText().contains(SECOND_USER_MESSAGE_TEXT));
+        String johnMessage = listMessagesPage.findLastTableRow().getText();
+
+        listMessagesPage.findLogoutButton().click();
+        assertTrue(loginPage.findButtonLogin().isDisplayed());
+
+        // step 13 - login as admin user
+        loginPage.login(login, password);
+        assertTrue(listMessagesPage.findPageTitle().isDisplayed());
+        assertTrue(listMessagesPage.finsUserGreeting().getText().contains("Hello Administrator!"));
+
+        //step 14 - select checkbox and check that massages of both users are shown
+        listMessagesPage.findAllUsersMessagesOption().click();
+        webDriver.navigate().refresh();
+
+        try {
+            listMessagesPage.clickNextButton();
+        } catch (NoSuchElementException e) {
+            System.out.println(messages.get(NO_NEXT_BUTTON_ERROR));
+        }
+
+        assertEquals(listMessagesPage.findBeforeTheLastTableRow().getText(),adminMessage);
+        assertEquals(listMessagesPage.findLastTableRow().getText(), johnMessage);
+
+
+    }
+
 
     private void loginToTestSite(String login, String password) {
         StartPage startPage = new StartPage(webDriver);
