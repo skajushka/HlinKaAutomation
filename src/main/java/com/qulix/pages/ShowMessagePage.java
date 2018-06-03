@@ -10,33 +10,28 @@ public class ShowMessagePage extends PageObject {
     private final By messageHeadline = By.xpath("/html/body/div[5]/div[1]/table/tbody/tr[1]/td[2]");
     private final By messageText = By.xpath("/html/body/div[5]/div[1]/table/tbody/tr[3]/td[2]");
     private final By tabToNewMessage = By.linkText("New Message");
-    private final By messageCreationDate = By.xpath("/html/body/div[5]/div[1]/table/tbody/tr[4]/td[2]");
 
     public ShowMessagePage(WebDriver webDriver) {
         super(webDriver);
     }
 
-    public WebElement findTabToMessagesList() {
+    public WebElement getTabToMessagesList() {
         return webDriver.findElement(tabToMessagesList);
     }
 
-    public WebElement findShowMessageNote() {
+    public WebElement getShowMessageNote() {
         return webDriver.findElement(showMessageNote);
     }
 
-    public WebElement findMessageHeadline() {
+    public WebElement getMessageHeadline() {
         return webDriver.findElement(messageHeadline);
     }
 
-    public WebElement findMessageText() {
+    public WebElement getMessageText() {
         return webDriver.findElement(messageText);
     }
 
-    public WebElement findTabToNewMessage() {
+    public WebElement getTabToNewMessagePage() {
         return webDriver.findElement(tabToNewMessage);
-    }
-
-    public WebElement findMessageCreationDate() {
-        return webDriver.findElement(messageCreationDate);
     }
 }

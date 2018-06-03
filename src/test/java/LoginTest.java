@@ -10,7 +10,7 @@ public class LoginTest extends AbstractTest {
     public void startPageOpenedTest() {
         //check that right page is opened
         StartPage startPage = new StartPage(webDriver);
-        assertTrue(startPage.findUserControllerLink().isDisplayed());
+        assertTrue(startPage.getUserControllerLink().isDisplayed());
     }
 
     @Test
@@ -19,9 +19,9 @@ public class LoginTest extends AbstractTest {
         LoginPage loginPage = new LoginPage(webDriver);
 
         //check that Login page is opened after click on UserController
-        startPage.findUserControllerLink().click();
-        assertTrue(loginPage.findLoginField().isDisplayed());
-        assertTrue(loginPage.findPasswordField().isDisplayed());
-        assertTrue(loginPage.findButtonLogin().isDisplayed());
+        startPage.getUserControllerLink().click();
+        assertTrue(loginPage.getLoginField().isDisplayed());
+        assertTrue(loginPage.getPasswordField().isDisplayed());
+        assertTrue(loginPage.getButtonLogin().isDisplayed());
     }
 }

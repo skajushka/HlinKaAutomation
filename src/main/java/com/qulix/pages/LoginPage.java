@@ -14,23 +14,23 @@ public class LoginPage extends PageObject {
         super(webDriver);
     }
 
-    public WebElement findLoginField() {
+    public WebElement getLoginField() {
         return webDriver.findElement(loginField);
     }
 
-    public WebElement findPasswordField() {
+    public WebElement getPasswordField() {
         return webDriver.findElement(passwordField);
     }
 
-    public WebElement findButtonLogin() {
+    public WebElement getButtonLogin() {
         return webDriver.findElement(buttonLogin);
     }
 
     public void login(String login, String password) {
-        this.findLoginField().clear();
-        this.findLoginField().sendKeys(login);
-        this.findPasswordField().clear();
-        this.findPasswordField().sendKeys(password);
-        this.findButtonLogin().click();
+        this.getLoginField().clear();
+        this.getLoginField().sendKeys(login);
+        this.getPasswordField().clear();
+        this.getPasswordField().sendKeys(password);
+        this.getButtonLogin().click();
     }
 }

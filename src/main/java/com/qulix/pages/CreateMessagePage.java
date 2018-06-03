@@ -23,11 +23,11 @@ public class CreateMessagePage extends PageObject {
         return webDriver.findElement(editText);
     }
 
-    public WebElement findButtonCreate() {
+    public WebElement getButtonCreate() {
         return webDriver.findElement(buttonCreate);
     }
 
-    public WebElement findTabToMessagesList() {
+    public WebElement getTabToMessagesList() {
         return webDriver.findElement(tabToMessagesList);
     }
 
@@ -36,7 +36,7 @@ public class CreateMessagePage extends PageObject {
         editHeadline().sendKeys(headline);
         editText().clear();
         editText().sendKeys(text);
-        findButtonCreate().click();
+        getButtonCreate().click();
     }
 
     public void fillInMessageFields(String headline, String text) {
