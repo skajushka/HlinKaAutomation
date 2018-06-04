@@ -57,6 +57,7 @@ public class MessageTest extends AbstractTest {
 
         //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened
+
         loginToTestSite(login,password);
         assertTrue(listMessagesPage.getPageTitle().isDisplayed());
 
@@ -64,7 +65,8 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.getNewMessageTab().click();
         assertTrue(createMessagePage.getButtonCreate().isDisplayed());
 
-        // step 5 - send message?????
+        // step 5 - send message
+        //may be additional check is needed to make sure that input looks like expected
         createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
 
         //step 6 - verify that Show message page is opened
@@ -75,6 +77,7 @@ public class MessageTest extends AbstractTest {
 
         goToLastPage();
 
+        //may be we need to check the match more precisely? E.x., using assertEquals. That is a question for the most parts of asserts.
         assertTrue(listMessagesPage.getLastTableRow().getText().contains(messages.getProperty(ADMIN_MESSAGE_HEADLINE)));
         assertTrue(listMessagesPage.getLastTableRow().getText().contains(messages.getProperty(ADMIN_MESSAGE_TEXT)));
     }
@@ -91,7 +94,8 @@ public class MessageTest extends AbstractTest {
         // step 4 - go to New Message page
         listMessagesPage.getNewMessageTab().click();
 
-        // step 5 - send new message?????
+        // step 5 - send new message
+        //may be additional check is needed to make sure that input looks like expected
         createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
 
         // step 6 - assert if message shown is the same that was created
@@ -130,7 +134,8 @@ public class MessageTest extends AbstractTest {
         // step 4 - go to New Message page
         listMessagesPage.getNewMessageTab().click();
 
-        // step 5 - send new message?????
+        // step 5 - send new message
+        //may be additional check is needed to make sure that input looks like expected
         createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
 
         //step 6 - assert that Show message page is displayed and message is shown correctly
@@ -178,11 +183,12 @@ public class MessageTest extends AbstractTest {
         //step 4 - go to Create Message page
         listMessagesPage.getNewMessageTab().click();
 
-        //step 5 - sent message?????
-        createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT)); //may be additional check is needed
+        //step 5 - sent message
+        //may be additional check is needed to make sure that input looks like expected
+        createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
 
         //step 6 - make sure that newly created message is correctly displayed on Show Message page
-        assertTrue(showMessagePage.getMessageHeadline().getText().contains(messages.getProperty(ADMIN_MESSAGE_HEADLINE))); //may be more precise assertion is needed??? (to use date, for example)
+        assertTrue(showMessagePage.getMessageHeadline().getText().contains(messages.getProperty(ADMIN_MESSAGE_HEADLINE)));
         assertTrue(showMessagePage.getMessageText().getText().contains(messages.getProperty(ADMIN_MESSAGE_TEXT)));
 
         //step 7 - go to Message List page and make sure that new message is displayed there
@@ -348,13 +354,6 @@ public class MessageTest extends AbstractTest {
         assertTrue(listMessagesPage.getLastTableRow().getText().contains(messages.getProperty(SECOND_USER_MESSAGE_HEADLINE)));
         assertTrue(listMessagesPage.getLastTableRow().getText().contains(messages.getProperty(SECOND_USER_NAME)));
 
-        /*
-        assertEquals(listMessagesPage.getBeforeTheLastTableRow().getText(),adminMessage);
-        assertEquals(listMessagesPage.getLastTableRow().getText(), johnMessage);
-
-        This code is not used because the creation dates set for posted messages in the table differ depending on if "Show messages of all users' checkbox is checked or not
-        */
-
         listMessagesPage.getAllUsersMessagesCheckbox().click();
         goToLastPage();
 
@@ -363,7 +362,6 @@ public class MessageTest extends AbstractTest {
         assertTrue(listMessagesPage.getLastTableRow().getText().contains(SECOND_USER_MESSAGE_HEADLINE));
         assertFalse(listMessagesPage.getLastTableRow().getText().contains(SECOND_USER_NAME));
     }
-
 
     private void loginToTestSite(String login, String password) {
         StartPage startPage = new StartPage(webDriver);

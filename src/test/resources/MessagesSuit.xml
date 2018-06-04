@@ -5,6 +5,12 @@
         <parameter name="Login" value="admin"/>
         <parameter name="Password" value="password"/>
         <classes>
+            <class name="LoginTest">
+                <methods>
+                    <include name="startPageOpenedTest"/>
+                    <include name="loginPageOpenedTest"/>
+                </methods>
+            </class>
             <class name="MessageTest">
                 <methods>
                     <include name="createMessageTest"/>
