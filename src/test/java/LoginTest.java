@@ -10,14 +10,14 @@ public class LoginTest extends AbstractTest {
     public void startPageOpenedTest() {
         //check that right page is opened
         StartPage startPage = new StartPage(webDriver);
-        assertTrue(startPage.getUserControllerLink().isDisplayed());
+        assertTrue(startPage.getUserControllerLink().isDisplayed()); //TODO В тестах не работаем с элементами. Только со страницами
     }
 
     @Test
     public void loginPageOpenedTest() {
         StartPage startPage = new StartPage(webDriver);
         LoginPage loginPage = new LoginPage(webDriver);
-
+//TODO В тестах не работаем с элементами. Только со страницами
         //check that Login page is opened after click on UserController
         startPage.getUserControllerLink().click();
         assertTrue(loginPage.getLoginField().isDisplayed());

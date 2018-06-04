@@ -26,7 +26,7 @@ public class LoginPage extends PageObject {
         return webDriver.findElement(buttonLogin);
     }
 
-    public void login(String login, String password) {
+    public void login(String login, String password) {//TODO не void
         this.getLoginField().clear();
         this.getLoginField().sendKeys(login);
         this.getPasswordField().clear();

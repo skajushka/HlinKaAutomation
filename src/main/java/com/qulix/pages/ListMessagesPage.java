@@ -8,7 +8,7 @@ import org.openqa.selenium.NoSuchElementException;
 import java.util.*;
 
 public class ListMessagesPage extends PageObject {
-
+//TODO Переделать локаторы. Никаких индексов
     private final By pageTitle = By.xpath("/html/body/div[5]/h1");
     private final By userGreeting = By.xpath("/html/body/div[5]/div[1]");
     private final By newMessageTab = By.linkText("New Message");
@@ -39,6 +39,7 @@ public class ListMessagesPage extends PageObject {
 
     private Integer getMaxAvailablePageNumber(WebElement pagination) {
 
+        //TODO Зачем так сложно? Почему просто не получить последнюю страницу
         WebElement currentStep = pagination.findElement(currentTableStep);
 
         List<WebElement> steps = pagination.findElements(tableStep);

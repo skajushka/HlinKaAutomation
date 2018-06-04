@@ -31,7 +31,7 @@ public class EditMessagePage extends PageObject {
         return webDriver.findElement(saveButton);
     }
 
-    public void changeMessageHeadlineAndText(String headline, String text) {
+    public void changeMessageHeadlineAndText(String headline, String text) { //TODO Edit и Create почти одно и тоже. Создай суперкласс для них
         getMessageHeadline().clear();
         getMessageHeadline().sendKeys(headline);
         getMessageText().clear();

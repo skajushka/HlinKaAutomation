@@ -58,6 +58,7 @@ public class MessageTest extends AbstractTest {
         //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened
 
+        //TODO В тестах не работаем с элементами. Только со страницами
         loginToTestSite(login,password);
         assertTrue(listMessagesPage.getPageTitle().isDisplayed());
 
@@ -270,6 +271,7 @@ public class MessageTest extends AbstractTest {
     @Test
     @Parameters({"Login", "Password"})
     public void viewOtherUsersMessagesTest(String login, String password) {
+        //TODO Некорректная структура. первичный логин и пароль - входные параметры теста. Вторичный логин и пароль почему-то уже зашиты в properties. Все должно браться из одной точки
 
         //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened; remember the creation date of the last message

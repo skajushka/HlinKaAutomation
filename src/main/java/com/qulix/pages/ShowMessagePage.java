@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class ShowMessagePage extends PageObject {
+    //TODO Переделать локаторы
     private final By tabToMessagesList = By.linkText("Message List");
     private final By showMessageNote = By.xpath("/html/body/div[5]/h1");
     private final By messageHeadline = By.xpath("/html/body/div[5]/div[1]/table/tbody/tr[1]/td[2]");

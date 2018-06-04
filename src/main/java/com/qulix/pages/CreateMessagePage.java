@@ -31,7 +31,7 @@ public class CreateMessagePage extends PageObject {
         return webDriver.findElement(tabToMessagesList);
     }
 
-    public void createMessage(String headline, String text) {
+    public void createMessage(String headline, String text) {//TODO не void
         editHeadline().clear();
         editHeadline().sendKeys(headline);
         editText().clear();
@@ -39,7 +39,7 @@ public class CreateMessagePage extends PageObject {
         getButtonCreate().click();
     }
 
-    public void fillInMessageFields(String headline, String text) {
+    public void fillInMessageFields(String headline, String text) {//TODO Дублирование с методом выше
         editHeadline().clear();
         editHeadline().sendKeys(headline);
         editText().clear();
