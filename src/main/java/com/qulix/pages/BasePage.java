@@ -2,11 +2,11 @@ package com.qulix.pages;
 
 import org.openqa.selenium.WebDriver;
 
-public class PageObject {//TODO Name BasePage
+public class BasePage {
 
     protected WebDriver webDriver; //TODO private.
 
-    public PageObject(WebDriver webDriver) {
+    public BasePage(WebDriver webDriver) {
         this.webDriver = webDriver;
     }
 }

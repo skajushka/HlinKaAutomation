@@ -7,7 +7,7 @@ import org.openqa.selenium.NoSuchElementException;
 
 import java.util.*;
 
-public class ListMessagesPage extends PageObject {
+public class ListMessagesPage extends BasePage {
 //TODO Переделать локаторы. Никаких индексов
     private final By pageTitle = By.xpath("/html/body/div[5]/h1");
     private final By userGreeting = By.xpath("/html/body/div[5]/div[1]");

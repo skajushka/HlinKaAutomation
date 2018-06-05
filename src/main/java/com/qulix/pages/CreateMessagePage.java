@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class CreateMessagePage extends PageObject {
+public class CreateMessagePage extends BasePage {
 
     private final By editHeadline = By.id("headline");
     private final By editText = By.id("text");

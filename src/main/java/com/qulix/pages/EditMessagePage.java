@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class EditMessagePage extends PageObject {
+public class EditMessagePage extends BasePage {
 
     private final By tabToMessagesList = By.linkText("Message List");
     private final By messageHeadline = By.id("headline");
