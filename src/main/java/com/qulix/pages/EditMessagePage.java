@@ -11,6 +11,8 @@ public class EditMessagePage extends BasePage {
     private final By messageText = By.id("text");
     private final By saveButton = By.name("_action_save");
 
+    EditMessagePage editMessagePage = new EditMessagePage(webDriver);
+
     public EditMessagePage(WebDriver webDriver) {
         super(webDriver);
     }
@@ -19,16 +21,34 @@ public class EditMessagePage extends BasePage {
         return webDriver.findElement(tabToMessagesList);
     }
 
+    public void clickTabToMessagesList() {
+        editMessagePage.getTabToMessagesList().click();
+    }
+
     public WebElement getMessageHeadline() {
         return webDriver.findElement(messageHeadline);
+    }
+
+    public String getTextOfMessageHeadline() {
+        String result = editMessagePage.getMessageHeadline().getAttribute("value");
+        return result;
     }
 
     public WebElement getMessageText() {
         return webDriver.findElement(messageText);
     }
 
+    public String getTextOfMessageBody() {
+        String result = editMessagePage.getMessageText().getAttribute("value");
+        return result;
+    }
+
     public WebElement getSaveButton() {
         return webDriver.findElement(saveButton);
+    }
+
+    public void clickSaveButton() {
+        editMessagePage.getSaveButton().click();
     }
 
     public void changeMessageHeadlineAndText(String headline, String text) { //TODO Edit и Create почти одно и тоже. Создай суперкласс для них

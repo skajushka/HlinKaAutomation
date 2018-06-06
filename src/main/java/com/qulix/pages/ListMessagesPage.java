@@ -24,6 +24,7 @@ public class ListMessagesPage extends BasePage {
     private final By currentTableStep = By.className("currentStep");
     private final By tableStep = By.className("step");
 
+    ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
 
     public ListMessagesPage(WebDriver webDriver) {
         super(webDriver);
@@ -33,8 +34,16 @@ public class ListMessagesPage extends BasePage {
         return webDriver.findElement(newMessageTab);
     }
 
+    public void clickNewMessageTab() {
+        listMessagesPage.getNewMessageTab().click();
+    }
+
     public WebElement getAllUsersMessagesCheckbox() {
         return webDriver.findElement(allUsersMessagesOption);
+    }
+
+    public void selectAllUsersMessagesCheckbox() {
+        listMessagesPage.getAllUsersMessagesCheckbox().click();
     }
 
     private Integer getMaxAvailablePageNumber(WebElement pagination) {
@@ -86,12 +95,27 @@ public class ListMessagesPage extends BasePage {
         return webDriver.findElement(lastTableRow);
     }
 
+    public String getTextOfTheLastTableRow() {
+        String result = listMessagesPage.getLastTableRow().getText();
+        return result;
+    }
+
     public WebElement getBeforeTheLastTableRow() {
         return webDriver.findElement(beforeLastTableRow);
     }
 
+    public String getTextOfBeforeTheLastTableRow() {
+        String result = listMessagesPage.getBeforeTheLastTableRow().getText();
+        return result;
+    }
+
     public WebElement getPageTitle() {
         return webDriver.findElement(pageTitle);
+    }
+
+    public String checkPageTitle() {
+        String result = listMessagesPage.getPageTitle().getText();
+        return result;
     }
 
     public WebElement getLastRowEditButton() {
@@ -100,16 +124,28 @@ public class ListMessagesPage extends BasePage {
         return expectedEditButton;
     }
 
+    public void clickLastRowEditButton() {
+        listMessagesPage.getLastRowEditButton().click();
+    }
+
     public WebElement getLastRowViewButton() {
         WebElement expectedLastTableRow = webDriver.findElement(lastTableRow);
         WebElement expectedViewButton = expectedLastTableRow.findElement(viewButton);
         return expectedViewButton;
     }
 
+    public void clickLastRowViewButton() {
+        listMessagesPage.getLastRowViewButton().click();
+    }
+
     public WebElement getLastRowDeleteButton() {
         WebElement expectedLastTableRow = webDriver.findElement(lastTableRow);
         WebElement expectedDeletedButton = expectedLastTableRow.findElement(deleteButton);
         return expectedDeletedButton;
+    }
+
+    public void clickLastRowDeleteButton() {
+        listMessagesPage.getLastRowDeleteButton().click();
     }
 
     public WebElement getLastMessageCreationDate() {
@@ -121,7 +157,16 @@ public class ListMessagesPage extends BasePage {
         return webDriver.findElement(logoutButton);
     }
 
+    public void clickLogoutButton() {
+        listMessagesPage.getLogoutButton().click();
+    }
+
     public WebElement getUserGreeting() {
         return webDriver.findElement(userGreeting);
+    }
+
+    public String checkTextOfUserGreeting() {
+        String result = listMessagesPage.getUserGreeting().getText();
+        return result;
     }
 }

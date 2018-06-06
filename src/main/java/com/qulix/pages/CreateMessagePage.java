@@ -10,9 +10,21 @@ public class CreateMessagePage extends BasePage {
     private final By editText = By.id("text");
     private final By buttonCreate = By.id("create");
     private final By tabToMessagesList = By.linkText("Message List");
+    private final By pageTitle = By.tagName("h1");
+
+    CreateMessagePage createMessagePage = new CreateMessagePage(webDriver);
 
     public CreateMessagePage(WebDriver webDriver) {
         super(webDriver);
+    }
+
+    public WebElement getPageTitle() {
+        return webDriver.findElement(pageTitle);
+    }
+
+    public String checkPageTitle() {
+        String result = createMessagePage.getPageTitle().getText();
+        return result;
     }
 
     public WebElement editHeadline() {
@@ -29,6 +41,10 @@ public class CreateMessagePage extends BasePage {
 
     public WebElement getTabToMessagesList() {
         return webDriver.findElement(tabToMessagesList);
+    }
+
+    public void clickTabToMessagesList() {
+        createMessagePage.getTabToMessagesList().click();
     }
 
     public void createMessage(String headline, String text) {//TODO не void
