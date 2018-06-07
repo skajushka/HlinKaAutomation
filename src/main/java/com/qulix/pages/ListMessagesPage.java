@@ -9,8 +9,8 @@ import java.util.*;
 
 public class ListMessagesPage extends BasePage {
 //TODO Переделать локаторы. Никаких индексов
-    private final By pageTitle = By.xpath("/html/body/div[5]/h1");
-    private final By userGreeting = By.xpath("/html/body/div[5]/div[1]");
+    private final By pageTitle = By.tagName("h1");
+    private final By userGreeting = By.className("message");
     private final By newMessageTab = By.linkText("New Message");
     private final By allUsersMessagesOption = By.name("allUsers");
     private final By lastTableRow = By.xpath("//table/tbody/tr[last()]");

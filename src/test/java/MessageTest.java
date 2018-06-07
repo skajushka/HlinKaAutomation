@@ -68,6 +68,7 @@ public class MessageTest extends AbstractTest {
         // step 5 - send message
         //may be additional check is needed to make sure that input looks like expected
         createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        createMessagePage.clickCreateButton();
 
         //step 6 - verify that Show message page is opened
         assertEquals(showMessagePage.checkPageTitle(), "Show Message");
@@ -96,6 +97,7 @@ public class MessageTest extends AbstractTest {
         // step 5 - send new message
         //may be additional check is needed to make sure that input looks like expected
         createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        createMessagePage.clickCreateButton();
 
         // step 6 - assert if message shown is the same that was created
         assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(ADMIN_MESSAGE_HEADLINE));
@@ -136,6 +138,7 @@ public class MessageTest extends AbstractTest {
         // step 5 - send new message
         //may be additional check is needed to make sure that input looks like expected
         createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        createMessagePage.clickCreateButton();
 
         //step 6 - assert that Show message page is displayed and message is shown correctly
         assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(ADMIN_MESSAGE_HEADLINE));
@@ -185,6 +188,7 @@ public class MessageTest extends AbstractTest {
         //step 5 - sent message
         //may be additional check is needed to make sure that input looks like expected
         createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        createMessagePage.clickCreateButton();
 
         //step 6 - make sure that newly created message is correctly displayed on Show Message page
         assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(ADMIN_MESSAGE_HEADLINE));
@@ -220,7 +224,7 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.clickNewMessageTab();
 
         //step 5 - go to Messages List without saving new message
-        createMessagePage.fillInMessageFields(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
 
         //step 6 - verify that no new messages were added to the list
         createMessagePage.clickTabToMessagesList();
@@ -242,6 +246,7 @@ public class MessageTest extends AbstractTest {
 
         //step 5 - create message
         createMessagePage.createMessage(messages.getProperty(FIRST_TEST_MESSAGE_HEADLINE), messages.getProperty(FIRST_TEST_MESSAGE_TEXT));
+        createMessagePage.clickCreateButton();
 
         //step 6 - send message
         assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(FIRST_TEST_MESSAGE_HEADLINE));
@@ -253,6 +258,7 @@ public class MessageTest extends AbstractTest {
 
         //step 8 - fill in Message fields
         createMessagePage.createMessage(messages.getProperty(SECOND_TEST_MESSAGE_HEADLINE), messages.getProperty(SECOND_TEST_MESSAGE_TEXT));
+        createMessagePage.clickCreateButton();
 
         //step 9 - click create and verify the message was created with correct data
         assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(SECOND_TEST_MESSAGE_HEADLINE));
@@ -280,6 +286,7 @@ public class MessageTest extends AbstractTest {
 
         //step5 - send new message
         createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        createMessagePage.clickCreateButton();
 
         //strep6 - verify that correct message is shown on Show page
         assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(ADMIN_MESSAGE_HEADLINE));
@@ -319,6 +326,7 @@ public class MessageTest extends AbstractTest {
         //step 12
         listMessagesPage.clickNewMessageTab();
         createMessagePage.createMessage(messages.getProperty(SECOND_USER_MESSAGE_HEADLINE), messages.getProperty(SECOND_USER_MESSAGE_TEXT));
+        createMessagePage.clickCreateButton();
 
         assertEquals(showMessagePage.getMessageHeadline().getText(), messages.getProperty(SECOND_USER_MESSAGE_HEADLINE));
         assertEquals(showMessagePage.getMessageText().getText(), messages.getProperty(SECOND_USER_MESSAGE_TEXT));

@@ -39,6 +39,10 @@ public class CreateMessagePage extends BasePage {
         return webDriver.findElement(buttonCreate);
     }
 
+    public void clickCreateButton() {
+        createMessagePage.getButtonCreate().click();
+    }
+
     public WebElement getTabToMessagesList() {
         return webDriver.findElement(tabToMessagesList);
     }
@@ -47,18 +51,10 @@ public class CreateMessagePage extends BasePage {
         createMessagePage.getTabToMessagesList().click();
     }
 
-    public void createMessage(String headline, String text) {//TODO не void
-        editHeadline().clear();
-        editHeadline().sendKeys(headline);
-        editText().clear();
-        editText().sendKeys(text);
-        getButtonCreate().click();
-    }
-
-    public void fillInMessageFields(String headline, String text) {//TODO Дублирование с методом выше
-        editHeadline().clear();
-        editHeadline().sendKeys(headline);
-        editText().clear();
-        editText().sendKeys(text);
+    public Message createMessage(String headline, String text){
+        Message message = new Message(headline, text);
+        editHeadline().sendKeys(message.getHeadline());
+        editText().sendKeys(message.getText());
+        return message;
     }
 }
