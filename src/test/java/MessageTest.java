@@ -41,6 +41,7 @@ public class MessageTest extends AbstractTest {
     private ShowMessagePage showMessagePage;
     private EditMessagePage editMessagePage;
     private LoginPage loginPage;
+    private Message message;
 
     @BeforeMethod
     public void initPages() {
@@ -67,7 +68,8 @@ public class MessageTest extends AbstractTest {
 
         // step 5 - send message
         //may be additional check is needed to make sure that input looks like expected
-        createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        message = new Message(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        createMessagePage.createMessage(message.getHeadline(), message.getText());
         createMessagePage.clickCreateButton();
 
         //step 6 - verify that Show message page is opened
@@ -79,8 +81,8 @@ public class MessageTest extends AbstractTest {
         goToLastPage();
 
         //may be we need to check the match more precisely? E.x., using assertEquals. That is a question for the most parts of asserts.
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_HEADLINE)));
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_TEXT)));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(message.getHeadline()));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(message.getText()));
     }
 
     @Test
@@ -96,31 +98,32 @@ public class MessageTest extends AbstractTest {
 
         // step 5 - send new message
         //may be additional check is needed to make sure that input looks like expected
-        createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        message = new Message(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        createMessagePage.createMessage(message.getHeadline(), message.getText());
         createMessagePage.clickCreateButton();
 
         // step 6 - assert if message shown is the same that was created
-        assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(ADMIN_MESSAGE_HEADLINE));
-        assertEquals(showMessagePage.getTextOfMessageBody(), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        assertEquals(showMessagePage.getTextOfMessageHeadline(), message.getHeadline());
+        assertEquals(showMessagePage.getTextOfMessageBody(), message.getText());
 
         //step 7 - find newly created message in Message List
         showMessagePage.clickTabToMessagesList();
         goToLastPage();
 
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_HEADLINE)));
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_TEXT)));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(message.getHeadline()));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(message.getText()));
 
         //step 8 - select and view newly created message
         listMessagesPage.clickLastRowViewButton();
-        assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(ADMIN_MESSAGE_HEADLINE));
-        assertEquals(showMessagePage.getTextOfMessageBody(), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        assertEquals(showMessagePage.getTextOfMessageHeadline(), message.getHeadline());
+        assertEquals(showMessagePage.getTextOfMessageBody(), message.getText());
 
         //step 9 - go to Messages List and view created message in the table
         showMessagePage.clickTabToMessagesList();
         goToLastPage();
 
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_HEADLINE)));
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_TEXT)));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(message.getHeadline()));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(message.getText()));
     }
 
     @Test
@@ -137,41 +140,43 @@ public class MessageTest extends AbstractTest {
 
         // step 5 - send new message
         //may be additional check is needed to make sure that input looks like expected
-        createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        message = new Message(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        createMessagePage.createMessage(message.getHeadline(), message.getText());
         createMessagePage.clickCreateButton();
 
         //step 6 - assert that Show message page is displayed and message is shown correctly
-        assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(ADMIN_MESSAGE_HEADLINE));
-        assertEquals(showMessagePage.getTextOfMessageBody(), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        assertEquals(showMessagePage.getTextOfMessageHeadline(), message.getHeadline());
+        assertEquals(showMessagePage.getTextOfMessageBody(), message.getText());
 
         //step 7 - go to Message List page and assert that the list contains newly created message
         showMessagePage.clickTabToMessagesList();
         goToLastPage();
 
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_HEADLINE)));
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_TEXT)));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(message.getHeadline()));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(message.getText()));
 
         //step 8 - assert that Edit Message page is opened and message is displayed correctly
         listMessagesPage.clickLastRowEditButton();
-        assertTrue(editMessagePage.getTextOfMessageHeadline().contains(messages.getProperty(ADMIN_MESSAGE_HEADLINE)));
-        assertTrue(editMessagePage.getTextOfMessageBody().contains(messages.getProperty(ADMIN_MESSAGE_TEXT)));
+        assertTrue(editMessagePage.getTextOfMessageHeadline().contains(message.getHeadline()));
+        assertTrue(editMessagePage.getTextOfMessageBody().contains(message.getText()));
 
        //step 9 - type in other message headline and text
-        editMessagePage.changeMessageHeadlineAndText(messages.getProperty(EDITED_MESSAGE_HEADLINE), messages.getProperty(EDITED_MESSAGE_TEXT));
-        assertTrue(editMessagePage.getTextOfMessageHeadline().contains(messages.getProperty(EDITED_MESSAGE_HEADLINE)));
-        assertTrue(editMessagePage.getTextOfMessageBody().contains(messages.getProperty(EDITED_MESSAGE_TEXT)));
+        Message editedMessage = new Message(messages.getProperty(EDITED_MESSAGE_HEADLINE), messages.getProperty(EDITED_MESSAGE_TEXT));
+        editMessagePage.createMessage(editedMessage.getHeadline(),editedMessage.getText());
+        assertTrue(editMessagePage.getTextOfMessageHeadline().contains(editedMessage.getHeadline()));
+        assertTrue(editMessagePage.getTextOfMessageBody().contains(editedMessage.getText()));
 
         //step 10 - save changes and make sure new values are shown on Show Message page
         editMessagePage.clickSaveButton();
-        assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(EDITED_MESSAGE_HEADLINE));
-        assertEquals(showMessagePage.getTextOfMessageBody(), messages.getProperty(EDITED_MESSAGE_TEXT));
+        assertEquals(showMessagePage.getTextOfMessageHeadline(), editedMessage.getHeadline());
+        assertEquals(showMessagePage.getTextOfMessageBody(), editedMessage.getText());
 
         //step 11 - go to Message List and make sure new values for the message are displayed there
         editMessagePage.clickTabToMessagesList();
         goToLastPage();
 
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(EDITED_MESSAGE_HEADLINE)));
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(EDITED_MESSAGE_TEXT)));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(editedMessage.getHeadline()));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(editedMessage.getText()));
     }
 
     @Test
@@ -187,12 +192,13 @@ public class MessageTest extends AbstractTest {
 
         //step 5 - sent message
         //may be additional check is needed to make sure that input looks like expected
-        createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        message = new Message(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        createMessagePage.createMessage(message.getHeadline(), message.getText());
         createMessagePage.clickCreateButton();
 
         //step 6 - make sure that newly created message is correctly displayed on Show Message page
-        assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(ADMIN_MESSAGE_HEADLINE));
-        assertEquals(showMessagePage.getTextOfMessageBody(), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        assertEquals(showMessagePage.getTextOfMessageHeadline(), message.getHeadline());
+        assertEquals(showMessagePage.getTextOfMessageBody(), message.getText());
 
         //step 7 - go to Message List page and make sure that new message is displayed there
         showMessagePage.clickTabToMessagesList();
@@ -224,7 +230,8 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.clickNewMessageTab();
 
         //step 5 - go to Messages List without saving new message
-        createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        message = new Message(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        createMessagePage.createMessage(message.getHeadline(), message.getText());
 
         //step 6 - verify that no new messages were added to the list
         createMessagePage.clickTabToMessagesList();
@@ -245,31 +252,33 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.clickNewMessageTab();
 
         //step 5 - create message
-        createMessagePage.createMessage(messages.getProperty(FIRST_TEST_MESSAGE_HEADLINE), messages.getProperty(FIRST_TEST_MESSAGE_TEXT));
+        Message firstMessage = new Message(messages.getProperty(FIRST_TEST_MESSAGE_HEADLINE), messages.getProperty(FIRST_TEST_MESSAGE_TEXT));
+        createMessagePage.createMessage(firstMessage.getHeadline(), firstMessage.getText());
         createMessagePage.clickCreateButton();
 
         //step 6 - send message
-        assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(FIRST_TEST_MESSAGE_HEADLINE));
-        assertEquals(showMessagePage.getTextOfMessageBody(), messages.getProperty(FIRST_TEST_MESSAGE_TEXT));
+        assertEquals(showMessagePage.getTextOfMessageHeadline(), firstMessage.getHeadline());
+        assertEquals(showMessagePage.getTextOfMessageBody(), firstMessage.getText());
 
         //step 7 - open New Message page
         showMessagePage.clickTabToNewMessagePage();
         assertEquals(createMessagePage.checkPageTitle(), "Create Message");
 
         //step 8 - fill in Message fields
-        createMessagePage.createMessage(messages.getProperty(SECOND_TEST_MESSAGE_HEADLINE), messages.getProperty(SECOND_TEST_MESSAGE_TEXT));
+        Message secondMessage = new Message(messages.getProperty(SECOND_TEST_MESSAGE_HEADLINE), messages.getProperty(SECOND_TEST_MESSAGE_TEXT));
+        createMessagePage.createMessage(secondMessage.getHeadline(), secondMessage.getText());
         createMessagePage.clickCreateButton();
 
         //step 9 - click create and verify the message was created with correct data
-        assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(SECOND_TEST_MESSAGE_HEADLINE));
-        assertEquals(showMessagePage.getTextOfMessageBody(), messages.getProperty(SECOND_TEST_MESSAGE_TEXT));
+        assertEquals(showMessagePage.getTextOfMessageHeadline(), secondMessage.getHeadline());
+        assertEquals(showMessagePage.getTextOfMessageBody(), secondMessage.getText());
 
         showMessagePage.clickTabToMessagesList();
         goToLastPage();
 
         //step 10 - verify that both messages are in the Message list
-        assertTrue(listMessagesPage.getTextOfBeforeTheLastTableRow().contains(messages.getProperty(FIRST_TEST_MESSAGE_HEADLINE)));
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(SECOND_TEST_MESSAGE_HEADLINE)));
+        assertTrue(listMessagesPage.getTextOfBeforeTheLastTableRow().contains(firstMessage.getHeadline()));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(secondMessage.getHeadline()));
     }
 
     @Test

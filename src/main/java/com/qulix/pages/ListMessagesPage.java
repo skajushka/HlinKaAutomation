@@ -24,8 +24,6 @@ public class ListMessagesPage extends BasePage {
     private final By currentTableStep = By.className("currentStep");
     private final By tableStep = By.className("step");
 
-    ListMessagesPage listMessagesPage = new ListMessagesPage(webDriver);
-
     public ListMessagesPage(WebDriver webDriver) {
         super(webDriver);
     }
@@ -35,7 +33,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public void clickNewMessageTab() {
-        listMessagesPage.getNewMessageTab().click();
+        this.getNewMessageTab().click();
     }
 
     public WebElement getAllUsersMessagesCheckbox() {
@@ -43,7 +41,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public void selectAllUsersMessagesCheckbox() {
-        listMessagesPage.getAllUsersMessagesCheckbox().click();
+        this.getAllUsersMessagesCheckbox().click();
     }
 
     private Integer getMaxAvailablePageNumber(WebElement pagination) {
@@ -96,7 +94,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public String getTextOfTheLastTableRow() {
-        String result = listMessagesPage.getLastTableRow().getText();
+        String result = this.getLastTableRow().getText();
         return result;
     }
 
@@ -105,7 +103,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public String getTextOfBeforeTheLastTableRow() {
-        String result = listMessagesPage.getBeforeTheLastTableRow().getText();
+        String result = this.getBeforeTheLastTableRow().getText();
         return result;
     }
 
@@ -114,7 +112,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public String checkPageTitle() {
-        String result = listMessagesPage.getPageTitle().getText();
+        String result = this.getPageTitle().getText();
         return result;
     }
 
@@ -125,7 +123,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public void clickLastRowEditButton() {
-        listMessagesPage.getLastRowEditButton().click();
+        this.getLastRowEditButton().click();
     }
 
     public WebElement getLastRowViewButton() {
@@ -135,7 +133,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public void clickLastRowViewButton() {
-        listMessagesPage.getLastRowViewButton().click();
+        this.getLastRowViewButton().click();
     }
 
     public WebElement getLastRowDeleteButton() {
@@ -145,7 +143,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public void clickLastRowDeleteButton() {
-        listMessagesPage.getLastRowDeleteButton().click();
+        this.getLastRowDeleteButton().click();
     }
 
     public WebElement getLastMessageCreationDate() {
@@ -158,7 +156,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public void clickLogoutButton() {
-        listMessagesPage.getLogoutButton().click();
+        this.getLogoutButton().click();
     }
 
     public WebElement getUserGreeting() {
@@ -166,7 +164,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public String checkTextOfUserGreeting() {
-        String result = listMessagesPage.getUserGreeting().getText();
+        String result = this.getUserGreeting().getText();
         return result;
     }
 }

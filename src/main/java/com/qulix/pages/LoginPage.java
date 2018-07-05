@@ -10,8 +10,6 @@ public class LoginPage extends BasePage {
     private final By passwordField = By.id("password");
     private final By buttonLogin = By.xpath("//input[@class='save']");
 
-    LoginPage loginPage = new LoginPage(webDriver);
-
     public LoginPage(WebDriver webDriver) {
         super(webDriver);
     }
@@ -21,7 +19,7 @@ public class LoginPage extends BasePage {
     }
 
     public boolean checkIfLoginFieldIsPresent() {
-        boolean result = loginPage.getLoginField().isDisplayed();
+        boolean result = this.getLoginField().isDisplayed();
         return result;
     }
 
@@ -30,7 +28,7 @@ public class LoginPage extends BasePage {
     }
 
     public boolean checkIfPasswordFieldIsPresent() {
-        boolean result = loginPage.getPasswordField().isDisplayed();
+        boolean result = this.getPasswordField().isDisplayed();
         return result;
     }
 
@@ -39,12 +37,12 @@ public class LoginPage extends BasePage {
     }
 
     public boolean checkIfLoginButtonIsPresent() {
-        boolean result = loginPage.getButtonLogin().isDisplayed();
+        boolean result = this.getButtonLogin().isDisplayed();
         return result;
     }
 
     public void clickLoginButton() {
-        loginPage.getButtonLogin().click();
+        this.getButtonLogin().click();
     }
 
     public void login(String login, String password) {//TODO не void

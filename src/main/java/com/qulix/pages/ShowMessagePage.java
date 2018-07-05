@@ -12,8 +12,6 @@ public class ShowMessagePage extends BasePage {
     private final By messageText = By.xpath("/html/body/div[5]/div[1]/table/tbody/tr[3]/td[2]");
     private final By tabToNewMessage = By.linkText("New Message");
 
-    ShowMessagePage showMessagePage = new ShowMessagePage(webDriver);
-
     public ShowMessagePage(WebDriver webDriver) {
         super(webDriver);
     }
@@ -22,7 +20,7 @@ public class ShowMessagePage extends BasePage {
     }
 
     public String checkPageTitle() {
-        String result = showMessagePage.getPageTitle().getText();
+        String result = this.getPageTitle().getText();
         return result;
     }
 
@@ -31,7 +29,7 @@ public class ShowMessagePage extends BasePage {
     }
 
     public void clickTabToMessagesList() {
-        showMessagePage.getTabToMessagesList().click();
+        this.getTabToMessagesList().click();
     }
 
     public WebElement getMessageHeadline() {
@@ -39,7 +37,7 @@ public class ShowMessagePage extends BasePage {
     }
 
     public String getTextOfMessageHeadline() {
-        String result = showMessagePage.getMessageHeadline().getText();
+        String result = this.getMessageHeadline().getText();
         return result;
     }
 
@@ -48,7 +46,7 @@ public class ShowMessagePage extends BasePage {
     }
 
     public String getTextOfMessageBody() {
-        String result = showMessagePage.getMessageText().getText();
+        String result = this.getMessageText().getText();
         return result;
     }
 
@@ -57,6 +55,6 @@ public class ShowMessagePage extends BasePage {
     }
 
     public void clickTabToNewMessagePage() {
-        showMessagePage.getTabToNewMessagePage().click();
+        this.getTabToNewMessagePage().click();
     }
 }
