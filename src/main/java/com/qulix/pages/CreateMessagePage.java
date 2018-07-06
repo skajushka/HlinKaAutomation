@@ -14,7 +14,7 @@ public class CreateMessagePage extends AbstractMessagePage {
     }
 
     public WebElement getPageTitle() {
-        return webDriver.findElement(pageTitle);
+        return findPageElement(pageTitle);
     }
 
     public String checkPageTitle() {
@@ -23,7 +23,7 @@ public class CreateMessagePage extends AbstractMessagePage {
     }
 
     public WebElement getButtonCreate() {
-        return webDriver.findElement(buttonCreate);
+        return findPageElement(buttonCreate);
     }
 
     public void clickCreateButton() {

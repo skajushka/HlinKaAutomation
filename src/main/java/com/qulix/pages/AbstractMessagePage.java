@@ -15,7 +15,7 @@ public class AbstractMessagePage extends BasePage {
     }
 
     public WebElement getTabToMessagesList() {
-        return webDriver.findElement(tabToMessagesList);
+        return findPageElement(tabToMessagesList);
     }
 
     public void clickTabToMessagesList() {
@@ -23,19 +23,19 @@ public class AbstractMessagePage extends BasePage {
     }
 
     public WebElement editHeadline() {
-        return webDriver.findElement(messageHeadline);
+        return findPageElement(messageHeadline);
     }
 
     public WebElement editText() {
-        return webDriver.findElement(messageText);
+        return findPageElement(messageText);
     }
 
     public WebElement getMessageHeadline() {
-        return webDriver.findElement(messageHeadline);
+        return findPageElement(messageHeadline);
     }
 
     public WebElement getMessageText() {
-        return webDriver.findElement(messageText);
+        return findPageElement(messageText);
     }
 
     public Message createMessage(String headline, String text){

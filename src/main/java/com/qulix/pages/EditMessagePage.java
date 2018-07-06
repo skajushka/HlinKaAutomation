@@ -23,7 +23,7 @@ public class EditMessagePage extends AbstractMessagePage {
     }
 
     public WebElement getSaveButton() {
-        return webDriver.findElement(saveButton);
+        return findPageElement(saveButton);
     }
 
     public void clickSaveButton() {

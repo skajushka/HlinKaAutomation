@@ -29,7 +29,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public WebElement getNewMessageTab() {
-        return webDriver.findElement(newMessageTab);
+        return findPageElement(newMessageTab);
     }
 
     public void clickNewMessageTab() {
@@ -37,7 +37,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public WebElement getAllUsersMessagesCheckbox() {
-        return webDriver.findElement(allUsersMessagesOption);
+        return findPageElement(allUsersMessagesOption);
     }
 
     public void selectAllUsersMessagesCheckbox() {
@@ -69,7 +69,7 @@ public class ListMessagesPage extends BasePage {
 
     public WebElement getLastPage() {
         try {
-            WebElement pagination = webDriver.findElement(paginationDiv);
+            WebElement pagination = findPageElement(paginationDiv);
             return pagination.findElement(By.linkText(getMaxAvailablePageNumber(pagination).toString()));
         } catch (NoSuchElementException e) {
             return null;
@@ -77,7 +77,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public WebElement getPreLastPage() {
-        WebElement pagination = webDriver.findElement(paginationDiv);
+        WebElement pagination = findPageElement(paginationDiv);
         Integer maxPageIndex = getMaxAvailablePageNumber(pagination);
         Integer preLastPageIndex;
 
@@ -90,7 +90,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public WebElement getLastTableRow() {
-        return webDriver.findElement(lastTableRow);
+        return findPageElement(lastTableRow);
     }
 
     public String getTextOfTheLastTableRow() {
@@ -99,7 +99,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public WebElement getBeforeTheLastTableRow() {
-        return webDriver.findElement(beforeLastTableRow);
+        return findPageElement(beforeLastTableRow);
     }
 
     public String getTextOfBeforeTheLastTableRow() {
@@ -108,7 +108,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public WebElement getPageTitle() {
-        return webDriver.findElement(pageTitle);
+        return findPageElement(pageTitle);
     }
 
     public String checkPageTitle() {
@@ -117,7 +117,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public WebElement getLastRowEditButton() {
-        WebElement expectedLastTableRow = webDriver.findElement(lastTableRow);
+        WebElement expectedLastTableRow = findPageElement(lastTableRow);
         WebElement expectedEditButton = expectedLastTableRow.findElement(editButton);
         return expectedEditButton;
     }
@@ -127,7 +127,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public WebElement getLastRowViewButton() {
-        WebElement expectedLastTableRow = webDriver.findElement(lastTableRow);
+        WebElement expectedLastTableRow = findPageElement(lastTableRow);
         WebElement expectedViewButton = expectedLastTableRow.findElement(viewButton);
         return expectedViewButton;
     }
@@ -137,7 +137,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public WebElement getLastRowDeleteButton() {
-        WebElement expectedLastTableRow = webDriver.findElement(lastTableRow);
+        WebElement expectedLastTableRow = findPageElement(lastTableRow);
         WebElement expectedDeletedButton = expectedLastTableRow.findElement(deleteButton);
         return expectedDeletedButton;
     }
@@ -147,12 +147,12 @@ public class ListMessagesPage extends BasePage {
     }
 
     public WebElement getLastMessageCreationDate() {
-        WebElement lastMessageCreationDate = webDriver.findElement(lastTableRow).findElement(lastRowMessageCreationDate);
+        WebElement lastMessageCreationDate = findPageElement(lastTableRow).findElement(lastRowMessageCreationDate);
         return lastMessageCreationDate;
     }
 
     public WebElement getLogoutButton() {
-        return webDriver.findElement(logoutButton);
+        return findPageElement(logoutButton);
     }
 
     public void clickLogoutButton() {
@@ -160,7 +160,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public WebElement getUserGreeting() {
-        return webDriver.findElement(userGreeting);
+        return findPageElement(userGreeting);
     }
 
     public String checkTextOfUserGreeting() {

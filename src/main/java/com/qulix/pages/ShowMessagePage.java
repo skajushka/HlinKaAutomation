@@ -15,8 +15,9 @@ public class ShowMessagePage extends BasePage {
     public ShowMessagePage(WebDriver webDriver) {
         super(webDriver);
     }
+
     public WebElement getPageTitle() {
-        return webDriver.findElement(pageTitle);
+        return findPageElement(pageTitle);
     }
 
     public String checkPageTitle() {
@@ -25,7 +26,7 @@ public class ShowMessagePage extends BasePage {
     }
 
     public WebElement getTabToMessagesList() {
-        return webDriver.findElement(tabToMessagesList);
+        return findPageElement(tabToMessagesList);
     }
 
     public void clickTabToMessagesList() {
@@ -33,7 +34,7 @@ public class ShowMessagePage extends BasePage {
     }
 
     public WebElement getMessageHeadline() {
-        return webDriver.findElement(messageHeadline);
+        return findPageElement(messageHeadline);
     }
 
     public String getTextOfMessageHeadline() {
@@ -42,7 +43,7 @@ public class ShowMessagePage extends BasePage {
     }
 
     public WebElement getMessageText() {
-        return webDriver.findElement(messageText);
+        return findPageElement(messageText);
     }
 
     public String getTextOfMessageBody() {
@@ -51,7 +52,7 @@ public class ShowMessagePage extends BasePage {
     }
 
     public WebElement getTabToNewMessagePage() {
-        return webDriver.findElement(tabToNewMessage);
+        return findPageElement(tabToNewMessage);
     }
 
     public void clickTabToNewMessagePage() {

@@ -11,7 +11,7 @@
                     <include name="loginPageOpenedTest"/>
                 </methods>
             </class>
-            <class name="MessageTest">
+             <class name="MessageTest">
                 <methods>
                     <include name="createMessageTest"/>
                     <include name="showMessageTest"/>

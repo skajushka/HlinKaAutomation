@@ -15,7 +15,7 @@ public class LoginPage extends BasePage {
     }
 
     public WebElement getLoginField() {
-        return webDriver.findElement(loginField);
+        return findPageElement(loginField);
     }
 
     public boolean checkIfLoginFieldIsPresent() {
@@ -24,7 +24,7 @@ public class LoginPage extends BasePage {
     }
 
     public WebElement getPasswordField() {
-        return webDriver.findElement(passwordField);
+        return findPageElement(passwordField);
     }
 
     public boolean checkIfPasswordFieldIsPresent() {
@@ -33,7 +33,7 @@ public class LoginPage extends BasePage {
     }
 
     public WebElement getButtonLogin() {
-        return webDriver.findElement(buttonLogin);
+        return findPageElement(buttonLogin);
     }
 
     public boolean checkIfLoginButtonIsPresent() {

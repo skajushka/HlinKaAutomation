@@ -18,7 +18,7 @@ public class StartPage extends BasePage {
     }
 
     public WebElement getUserControllerLink() {
-        return webDriver.findElement(userControllerLink);
+        return findPageElement(userControllerLink);
     }
 
     public void clickOnUserControllerLink() {

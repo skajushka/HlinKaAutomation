@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeMethod;
 
 public abstract class AbstractTest {
 
-    protected static WebDriver webDriver; //TODO не static. Не сможешь запускать в несколько потоков
+    protected WebDriver webDriver;
 
     @BeforeClass
     public static void setupDriver() {
