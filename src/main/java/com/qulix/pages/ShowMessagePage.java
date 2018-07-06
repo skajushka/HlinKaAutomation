@@ -8,8 +8,8 @@ public class ShowMessagePage extends BasePage {
     //TODO Переделать локаторы
     private final By tabToMessagesList = By.linkText("Message List");
     private final By pageTitle = By.tagName("h1");
-    private final By messageHeadline = By.xpath("/html/body/div[5]/div[1]/table/tbody/tr[1]/td[2]");
-    private final By messageText = By.xpath("/html/body/div[5]/div[1]/table/tbody/tr[3]/td[2]");
+    private final By messageHeadline = By.xpath("//td[contains(text(),'Headline')]/following-sibling::td");
+    private final By messageText = By.xpath("//td[contains(text(),'Text')]/following-sibling::td");
     private final By tabToNewMessage = By.linkText("New Message");
 
     public ShowMessagePage(WebDriver webDriver) {

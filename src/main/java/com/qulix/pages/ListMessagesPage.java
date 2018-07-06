@@ -14,12 +14,12 @@ public class ListMessagesPage extends BasePage {
     private final By newMessageTab = By.linkText("New Message");
     private final By allUsersMessagesOption = By.name("allUsers");
     private final By lastTableRow = By.xpath("//table/tbody/tr[last()]");
-    private final By beforeLastTableRow = By.xpath("//table/tbody/tr[last()-1]");
+    private final By beforeLastTableRow = By.xpath("//table/tbody/preceding::tr[last()]");
     private final By viewButton = By.linkText("View");
     private final By editButton = By.linkText("Edit");
     private final By deleteButton = By.linkText("Delete");
     private final By paginationDiv = By.className("paginateButtons");
-    private final By lastRowMessageCreationDate = By.xpath("/html/body/div[5]/div[2]/table/tbody/tr[last()]/td[5]");
+    private final By lastRowMessageCreationDate = By.xpath("//table/tbody/tr[last()]/td[5]");
     private final By logoutButton = By.linkText("Logout");
     private final By currentTableStep = By.className("currentStep");
     private final By tableStep = By.className("step");
