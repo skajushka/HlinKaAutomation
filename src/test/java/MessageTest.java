@@ -1,4 +1,5 @@
 import com.qulix.helpers.ResourceFactory;
+import com.qulix.message.Message;
 import com.qulix.pages.*;
 
 import org.openqa.selenium.WebElement;
@@ -42,6 +43,7 @@ public class MessageTest extends AbstractTest {
     private EditMessagePage editMessagePage;
     private LoginPage loginPage;
     private Message message;
+
 
     @BeforeMethod
     public void initPages() {

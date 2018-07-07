@@ -1,5 +1,6 @@
 package com.qulix.pages;
 
+import com.qulix.user.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -45,11 +46,13 @@ public class LoginPage extends BasePage {
         this.getButtonLogin().click();
     }
 
-    public void login(String login, String password) {//TODO не void
+    public User login(String login, String password) {
+        User user = new User(login, password);
         this.getLoginField().clear();
-        this.getLoginField().sendKeys(login);
+        this.getLoginField().sendKeys(user.getLogin());
         this.getPasswordField().clear();
-        this.getPasswordField().sendKeys(password);
-        this.getButtonLogin().click();
+        this.getPasswordField().sendKeys(user.getPassword());
+        clickLoginButton();
+        return user;
     }
 }

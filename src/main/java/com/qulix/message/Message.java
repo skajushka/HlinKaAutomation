@@ -1,4 +1,4 @@
-package com.qulix.pages;
+package com.qulix.message;
 
 public class Message {
 
