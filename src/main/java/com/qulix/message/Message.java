@@ -14,15 +14,7 @@ public class Message {
         return headline;
     }
 
-    public void setHeadline(String headline) {
-        this.headline = headline;
-    }
-
     public String getText() {
         return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 }

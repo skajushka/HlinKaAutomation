@@ -1,6 +1,5 @@
 package com.qulix.pages;
 
-import com.qulix.user.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,8 +19,7 @@ public class LoginPage extends BasePage {
     }
 
     public boolean checkIfLoginFieldIsPresent() {
-        boolean result = this.getLoginField().isDisplayed();
-        return result;
+        return this.getLoginField().isDisplayed();
     }
 
     public WebElement getPasswordField() {
@@ -29,8 +27,7 @@ public class LoginPage extends BasePage {
     }
 
     public boolean checkIfPasswordFieldIsPresent() {
-        boolean result = this.getPasswordField().isDisplayed();
-        return result;
+        return this.getPasswordField().isDisplayed();
     }
 
     public WebElement getButtonLogin() {
@@ -38,21 +35,19 @@ public class LoginPage extends BasePage {
     }
 
     public boolean checkIfLoginButtonIsPresent() {
-        boolean result = this.getButtonLogin().isDisplayed();
-        return result;
+        return this.getButtonLogin().isDisplayed();
     }
 
     public void clickLoginButton() {
         this.getButtonLogin().click();
     }
 
-    public User login(String login, String password) {
-        User user = new User(login, password);
+    public void login(String login, String password) { //TODO: не void - почему?
+
         this.getLoginField().clear();
-        this.getLoginField().sendKeys(user.getLogin());
+        this.getLoginField().sendKeys(login);
         this.getPasswordField().clear();
-        this.getPasswordField().sendKeys(user.getPassword());
+        this.getPasswordField().sendKeys(password);
         clickLoginButton();
-        return user;
     }
 }

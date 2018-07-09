@@ -2,12 +2,10 @@ import com.qulix.helpers.ResourceFactory;
 import com.qulix.message.Message;
 import com.qulix.pages.*;
 
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import java.util.NoSuchElementException;
 import java.util.Properties;
 
 import static org.testng.Assert.*;
@@ -21,7 +19,6 @@ public class MessageTest extends AbstractTest {
     private static String ADMIN_USER_GREETING = "admin.user.greeting";
     private static String ADMIN_MESSAGE_HEADLINE = "admin.message.headline";
     private static String ADMIN_MESSAGE_TEXT = "admin.message.text";
-    private static String SECOND_USER_LOGIN = "second.user.login";
     private static String SECOND_USER_NAME = "second.user.name";
     private static String SECOND_USER_GREETING = "second.user.greeting";
     private static String SECOND_USER_MESSAGE_HEADLINE = "second.user.message.headline";
@@ -32,6 +29,10 @@ public class MessageTest extends AbstractTest {
     private static String FIRST_TEST_MESSAGE_TEXT = "first.test.message.text";
     private static String SECOND_TEST_MESSAGE_HEADLINE = "second.test.message.headline";
     private static String SECOND_TEST_MESSAGE_TEXT = "second.test.message.text";
+    private static String LIST_MESSAGES_PAGE_TITLE = "list.messages.page.title";
+    private static String CREATE_MESSAGE_PAGE_TITLE = "create.message.page.title";
+    private static String SHOW_MESSAGE_PAGE_TITLE = "show.message.page.title";
+
 
     public MessageTest() {
         this.messages = ResourceFactory.getResources(MessageTest.RESOURCE_PATH);
@@ -62,11 +63,11 @@ public class MessageTest extends AbstractTest {
         //step 3 - login and make sure that Message list page is opened
 
         loginToTestSite(login,password);
-        assertEquals(listMessagesPage.checkPageTitle(), "Message List");
+        assertEquals(listMessagesPage.checkPageTitle(), messages.getProperty(LIST_MESSAGES_PAGE_TITLE));
 
         // step 4 - open Create message page
         listMessagesPage.clickNewMessageTab();
-        assertEquals(createMessagePage.checkPageTitle(), "Create Message");
+        assertEquals(createMessagePage.checkPageTitle(), messages.getProperty(CREATE_MESSAGE_PAGE_TITLE));
 
         // step 5 - send message
         //may be additional check is needed to make sure that input looks like expected
@@ -75,7 +76,7 @@ public class MessageTest extends AbstractTest {
         createMessagePage.clickCreateButton();
 
         //step 6 - verify that Show message page is opened
-        assertEquals(showMessagePage.checkPageTitle(), "Show Message");
+        assertEquals(showMessagePage.checkPageTitle(), messages.getProperty(SHOW_MESSAGE_PAGE_TITLE));
 
         //step 7 - open Message List page and verify that new message is presented in the list
         showMessagePage.clickTabToMessagesList();
@@ -264,7 +265,7 @@ public class MessageTest extends AbstractTest {
 
         //step 7 - open New Message page
         showMessagePage.clickTabToNewMessagePage();
-        assertEquals(createMessagePage.checkPageTitle(), "Create Message");
+        assertEquals(createMessagePage.checkPageTitle(), messages.getProperty(CREATE_MESSAGE_PAGE_TITLE));
 
         //step 8 - fill in Message fields
         Message secondMessage = new Message(messages.getProperty(SECOND_TEST_MESSAGE_HEADLINE), messages.getProperty(SECOND_TEST_MESSAGE_TEXT));
@@ -277,6 +278,7 @@ public class MessageTest extends AbstractTest {
 
         showMessagePage.clickTabToMessagesList();
         goToLastPage();
+        System.out.println(listMessagesPage.getLastPaginationButton().getText());
 
         //step 10 - verify that both messages are in the Message list
         assertTrue(listMessagesPage.getTextOfBeforeTheLastTableRow().contains(firstMessage.getHeadline()));
@@ -284,9 +286,8 @@ public class MessageTest extends AbstractTest {
     }
 
     @Test
-    @Parameters({"Login", "Password"})
-    public void viewOtherUsersMessagesTest(String login, String password) {
-        //TODO Некорректная структура. первичный логин и пароль - входные параметры теста. Вторичный логин и пароль почему-то уже зашиты в properties. Все должно браться из одной точки
+    @Parameters({"Login", "SecondUserLogin", "Password"})
+    public void viewOtherUsersMessagesTest(String login, String secondUserLogin, String password) {
 
         //steps 1 and 2 are tested in LoginTest
         //step 3 - login and make sure that Message list page is opened; remember the creation date of the last message
@@ -296,87 +297,91 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.clickNewMessageTab();
 
         //step5 - send new message
-        createMessagePage.createMessage(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        message = new Message(messages.getProperty(ADMIN_MESSAGE_HEADLINE), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        createMessagePage.createMessage(message.getHeadline(), message.getText());
         createMessagePage.clickCreateButton();
 
         //strep6 - verify that correct message is shown on Show page
-        assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(ADMIN_MESSAGE_HEADLINE));
-        assertEquals(showMessagePage.getTextOfMessageBody(), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        assertEquals(showMessagePage.getTextOfMessageHeadline(), message.getHeadline());
+        assertEquals(showMessagePage.getTextOfMessageBody(),message.getText());
 
         //step 7 - Go to Message List and verify that message is shown there
         showMessagePage.clickTabToMessagesList();
 
         goToLastPage();
 
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_HEADLINE)));
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_TEXT)));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(message.getHeadline()));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(message.getText()));
+
         String adminMessage = listMessagesPage.getTextOfTheLastTableRow();
 
         //step 8 - view created message
         listMessagesPage.clickLastRowViewButton();
-        assertEquals(showMessagePage.getTextOfMessageHeadline(), messages.getProperty(ADMIN_MESSAGE_HEADLINE));
-        assertEquals(showMessagePage.getTextOfMessageBody(), messages.getProperty(ADMIN_MESSAGE_TEXT));
+        assertEquals(showMessagePage.getTextOfMessageHeadline(), message.getHeadline());
+        assertEquals(showMessagePage.getTextOfMessageBody(), message.getText());
 
         //step 9 - return to message list
         showMessagePage.clickTabToMessagesList();
         goToLastPage();
 
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_HEADLINE)));
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_TEXT)));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(message.getText()));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(message.getHeadline()));
 
         //step 10
         listMessagesPage.clickLogoutButton();
         assertTrue(loginPage.checkIfLoginFieldIsPresent());
 
         //step 11
-        loginPage.login(messages.getProperty(SECOND_USER_LOGIN), password);
+        loginPage.login(secondUserLogin, password);
 
-        assertEquals(listMessagesPage.checkPageTitle(), "Message List");
+        assertEquals(listMessagesPage.checkPageTitle(), messages.getProperty(LIST_MESSAGES_PAGE_TITLE));
         assertTrue(listMessagesPage.getUserGreeting().getText().contains(messages.getProperty(SECOND_USER_GREETING)));
 
         //step 12
         listMessagesPage.clickNewMessageTab();
-        createMessagePage.createMessage(messages.getProperty(SECOND_USER_MESSAGE_HEADLINE), messages.getProperty(SECOND_USER_MESSAGE_TEXT));
+
+        Message secondUserMessage = new Message(messages.getProperty(SECOND_USER_MESSAGE_HEADLINE), messages.getProperty(SECOND_USER_MESSAGE_TEXT));
+        createMessagePage.createMessage(secondUserMessage.getHeadline(), secondUserMessage.getText());
         createMessagePage.clickCreateButton();
 
-        assertEquals(showMessagePage.getMessageHeadline().getText(), messages.getProperty(SECOND_USER_MESSAGE_HEADLINE));
-        assertEquals(showMessagePage.getMessageText().getText(), messages.getProperty(SECOND_USER_MESSAGE_TEXT));
+        assertEquals(showMessagePage.getMessageHeadline().getText(), secondUserMessage.getHeadline());
+        assertEquals(showMessagePage.getMessageText().getText(), secondUserMessage.getText());
 
         showMessagePage.clickTabToMessagesList();
-        assertEquals(listMessagesPage.checkPageTitle(), "Message List");
+        assertEquals(listMessagesPage.checkPageTitle(), messages.getProperty(LIST_MESSAGES_PAGE_TITLE));
 
         goToLastPage();
 
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(SECOND_USER_MESSAGE_HEADLINE)));
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(SECOND_USER_MESSAGE_TEXT)));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(secondUserMessage.getHeadline()));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(secondUserMessage.getText()));
 
         listMessagesPage.clickLogoutButton();
         assertTrue(loginPage.getButtonLogin().isDisplayed());
 
         // step 13 - login as admin user
         loginPage.login(login, password);
-        assertEquals(listMessagesPage.checkPageTitle(), "Message List");
+        assertEquals(listMessagesPage.checkPageTitle(), messages.getProperty(LIST_MESSAGES_PAGE_TITLE));
         assertEquals(listMessagesPage.checkTextOfUserGreeting(), messages.getProperty(ADMIN_USER_GREETING));
 
         //step 14 - select checkbox and check that massages of both users are shown
         listMessagesPage.selectAllUsersMessagesCheckbox();
         goToLastPage();
 
-        assertTrue(listMessagesPage.getTextOfBeforeTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_TEXT)));
-        assertTrue(listMessagesPage.getTextOfBeforeTheLastTableRow().contains(messages.getProperty(ADMIN_MESSAGE_HEADLINE)));
+        assertTrue(listMessagesPage.getTextOfBeforeTheLastTableRow().contains(message.getText()));
+        assertTrue(listMessagesPage.getTextOfBeforeTheLastTableRow().contains(message.getHeadline()));
         assertTrue(listMessagesPage.getTextOfBeforeTheLastTableRow().contains(messages.getProperty(ADMIN_USER_NAME)));
 
 
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(SECOND_USER_MESSAGE_TEXT)));
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(SECOND_USER_MESSAGE_HEADLINE)));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(secondUserMessage.getHeadline()));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(secondUserMessage.getText()));
         assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(SECOND_USER_NAME)));
 
         listMessagesPage.selectAllUsersMessagesCheckbox();
         goToLastPage();
 
         assertEquals(listMessagesPage.getTextOfTheLastTableRow(),adminMessage);
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(SECOND_USER_MESSAGE_TEXT));
-        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(SECOND_USER_MESSAGE_HEADLINE));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(secondUserMessage.getHeadline()));
+        assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(secondUserMessage.getText()));
         assertFalse(listMessagesPage.getTextOfTheLastTableRow().contains(SECOND_USER_NAME));
     }
 
@@ -389,18 +394,9 @@ public class MessageTest extends AbstractTest {
 
     private void goToLastPage() {
         try {
-            listMessagesPage.getLastPage().click();
+            listMessagesPage.clickLastPaginationButton();
         } catch (NullPointerException e) {
             //do nothing
-        }
-    }
-
-    private WebElement getBeforeTheLastTableRow() {
-        try {
-            return listMessagesPage.getBeforeTheLastTableRow();
-        } catch(NoSuchElementException e) {
-            listMessagesPage.getPreLastPage();
-            return listMessagesPage.getLastTableRow();
         }
     }
 }

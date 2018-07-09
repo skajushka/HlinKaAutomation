@@ -8,19 +8,18 @@ import org.openqa.selenium.WebElement;
 public class EditMessagePage extends AbstractMessagePage {
 
     private final By saveButton = By.name("_action_save");
+    private final String messageAttributeName = "value";
 
     public EditMessagePage(WebDriver webDriver) {
         super(webDriver);
     }
 
     public String getTextOfMessageHeadline() {
-        String result = this.getMessageHeadline().getAttribute("value");
-        return result;
+        return this.getMessageHeadline().getAttribute(messageAttributeName);
     }
 
     public String getTextOfMessageBody() {
-        String result = this.getMessageText().getAttribute("value");
-        return result;
+        return this.getMessageText().getAttribute(messageAttributeName);
     }
 
     public WebElement getSaveButton() {

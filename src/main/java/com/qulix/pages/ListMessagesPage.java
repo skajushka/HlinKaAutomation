@@ -8,7 +8,7 @@ import org.openqa.selenium.NoSuchElementException;
 import java.util.*;
 
 public class ListMessagesPage extends BasePage {
-//TODO Переделать локаторы. Никаких индексов
+
     private final By pageTitle = By.tagName("h1");
     private final By userGreeting = By.className("message");
     private final By newMessageTab = By.linkText("New Message");
@@ -18,11 +18,10 @@ public class ListMessagesPage extends BasePage {
     private final By viewButton = By.linkText("View");
     private final By editButton = By.linkText("Edit");
     private final By deleteButton = By.linkText("Delete");
-    private final By paginationDiv = By.className("paginateButtons");
     private final By lastRowMessageCreationDate = By.xpath("//table/tbody/tr[last()]/td[5]");
     private final By logoutButton = By.linkText("Logout");
-    private final By currentTableStep = By.className("currentStep");
-    private final By tableStep = By.className("step");
+    private final By lastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()-1]");
+    private final By preLastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()]");
 
     public ListMessagesPage(WebDriver webDriver) {
         super(webDriver);
@@ -44,49 +43,16 @@ public class ListMessagesPage extends BasePage {
         this.getAllUsersMessagesCheckbox().click();
     }
 
-    private Integer getMaxAvailablePageNumber(WebElement pagination) {
-
-        //TODO Зачем так сложно? Почему просто не получить последнюю страницу
-        WebElement currentStep = pagination.findElement(currentTableStep);
-
-        List<WebElement> steps = pagination.findElements(tableStep);
-        List<Integer> pageNumbers = new ArrayList<>();
-
-        pageNumbers.add(Integer.parseInt(currentStep.getText()));
-
-        steps.forEach(step -> {
-                try {
-                    pageNumbers.add(Integer.parseInt(step.getText()));
-                } catch (NumberFormatException e) {
-                    //".." value found. Do nothing.
-                }
-            }
-        );
-
-        Integer maxPageIndex = Collections.max(pageNumbers);
-        return maxPageIndex;
+    public WebElement getLastPaginationButton() {
+        return findPageElement(lastTablePageButton);
     }
 
-    public WebElement getLastPage() {
-        try {
-            WebElement pagination = findPageElement(paginationDiv);
-            return pagination.findElement(By.linkText(getMaxAvailablePageNumber(pagination).toString()));
-        } catch (NoSuchElementException e) {
-            return null;
-        }
+    public void clickLastPaginationButton() {
+        this.getLastPaginationButton().click();
     }
 
-    public WebElement getPreLastPage() {
-        WebElement pagination = findPageElement(paginationDiv);
-        Integer maxPageIndex = getMaxAvailablePageNumber(pagination);
-        Integer preLastPageIndex;
-
-        if (maxPageIndex > 1) {
-            preLastPageIndex = maxPageIndex -1;
-            return pagination.findElement(By.linkText(preLastPageIndex.toString()));
-        } else {
-            return null;
-        }
+    public void goToPreLastPage() {
+        findPageElement(preLastTablePageButton).click();
     }
 
     public WebElement getLastTableRow() {
@@ -94,17 +60,20 @@ public class ListMessagesPage extends BasePage {
     }
 
     public String getTextOfTheLastTableRow() {
-        String result = this.getLastTableRow().getText();
-        return result;
+        return this.getLastTableRow().getText();
     }
 
     public WebElement getBeforeTheLastTableRow() {
-        return findPageElement(beforeLastTableRow);
+        try {
+            return findPageElement(beforeLastTableRow);
+        } catch(java.util.NoSuchElementException e) {
+            this.goToPreLastPage();
+            return this.getLastTableRow();
+        }
     }
 
     public String getTextOfBeforeTheLastTableRow() {
-        String result = this.getBeforeTheLastTableRow().getText();
-        return result;
+        return this.getBeforeTheLastTableRow().getText();
     }
 
     public WebElement getPageTitle() {
@@ -112,14 +81,12 @@ public class ListMessagesPage extends BasePage {
     }
 
     public String checkPageTitle() {
-        String result = this.getPageTitle().getText();
-        return result;
+        return this.getPageTitle().getText();
     }
 
     public WebElement getLastRowEditButton() {
         WebElement expectedLastTableRow = findPageElement(lastTableRow);
-        WebElement expectedEditButton = expectedLastTableRow.findElement(editButton);
-        return expectedEditButton;
+        return expectedLastTableRow.findElement(editButton);
     }
 
     public void clickLastRowEditButton() {
@@ -128,8 +95,7 @@ public class ListMessagesPage extends BasePage {
 
     public WebElement getLastRowViewButton() {
         WebElement expectedLastTableRow = findPageElement(lastTableRow);
-        WebElement expectedViewButton = expectedLastTableRow.findElement(viewButton);
-        return expectedViewButton;
+        return expectedLastTableRow.findElement(viewButton);
     }
 
     public void clickLastRowViewButton() {
@@ -138,8 +104,7 @@ public class ListMessagesPage extends BasePage {
 
     public WebElement getLastRowDeleteButton() {
         WebElement expectedLastTableRow = findPageElement(lastTableRow);
-        WebElement expectedDeletedButton = expectedLastTableRow.findElement(deleteButton);
-        return expectedDeletedButton;
+        return expectedLastTableRow.findElement(deleteButton);
     }
 
     public void clickLastRowDeleteButton() {
@@ -147,8 +112,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public WebElement getLastMessageCreationDate() {
-        WebElement lastMessageCreationDate = findPageElement(lastTableRow).findElement(lastRowMessageCreationDate);
-        return lastMessageCreationDate;
+        return findPageElement(lastTableRow).findElement(lastRowMessageCreationDate);
     }
 
     public WebElement getLogoutButton() {
@@ -164,7 +128,6 @@ public class ListMessagesPage extends BasePage {
     }
 
     public String checkTextOfUserGreeting() {
-        String result = this.getUserGreeting().getText();
-        return result;
+        return this.getUserGreeting().getText();
     }
 }

@@ -18,8 +18,7 @@ public class CreateMessagePage extends AbstractMessagePage {
     }
 
     public String checkPageTitle() {
-        String result = this.getPageTitle().getText();
-        return result;
+        return this.getPageTitle().getText();
     }
 
     public WebElement getButtonCreate() {

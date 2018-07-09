@@ -21,8 +21,7 @@ public class ShowMessagePage extends BasePage {
     }
 
     public String checkPageTitle() {
-        String result = this.getPageTitle().getText();
-        return result;
+        return this.getPageTitle().getText();
     }
 
     public WebElement getTabToMessagesList() {
@@ -38,8 +37,7 @@ public class ShowMessagePage extends BasePage {
     }
 
     public String getTextOfMessageHeadline() {
-        String result = this.getMessageHeadline().getText();
-        return result;
+        return this.getMessageHeadline().getText();
     }
 
     public WebElement getMessageText() {
@@ -47,8 +45,7 @@ public class ShowMessagePage extends BasePage {
     }
 
     public String getTextOfMessageBody() {
-        String result = this.getMessageText().getText();
-        return result;
+        return this.getMessageText().getText();
     }
 
     public WebElement getTabToNewMessagePage() {

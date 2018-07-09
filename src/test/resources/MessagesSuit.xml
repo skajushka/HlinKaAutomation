@@ -4,6 +4,7 @@
     <test name="MessageTest">
         <parameter name="Login" value="admin"/>
         <parameter name="Password" value="password"/>
+        <parameter name="SecondUserLogin" value="jdoe"/>
         <classes>
             <class name="LoginTest">
                 <methods>
@@ -11,7 +12,7 @@
                     <include name="loginPageOpenedTest"/>
                 </methods>
             </class>
-             <class name="MessageTest">
+            <class name="MessageTest">
                 <methods>
                     <include name="createMessageTest"/>
                     <include name="showMessageTest"/>

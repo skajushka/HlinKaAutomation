@@ -26,7 +26,6 @@ public class StartPage extends BasePage {
     }
 
     public boolean checkIfUserControllerLinkIsPresent() {
-        boolean result = this.getUserControllerLink().isDisplayed();
-        return result;
+        return this.getUserControllerLink().isDisplayed();
     }
 }
