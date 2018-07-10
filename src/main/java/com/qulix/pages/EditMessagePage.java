@@ -10,7 +10,7 @@ public class EditMessagePage extends AbstractMessagePage {
     private static final By saveButton = By.name("_action_save");
     private static final String messageAttributeName = "value";
 
-    public EditMessagePage(WebDriver webDriver) {
+    EditMessagePage(WebDriver webDriver) {
         super(webDriver);
     }
 
@@ -22,7 +22,7 @@ public class EditMessagePage extends AbstractMessagePage {
         return this.getMessageText().getAttribute(messageAttributeName);
     }
 
-    public WebElement getSaveButton() {
+    private WebElement getSaveButton() {
         return findPageElement(saveButton);
     }
 

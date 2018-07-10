@@ -10,24 +10,24 @@ public class CreateMessagePage extends AbstractMessagePage {
     private static final By buttonCreate = By.id("create");
     private static final By pageTitle = By.tagName("h1");
 
-    public CreateMessagePage(WebDriver webDriver) {
+    CreateMessagePage(WebDriver webDriver) {
         super(webDriver);
     }
 
-    public WebElement getPageTitle() {
+    private WebElement getPageTitle() {
         return findPageElement(pageTitle);
+    }
+
+    private WebElement getButtonCreate() {
+        return findPageElement(buttonCreate);
+    }
+
+    private void clickCreateButton() {
+        this.getButtonCreate().click();
     }
 
     public String checkPageTitle() {
         return this.getPageTitle().getText();
-    }
-
-    public WebElement getButtonCreate() {
-        return findPageElement(buttonCreate);
-    }
-
-    public void clickCreateButton() {
-        this.getButtonCreate().click();
     }
 
     public ShowMessagePage createMessage(Message message, Boolean save) {

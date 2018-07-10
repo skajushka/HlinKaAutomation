@@ -12,8 +12,7 @@ public class StartPage extends AbstractPage {
         super(webDriver);
     }
 
-
-    public WebElement getUserControllerLink() {
+    private WebElement getUserControllerLink() {
         return findPageElement(userControllerLink);
     }
 

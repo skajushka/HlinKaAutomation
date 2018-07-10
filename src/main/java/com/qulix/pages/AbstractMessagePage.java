@@ -11,37 +11,37 @@ public abstract class AbstractMessagePage extends AbstractPage {
     private static final By messageHeadline = By.id("headline");
     private static final By messageText = By.id("text");
 
-    public AbstractMessagePage(WebDriver webDriver) {
+    protected AbstractMessagePage(WebDriver webDriver) {
         super(webDriver);
     }
 
-    public WebElement getTabToMessagesList() {
+    private WebElement getTabToMessagesList() {
         return findPageElement(tabToMessagesList);
     }
 
-    public ListMessagesPage clickTabToMessagesList() {
-        this.getTabToMessagesList().click();
-        return new ListMessagesPage(webDriver);
-    }
-
-    public WebElement editHeadline() {
+    protected WebElement editHeadline() {
         return findPageElement(messageHeadline);
     }
 
-    public WebElement editText() {
+    protected WebElement editText() {
         return findPageElement(messageText);
     }
 
-    public WebElement getMessageHeadline() {
+    protected WebElement getMessageHeadline() {
         return findPageElement(messageHeadline);
     }
 
-    public WebElement getMessageText() {
+    protected WebElement getMessageText() {
         return findPageElement(messageText);
     }
 
     public void populateMessageFields(Message message){
         editHeadline().sendKeys(message.getHeadline());
         editText().sendKeys(message.getText());
+    }
+
+    public ListMessagesPage clickTabToMessagesList() {
+        this.getTabToMessagesList().click();
+        return new ListMessagesPage(webDriver);
     }
 }

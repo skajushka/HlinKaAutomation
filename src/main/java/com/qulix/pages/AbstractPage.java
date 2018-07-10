@@ -8,7 +8,7 @@ public abstract class AbstractPage {
 
     protected final WebDriver webDriver;
 
-    public AbstractPage(WebDriver webDriver) {
+    AbstractPage(WebDriver webDriver) {
         this.webDriver = webDriver;
     }
 

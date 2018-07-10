@@ -10,11 +10,11 @@ public class LoginPage extends AbstractPage {
     private static final By passwordField = By.id("password");
     private static final By buttonLogin = By.xpath("//input[@class='save']");
 
-    public LoginPage(WebDriver webDriver) {
+    LoginPage(WebDriver webDriver) {
         super(webDriver);
     }
 
-    public WebElement getLoginField() {
+    private WebElement getLoginField() {
         return findPageElement(loginField);
     }
 
@@ -22,7 +22,7 @@ public class LoginPage extends AbstractPage {
         return this.getLoginField().isDisplayed();
     }
 
-    public WebElement getPasswordField() {
+    private WebElement getPasswordField() {
         return findPageElement(passwordField);
     }
 
@@ -30,7 +30,7 @@ public class LoginPage extends AbstractPage {
         return this.getPasswordField().isDisplayed();
     }
 
-    public WebElement getButtonLogin() {
+    private WebElement getButtonLogin() {
         return findPageElement(buttonLogin);
     }
 
@@ -38,7 +38,7 @@ public class LoginPage extends AbstractPage {
         return this.getButtonLogin().isDisplayed();
     }
 
-    public void clickLoginButton() {
+    private void clickLoginButton() {
         this.getButtonLogin().click();
     }
 

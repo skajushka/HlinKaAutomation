@@ -20,11 +20,11 @@ public class ListMessagesPage extends AbstractPage {
     private static final By lastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()-1]");
     private static final By preLastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()]");
 
-    public ListMessagesPage(WebDriver webDriver) {
+    ListMessagesPage(WebDriver webDriver) {
         super(webDriver);
     }
 
-    public WebElement getNewMessageTab() {
+    private WebElement getNewMessageTab() {
         return findPageElement(newMessageTab);
     }
 
@@ -33,7 +33,7 @@ public class ListMessagesPage extends AbstractPage {
         return new CreateMessagePage(webDriver);
     }
 
-    public WebElement getAllUsersMessagesCheckbox() {
+    private WebElement getAllUsersMessagesCheckbox() {
         return findPageElement(allUsersMessagesOption);
     }
 
@@ -41,7 +41,7 @@ public class ListMessagesPage extends AbstractPage {
         this.getAllUsersMessagesCheckbox().click();
     }
 
-    public WebElement getLastPaginationButton() {
+    private WebElement getLastPaginationButton() {
         return findPageElement(lastTablePageButton);
     }
 
@@ -49,11 +49,11 @@ public class ListMessagesPage extends AbstractPage {
         getLastPaginationButton().click();
     }
 
-    public void goToPreLastPage() {
+    private void goToPreLastPage() {
         findPageElement(preLastTablePageButton).click();
     }
 
-    public WebElement getLastTableRow() {
+    private WebElement getLastTableRow() {
         return findPageElement(lastTableRow);
     }
 
@@ -61,7 +61,7 @@ public class ListMessagesPage extends AbstractPage {
         return this.getLastTableRow().getText();
     }
 
-    public WebElement getBeforeTheLastTableRow() {
+    private WebElement getBeforeTheLastTableRow() {
         try {
             return findPageElement(beforeLastTableRow);
         } catch(java.util.NoSuchElementException e) {
@@ -74,7 +74,7 @@ public class ListMessagesPage extends AbstractPage {
         return this.getBeforeTheLastTableRow().getText();
     }
 
-    public WebElement getPageTitle() {
+    private WebElement getPageTitle() {
         return findPageElement(pageTitle);
     }
 
@@ -82,7 +82,7 @@ public class ListMessagesPage extends AbstractPage {
         return this.getPageTitle().getText();
     }
 
-    public WebElement getLastRowEditButton() {
+    private WebElement getLastRowEditButton() {
         WebElement expectedLastTableRow = findPageElement(lastTableRow);
         return expectedLastTableRow.findElement(editButton);
     }
@@ -92,7 +92,7 @@ public class ListMessagesPage extends AbstractPage {
         return new EditMessagePage(webDriver);
     }
 
-    public WebElement getLastRowViewButton() {
+    private WebElement getLastRowViewButton() {
         WebElement expectedLastTableRow = findPageElement(lastTableRow);
         return expectedLastTableRow.findElement(viewButton);
     }
@@ -102,7 +102,7 @@ public class ListMessagesPage extends AbstractPage {
         return new ShowMessagePage(webDriver);
     }
 
-    public WebElement getLastRowDeleteButton() {
+    private WebElement getLastRowDeleteButton() {
         WebElement expectedLastTableRow = findPageElement(lastTableRow);
         return expectedLastTableRow.findElement(deleteButton);
     }
@@ -115,7 +115,7 @@ public class ListMessagesPage extends AbstractPage {
         return findPageElement(lastTableRow).findElement(lastRowMessageCreationDate);
     }
 
-    public WebElement getLogoutButton() {
+    private WebElement getLogoutButton() {
         return findPageElement(logoutButton);
     }
 
@@ -124,7 +124,7 @@ public class ListMessagesPage extends AbstractPage {
         return new LoginPage(webDriver);
     }
 
-    public WebElement getUserGreeting() {
+    private WebElement getUserGreeting() {
         return findPageElement(userGreeting);
     }
 

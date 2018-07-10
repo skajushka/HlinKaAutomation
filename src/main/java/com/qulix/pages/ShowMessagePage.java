@@ -12,25 +12,29 @@ public class ShowMessagePage extends AbstractPage {
     private static final By messageText = By.xpath("//td[contains(text(),'Text')]/following-sibling::td");
     private static final By tabToNewMessage = By.linkText("New Message");
 
-    public ShowMessagePage(WebDriver webDriver) {
+    ShowMessagePage(WebDriver webDriver) {
         super(webDriver);
     }
 
-    public WebElement getPageTitle() {
+    private WebElement getPageTitle() {
         return findPageElement(pageTitle);
     }
 
-    public String checkPageTitle() {
-        return this.getPageTitle().getText();
+    private WebElement getTabToMessagesList() {
+        return findPageElement(tabToMessagesList);
     }
 
-    public WebElement getTabToMessagesList() {
-        return findPageElement(tabToMessagesList);
+    private WebElement getTabToNewMessagePage() {
+        return findPageElement(tabToNewMessage);
     }
 
     public ListMessagesPage clickTabToMessagesList() {
         getTabToMessagesList().click();
         return new ListMessagesPage(webDriver);
+    }
+
+    public String checkPageTitle() {
+        return this.getPageTitle().getText();
     }
 
     public WebElement getMessageHeadline() {
@@ -47,10 +51,6 @@ public class ShowMessagePage extends AbstractPage {
 
     public String getTextOfMessageBody() {
         return this.getMessageText().getText();
-    }
-
-    public WebElement getTabToNewMessagePage() {
-        return findPageElement(tabToNewMessage);
     }
 
     public CreateMessagePage clickTabToNewMessagePage() {
