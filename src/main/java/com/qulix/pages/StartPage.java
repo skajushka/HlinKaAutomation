@@ -4,28 +4,25 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class StartPage extends BasePage {
+public class StartPage extends AbstractPage {
 
-    private static final String linkURL = "http://localhost:8080/QulixTeachingSite";
     private static final By userControllerLink = By.linkText("qulixteachingsite.UserController");
 
     public StartPage(WebDriver webDriver) {
         super(webDriver);
     }
 
-     public String getLinkURL() {
-         return linkURL;
-    }
 
     public WebElement getUserControllerLink() {
         return findPageElement(userControllerLink);
     }
 
-    public void clickOnUserControllerLink() {
-        this.getUserControllerLink().click();
+    public LoginPage clickOnUserControllerLink() {
+        getUserControllerLink().click();
+        return new LoginPage(webDriver);
     }
 
     public boolean checkIfUserControllerLinkIsPresent() {
-        return this.getUserControllerLink().isDisplayed();
+        return getUserControllerLink().isDisplayed();
     }
 }

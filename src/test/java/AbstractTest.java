@@ -3,11 +3,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 
 public abstract class AbstractTest {
 
     protected WebDriver webDriver;
+    private static final String LINK_URL = "http://localhost:8080/QulixTeachingSite";
 
     @BeforeClass
     public static void setupDriver() {
@@ -20,11 +20,10 @@ public abstract class AbstractTest {
         }
     }
 
-    @BeforeMethod
-    public void openWebsite() {
+    public StartPage openWebsite() {
         webDriver = new ChromeDriver();
-        StartPage startPage = new StartPage(webDriver);
-        webDriver.get(startPage.getLinkURL());
+        webDriver.get(LINK_URL);
+        return new StartPage(webDriver);
     }
 
     @AfterMethod

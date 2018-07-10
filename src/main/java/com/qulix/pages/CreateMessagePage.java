@@ -1,13 +1,14 @@
 package com.qulix.pages;
 
+import com.qulix.message.Message;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class CreateMessagePage extends AbstractMessagePage {
 
-    private final By buttonCreate = By.id("create");
-    private final By pageTitle = By.tagName("h1");
+    private static final By buttonCreate = By.id("create");
+    private static final By pageTitle = By.tagName("h1");
 
     public CreateMessagePage(WebDriver webDriver) {
         super(webDriver);
@@ -27,5 +28,19 @@ public class CreateMessagePage extends AbstractMessagePage {
 
     public void clickCreateButton() {
         this.getButtonCreate().click();
+    }
+
+    public ShowMessagePage createMessage(Message message, Boolean save) {
+        populateMessageFields(message);
+
+        if (save) {
+            clickCreateButton();
+        }
+
+        return new ShowMessagePage(webDriver);
+    }
+
+    public ShowMessagePage createMessage(Message message) {
+        return createMessage(message, Boolean.TRUE);
     }
 }

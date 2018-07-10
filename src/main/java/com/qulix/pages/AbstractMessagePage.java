@@ -5,11 +5,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class AbstractMessagePage extends BasePage {
+public abstract class AbstractMessagePage extends AbstractPage {
 
-    private final By tabToMessagesList = By.linkText("Message List");
-    private final By messageHeadline = By.id("headline");
-    private final By messageText = By.id("text");
+    private static final By tabToMessagesList = By.linkText("Message List");
+    private static final By messageHeadline = By.id("headline");
+    private static final By messageText = By.id("text");
 
     public AbstractMessagePage(WebDriver webDriver) {
         super(webDriver);
@@ -19,8 +19,9 @@ public class AbstractMessagePage extends BasePage {
         return findPageElement(tabToMessagesList);
     }
 
-    public void clickTabToMessagesList() {
+    public ListMessagesPage clickTabToMessagesList() {
         this.getTabToMessagesList().click();
+        return new ListMessagesPage(webDriver);
     }
 
     public WebElement editHeadline() {
@@ -39,10 +40,8 @@ public class AbstractMessagePage extends BasePage {
         return findPageElement(messageText);
     }
 
-    public Message createMessage(String headline, String text){
-        Message message = new Message(headline, text);
+    public void populateMessageFields(Message message){
         editHeadline().sendKeys(message.getHeadline());
         editText().sendKeys(message.getText());
-        return message;
     }
 }

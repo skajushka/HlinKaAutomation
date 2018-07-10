@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 
 public class EditMessagePage extends AbstractMessagePage {
 
-    private final By saveButton = By.name("_action_save");
-    private final String messageAttributeName = "value";
+    private static final By saveButton = By.name("_action_save");
+    private static final String messageAttributeName = "value";
 
     public EditMessagePage(WebDriver webDriver) {
         super(webDriver);
@@ -26,17 +26,14 @@ public class EditMessagePage extends AbstractMessagePage {
         return findPageElement(saveButton);
     }
 
-    public void clickSaveButton() {
+    public ShowMessagePage submitEditedMessage() {
         this.getSaveButton().click();
+        return new ShowMessagePage(webDriver);
     }
 
-    @Override
-    public Message createMessage(String headline, String text){
-        Message message = new Message(headline, text);
+    public void editMessage(Message message) {
         editHeadline().clear();
-        editHeadline().sendKeys(message.getHeadline());
         editText().clear();
-        editText().sendKeys(message.getText());
-        return message;
+        populateMessageFields(message);
     }
 }

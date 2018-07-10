@@ -4,13 +4,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class ShowMessagePage extends BasePage {
+public class ShowMessagePage extends AbstractPage {
 
-    private final By tabToMessagesList = By.linkText("Message List");
-    private final By pageTitle = By.tagName("h1");
-    private final By messageHeadline = By.xpath("//td[contains(text(),'Headline')]/following-sibling::td");
-    private final By messageText = By.xpath("//td[contains(text(),'Text')]/following-sibling::td");
-    private final By tabToNewMessage = By.linkText("New Message");
+    private static final By tabToMessagesList = By.linkText("Message List");
+    private static final By pageTitle = By.tagName("h1");
+    private static final By messageHeadline = By.xpath("//td[contains(text(),'Headline')]/following-sibling::td");
+    private static final By messageText = By.xpath("//td[contains(text(),'Text')]/following-sibling::td");
+    private static final By tabToNewMessage = By.linkText("New Message");
 
     public ShowMessagePage(WebDriver webDriver) {
         super(webDriver);
@@ -28,8 +28,9 @@ public class ShowMessagePage extends BasePage {
         return findPageElement(tabToMessagesList);
     }
 
-    public void clickTabToMessagesList() {
-        this.getTabToMessagesList().click();
+    public ListMessagesPage clickTabToMessagesList() {
+        getTabToMessagesList().click();
+        return new ListMessagesPage(webDriver);
     }
 
     public WebElement getMessageHeadline() {
@@ -52,7 +53,8 @@ public class ShowMessagePage extends BasePage {
         return findPageElement(tabToNewMessage);
     }
 
-    public void clickTabToNewMessagePage() {
+    public CreateMessagePage clickTabToNewMessagePage() {
         this.getTabToNewMessagePage().click();
+        return new CreateMessagePage(webDriver);
     }
 }

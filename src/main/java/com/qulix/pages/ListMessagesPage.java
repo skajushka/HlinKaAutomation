@@ -3,25 +3,22 @@ package com.qulix.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.NoSuchElementException;
 
-import java.util.*;
+public class ListMessagesPage extends AbstractPage {
 
-public class ListMessagesPage extends BasePage {
-
-    private final By pageTitle = By.tagName("h1");
-    private final By userGreeting = By.className("message");
-    private final By newMessageTab = By.linkText("New Message");
-    private final By allUsersMessagesOption = By.name("allUsers");
-    private final By lastTableRow = By.xpath("//table/tbody/tr[last()]");
-    private final By beforeLastTableRow = By.xpath("//table/tbody/preceding::tr[last()]");
-    private final By viewButton = By.linkText("View");
-    private final By editButton = By.linkText("Edit");
-    private final By deleteButton = By.linkText("Delete");
-    private final By lastRowMessageCreationDate = By.xpath("//table/tbody/tr[last()]/td[5]");
-    private final By logoutButton = By.linkText("Logout");
-    private final By lastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()-1]");
-    private final By preLastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()]");
+    private static final By pageTitle = By.tagName("h1");
+    private static final By userGreeting = By.className("message");
+    private static final By newMessageTab = By.linkText("New Message");
+    private static final By allUsersMessagesOption = By.name("allUsers");
+    private static final By lastTableRow = By.xpath("//table/tbody/tr[last()]");
+    private static final By beforeLastTableRow = By.xpath("//table/tbody/preceding::tr[last()]");
+    private static final By viewButton = By.linkText("View");
+    private static final By editButton = By.linkText("Edit");
+    private static final By deleteButton = By.linkText("Delete");
+    private static final By lastRowMessageCreationDate = By.xpath("//table/tbody/tr[last()]/td[5]");
+    private static final By logoutButton = By.linkText("Logout");
+    private static final By lastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()-1]");
+    private static final By preLastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()]");
 
     public ListMessagesPage(WebDriver webDriver) {
         super(webDriver);
@@ -31,8 +28,9 @@ public class ListMessagesPage extends BasePage {
         return findPageElement(newMessageTab);
     }
 
-    public void clickNewMessageTab() {
-        this.getNewMessageTab().click();
+    public CreateMessagePage clickNewMessageTab() {
+        getNewMessageTab().click();
+        return new CreateMessagePage(webDriver);
     }
 
     public WebElement getAllUsersMessagesCheckbox() {
@@ -48,7 +46,7 @@ public class ListMessagesPage extends BasePage {
     }
 
     public void clickLastPaginationButton() {
-        this.getLastPaginationButton().click();
+        getLastPaginationButton().click();
     }
 
     public void goToPreLastPage() {
@@ -89,8 +87,9 @@ public class ListMessagesPage extends BasePage {
         return expectedLastTableRow.findElement(editButton);
     }
 
-    public void clickLastRowEditButton() {
-        this.getLastRowEditButton().click();
+    public EditMessagePage clickLastRowEditButton() {
+        getLastRowEditButton().click();
+        return new EditMessagePage(webDriver);
     }
 
     public WebElement getLastRowViewButton() {
@@ -98,8 +97,9 @@ public class ListMessagesPage extends BasePage {
         return expectedLastTableRow.findElement(viewButton);
     }
 
-    public void clickLastRowViewButton() {
-        this.getLastRowViewButton().click();
+    public ShowMessagePage clickLastRowViewButton() {
+        getLastRowViewButton().click();
+        return new ShowMessagePage(webDriver);
     }
 
     public WebElement getLastRowDeleteButton() {
@@ -119,8 +119,9 @@ public class ListMessagesPage extends BasePage {
         return findPageElement(logoutButton);
     }
 
-    public void clickLogoutButton() {
-        this.getLogoutButton().click();
+    public LoginPage clickLogoutButton() {
+        getLogoutButton().click();
+        return new LoginPage(webDriver);
     }
 
     public WebElement getUserGreeting() {

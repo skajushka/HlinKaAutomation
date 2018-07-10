@@ -8,12 +8,10 @@ import static org.testng.Assert.*;
 public class LoginTest extends AbstractTest {
 
     private StartPage startPage;
-    private LoginPage loginPage;
 
     @BeforeMethod
-    public void initPages() {
-        startPage = new StartPage(webDriver);
-        loginPage = new LoginPage(webDriver);
+    public void setup() {
+        startPage = openWebsite();
     }
 
     @Test
@@ -23,7 +21,7 @@ public class LoginTest extends AbstractTest {
 
     @Test
     public void loginPageOpenedTest() {
-        startPage.clickOnUserControllerLink();
+        LoginPage loginPage = startPage.clickOnUserControllerLink();
 
         assertTrue(loginPage.checkIfLoginFieldIsPresent());
         assertTrue(loginPage.checkIfPasswordFieldIsPresent());

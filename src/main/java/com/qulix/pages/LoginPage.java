@@ -4,11 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class LoginPage extends BasePage {
+public class LoginPage extends AbstractPage {
 
-    private final By loginField = By.id("login");
-    private final By passwordField = By.id("password");
-    private final By buttonLogin = By.xpath("//input[@class='save']");
+    private static final By loginField = By.id("login");
+    private static final By passwordField = By.id("password");
+    private static final By buttonLogin = By.xpath("//input[@class='save']");
 
     public LoginPage(WebDriver webDriver) {
         super(webDriver);
@@ -42,12 +42,12 @@ public class LoginPage extends BasePage {
         this.getButtonLogin().click();
     }
 
-    public void login(String login, String password) { //TODO: не void - почему?
-
+    public ListMessagesPage login(String login, String password) {
         this.getLoginField().clear();
         this.getLoginField().sendKeys(login);
         this.getPasswordField().clear();
         this.getPasswordField().sendKeys(password);
         clickLoginButton();
+        return new ListMessagesPage(webDriver);
     }
 }
