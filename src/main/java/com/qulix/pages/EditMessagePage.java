@@ -32,7 +32,7 @@ public class EditMessagePage extends AbstractMessagePage {
     }
 
     public void editMessage(Message message) {
-        editHeadline().clear();
+        editHeadline().clear(); //todo заполнение полей ввода всегда предполагает затирание текущего значение, потому clear должно делаться в populate
         editText().clear();
         populateMessageFields(message);
     }

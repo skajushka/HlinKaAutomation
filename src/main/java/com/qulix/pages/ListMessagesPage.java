@@ -15,8 +15,10 @@ public class ListMessagesPage extends AbstractPage {
     private static final By viewButton = By.linkText("View");
     private static final By editButton = By.linkText("Edit");
     private static final By deleteButton = By.linkText("Delete");
+
     private static final By lastRowMessageCreationDate = By.xpath("//table/tbody/tr[last()]/td[5]");
     private static final By logoutButton = By.linkText("Logout");
+    //todo last и pre перепутаны по-моему
     private static final By lastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()-1]");
     private static final By preLastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()]");
 
@@ -64,7 +66,7 @@ public class ListMessagesPage extends AbstractPage {
     private WebElement getBeforeTheLastTableRow() {
         try {
             return findPageElement(beforeLastTableRow);
-        } catch(java.util.NoSuchElementException e) {
+        } catch(java.util.NoSuchElementException e) {//todo не то исключение перехватываешь
             this.goToPreLastPage();
             return this.getLastTableRow();
         }

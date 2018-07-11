@@ -76,8 +76,16 @@ public class MessageTest extends AbstractTest {
             listMessagesPage.clickLastPaginationButton();
         } catch (NullPointerException e) {
             //do nothing
+            //todo откуда возьмется NPE? почему do nothing?
+            //todo Это ко всем таким кейсам ниже
         }
-
+//TODO Почему вы все считаете, что проверять надо последнюю строку? В тексте кейса что-то говорится про последнюю строку?
+        //TODO Это применимо ко всем тестам ниже
+        //TODO Реализация должна быть вида: assertTrue(listMessagesPage.messageExists(message))
+        //TODO listMessagesPage.viewMessage(message)
+        //TODO listMessagesPage.editMessage(message)
+        //TODO listMessagesPage.editMessage(message)
+        //TODO Никаких привязок к порядковому номеру
         assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(adminMessage.getHeadline()));
         assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(adminMessage.getText()));
     }
