@@ -10,6 +10,7 @@ public abstract class AbstractMessagePage extends AbstractPage {
     private static final By tabToMessagesList = By.linkText("Message List");
     private static final By messageHeadline = By.id("headline");
     private static final By messageText = By.id("text");
+    private static final By submitButton = By.className("save");
 
     protected AbstractMessagePage(WebDriver webDriver) {
         super(webDriver);
@@ -35,8 +36,18 @@ public abstract class AbstractMessagePage extends AbstractPage {
         return findPageElement(messageText);
     }
 
+    protected WebElement getSubmitButton() {
+        return findPageElement(submitButton);
+    }
+
+    protected void clickSubmitButton() {
+        this.getSubmitButton().click();
+    }
+
     public void populateMessageFields(Message message){
+        editHeadline().clear();
         editHeadline().sendKeys(message.getHeadline());
+        editText().clear();
         editText().sendKeys(message.getText());
     }
 

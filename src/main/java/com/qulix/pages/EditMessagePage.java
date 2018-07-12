@@ -30,10 +30,4 @@ public class EditMessagePage extends AbstractMessagePage {
         this.getSaveButton().click();
         return new ShowMessagePage(webDriver);
     }
-
-    public void editMessage(Message message) {
-        editHeadline().clear(); //todo заполнение полей ввода всегда предполагает затирание текущего значение, потому clear должно делаться в populate
-        editText().clear();
-        populateMessageFields(message);
-    }
 }

@@ -152,7 +152,7 @@ public class MessageTest extends AbstractTest {
         assertTrue(editMessagePage.getTextOfMessageHeadline().contains(adminMessage.getHeadline()));
         assertTrue(editMessagePage.getTextOfMessageBody().contains(adminMessage.getText()));
 
-        editMessagePage.editMessage(editedMessage);
+        editMessagePage.populateMessageFields(editedMessage);
         assertTrue(editMessagePage.getTextOfMessageHeadline().contains(editedMessage.getHeadline()));
         assertTrue(editMessagePage.getTextOfMessageBody().contains(editedMessage.getText()));
 

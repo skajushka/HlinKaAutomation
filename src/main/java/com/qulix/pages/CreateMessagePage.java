@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 
 public class CreateMessagePage extends AbstractMessagePage {
 
-    private static final By buttonCreate = By.id("create");
     private static final By pageTitle = By.tagName("h1");
 
     CreateMessagePage(WebDriver webDriver) {
@@ -18,14 +17,6 @@ public class CreateMessagePage extends AbstractMessagePage {
         return findPageElement(pageTitle);
     }
 
-    private WebElement getButtonCreate() {
-        return findPageElement(buttonCreate);
-    }
-
-    private void clickCreateButton() {
-        this.getButtonCreate().click();
-    }
-
     public String checkPageTitle() {
         return this.getPageTitle().getText();
     }
@@ -34,7 +25,7 @@ public class CreateMessagePage extends AbstractMessagePage {
         populateMessageFields(message);
 
         if (save) {
-            clickCreateButton();
+            clickSubmitButton();
         }
 
         return new ShowMessagePage(webDriver);
