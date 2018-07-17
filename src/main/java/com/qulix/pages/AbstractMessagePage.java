@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.Date;
+
 public abstract class AbstractMessagePage extends AbstractPage {
 
     private static final By tabToMessagesList = By.linkText("Message List");
@@ -55,4 +57,20 @@ public abstract class AbstractMessagePage extends AbstractPage {
         this.getTabToMessagesList().click();
         return new ListMessagesPage(webDriver);
     }
+
+    public String generateUniqueString() {
+        return new Date().getTime() + "_" + System.getenv("COMPUTERNAME");
+    }
+
+    public Boolean checkTheMessageViewed(Message message) {
+
+        Boolean result = false;
+
+        if ((webDriver.getPageSource().contains(message.getHeadline())) && (webDriver.getPageSource().contains(message.getText()))) {
+            result = true;
+        }
+
+        return result;
+    }
+
 }

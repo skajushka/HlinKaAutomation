@@ -1,5 +1,6 @@
 package com.qulix.pages;
 
+import com.qulix.message.Message;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,8 +18,10 @@ public class ListMessagesPage extends AbstractPage {
     private static final By deleteButton = By.linkText("Delete");
     private static final By lastRowMessageCreationDate = By.xpath("//table/tbody/tr[last()]/td[5]");
     private static final By logoutButton = By.linkText("Logout");
-    private static final By lastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()]");
-    private static final By preLastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()-1]");
+    private static final By lastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()-1]");
+    private static final By preLastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()]");
+    private static final String ADMIN_USER_NAME = "Administrator";
+    private static final String SECOND_USER_NAME = "John Doe";
 
     ListMessagesPage(WebDriver webDriver) {
         super(webDriver);
@@ -130,5 +133,15 @@ public class ListMessagesPage extends AbstractPage {
 
     public String checkTextOfUserGreeting() {
         return this.getUserGreeting().getText();
+    }
+
+    public Boolean checkIfMessageExists(Message message) {
+        Boolean result = false;
+
+        if ((webDriver.getPageSource().contains(message.getHeadline())) && (webDriver.getPageSource().contains(message.getText()))) {
+            result = true;
+        }
+
+        return result;
     }
 }

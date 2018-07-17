@@ -1,5 +1,6 @@
 package com.qulix.pages;
 
+import com.qulix.message.Message;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -56,5 +57,16 @@ public class ShowMessagePage extends AbstractPage {
     public CreateMessagePage clickTabToNewMessagePage() {
         this.getTabToNewMessagePage().click();
         return new CreateMessagePage(webDriver);
+    }
+
+    public Boolean checkTheMessageViewed(Message message) {
+
+        Boolean result = false;
+
+        if ((webDriver.getPageSource().contains(message.getHeadline())) && (webDriver.getPageSource().contains(message.getText()))) {
+            result = true;
+        }
+
+        return result;
     }
 }

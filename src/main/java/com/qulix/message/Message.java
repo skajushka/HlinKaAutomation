@@ -17,4 +17,10 @@ public class Message {
     public String getText() {
         return text;
     }
+
+    public String toString() {
+        String result = headline + " " + text;
+        return result;
+    } // to delete!
+
 }
