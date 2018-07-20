@@ -38,19 +38,19 @@ public class ShowMessagePage extends AbstractPage {
         return this.getPageTitle().getText();
     }
 
-    public WebElement getMessageHeadline() {
+    private WebElement getMessageHeadline() {
         return findPageElement(messageHeadline);
     }
 
-    public String getTextOfMessageHeadline() {
+    private String getTextOfMessageHeadline() {
         return this.getMessageHeadline().getText();
     }
 
-    public WebElement getMessageText() {
+    private WebElement getMessageText() {
         return findPageElement(messageText);
     }
 
-    public String getTextOfMessageBody() {
+    private String getTextOfMessageBody() {
         return this.getMessageText().getText();
     }
 
@@ -60,13 +60,7 @@ public class ShowMessagePage extends AbstractPage {
     }
 
     public Boolean checkTheMessageViewed(Message message) {
-
-        Boolean result = false;
-
-        if ((webDriver.getPageSource().contains(message.getHeadline())) && (webDriver.getPageSource().contains(message.getText()))) {
-            result = true;
-        }
-
-        return result;
+        return(getTextOfMessageHeadline().equals(message.getHeadline())&&getTextOfMessageBody().equals(message.getText()));
     }
 }
+

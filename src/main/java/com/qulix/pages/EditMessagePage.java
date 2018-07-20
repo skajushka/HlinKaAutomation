@@ -14,11 +14,11 @@ public class EditMessagePage extends AbstractMessagePage {
         super(webDriver);
     }
 
-    public String getTextOfMessageHeadline() {
+    private String getTextOfMessageHeadline() {
         return this.getMessageHeadline().getAttribute(messageAttributeName);
     }
 
-    public String getTextOfMessageBody() {
+    private String getTextOfMessageBody() {
         return this.getMessageText().getAttribute(messageAttributeName);
     }
 
@@ -29,5 +29,9 @@ public class EditMessagePage extends AbstractMessagePage {
     public ShowMessagePage submitEditedMessage() {
         this.getSaveButton().click();
         return new ShowMessagePage(webDriver);
+    }
+
+    public Boolean checkTheMessageOpened(Message message) {
+        return(getTextOfMessageHeadline().equals(message.getHeadline())&&getTextOfMessageBody().equals(message.getText()));
     }
 }

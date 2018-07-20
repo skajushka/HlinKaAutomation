@@ -48,22 +48,18 @@ public class MessageTest extends AbstractTest {
 
         String headline = createMessagePage.generateUniqueString();
         String text = createMessagePage.generateUniqueString();
-        Message message = new Message(headline, text);
+        String userName = messages.getProperty(ADMIN_USER_NAME);
+        Message message = new Message(headline, text, userName);
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(message);
 
         assertEquals(showMessagePage.checkPageTitle(), messages.getProperty(SHOW_MESSAGE_PAGE_TITLE));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.selectAllUsersMessagesCheckbox(); //row to delete!
+        listMessagesPage.clickAllUsersMessagesCheckbox(); //row to delete!
 
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-            //todo откуда возьмется NPE? почему do nothing?
-            //todo Это ко всем таким кейсам ниже
-        }
+        listMessagesPage.clickLastPaginationButton();
+
         //TODO Почему вы все считаете, что проверять надо последнюю строку? В тексте кейса что-то говорится про последнюю строку?
         //TODO Это применимо ко всем тестам ниже
         //TODO Реализация должна быть вида: assertTrue(listMessagesPage.messageExists(message))
@@ -84,33 +80,26 @@ public class MessageTest extends AbstractTest {
 
         String headline = createMessagePage.generateUniqueString();
         String text = createMessagePage.generateUniqueString();
-        Message message = new Message(headline, text);
+        String userName = messages.getProperty(ADMIN_USER_NAME);
+        Message message = new Message(headline, text, userName);
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(message);
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.selectAllUsersMessagesCheckbox(); //row to delete!
+        listMessagesPage.clickAllUsersMessagesCheckbox(); //row to delete!
 
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
+        listMessagesPage.clickLastPaginationButton();
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
 
-        listMessagesPage.clickLastRowViewButton();
+        listMessagesPage.clickViewButtonInCertainRow(message);
         assertTrue(showMessagePage.checkTheMessageViewed(message));
 
         showMessagePage.clickTabToMessagesList();
 
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
+        listMessagesPage.clickLastPaginationButton();
 
-       assertTrue(listMessagesPage.checkIfMessageExists(message));
+        assertTrue(listMessagesPage.checkIfMessageExists(message));
     }
 
     @Test
@@ -122,30 +111,26 @@ public class MessageTest extends AbstractTest {
 
         String headline = createMessagePage.generateUniqueString();
         String text = createMessagePage.generateUniqueString();
-        Message message = new Message(headline, text);
+        String userName = messages.getProperty(ADMIN_USER_NAME);
+        Message message = new Message(headline, text, userName);
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(message);
 
         assertTrue(showMessagePage.checkTheMessageViewed(message));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.selectAllUsersMessagesCheckbox(); //row to delete!
-
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
+        listMessagesPage.clickAllUsersMessagesCheckbox(); //row to delete!
+        listMessagesPage.clickLastPaginationButton();
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
 
-        EditMessagePage editMessagePage = listMessagesPage.clickLastRowEditButton();
+        EditMessagePage editMessagePage = listMessagesPage.clickEditButtonInCertainRow(message);
 
-        assertTrue(editMessagePage.checkTheMessageViewed(message));
+        assertTrue(editMessagePage.checkTheMessageOpened(message));
 
         String editedHeadline = createMessagePage.generateUniqueString();
         String editedText = createMessagePage.generateUniqueString();
-        Message editedMessage = new Message(editedHeadline, editedText);
+        Message editedMessage = new Message(editedHeadline, editedText, userName);
 
         editMessagePage.populateMessageFields(editedMessage);
         editMessagePage.submitEditedMessage();
@@ -153,12 +138,7 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(editedMessage));
 
         editMessagePage.clickTabToMessagesList();
-
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
+        listMessagesPage.clickLastPaginationButton();
 
         assertTrue(listMessagesPage.checkIfMessageExists(editedMessage));
     }
@@ -172,28 +152,22 @@ public class MessageTest extends AbstractTest {
 
         String headline = createMessagePage.generateUniqueString();
         String text = createMessagePage.generateUniqueString();
-
-        Message message = new Message(headline, text);
+        String userName = messages.getProperty(ADMIN_USER_NAME);
+        Message message = new Message(headline, text, userName);
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(message);
 
         assertTrue(showMessagePage.checkTheMessageViewed(message));
 
         showMessagePage.clickTabToMessagesList();
+        listMessagesPage.clickAllUsersMessagesCheckbox(); //row to delete!
 
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
+        listMessagesPage.clickLastPaginationButton();
 
-        listMessagesPage.clickLastRowDeleteButton();
+        assertTrue(listMessagesPage.checkIfMessageExists(message));
+        listMessagesPage.clickDeleteButtonInCertainRow(message);
 
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
+        listMessagesPage.clickLastPaginationButton();
 
         assertFalse(listMessagesPage.checkIfMessageExists(message));
     }
@@ -203,22 +177,17 @@ public class MessageTest extends AbstractTest {
     public void createMessageWithoutSavingTest(String login, String password) {
 
         ListMessagesPage listMessagesPage = startPage.clickOnUserControllerLink().login(login, password);
-
         CreateMessagePage createMessagePage = listMessagesPage.clickNewMessageTab();
 
         String headline = createMessagePage.generateUniqueString();
         String text = createMessagePage.generateUniqueString();
-
-        Message message = new Message(headline, text);
+        String userName = messages.getProperty(ADMIN_USER_NAME);
+        Message message = new Message(headline, text, userName);
 
         createMessagePage.createMessage(message, !CLICK_SAVE_BUTTON);
         createMessagePage.clickTabToMessagesList();
 
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
+        listMessagesPage.clickLastPaginationButton();
 
         assertFalse(listMessagesPage.checkIfMessageExists(message));
     }
@@ -232,8 +201,8 @@ public class MessageTest extends AbstractTest {
 
         String headline = createMessagePage.generateUniqueString();
         String text = createMessagePage.generateUniqueString();
-
-        Message firstMessage = new Message(headline, text);
+        String userName = messages.getProperty(ADMIN_USER_NAME);
+        Message firstMessage = new Message(headline, text, userName);
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(firstMessage);
 
@@ -244,22 +213,17 @@ public class MessageTest extends AbstractTest {
 
         String secondHeadline = createMessagePage.generateUniqueString();
         String secondText = createMessagePage.generateUniqueString();
-
-        Message secondMessage = new Message(secondHeadline, secondText);
+        Message secondMessage = new Message(secondHeadline, secondText, userName);
         createMessagePage.createMessage(secondMessage);
 
         assertTrue(showMessagePage.checkTheMessageViewed(secondMessage));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.selectAllUsersMessagesCheckbox(); //row to delete!
+        listMessagesPage.clickAllUsersMessagesCheckbox(); //row to delete!
 
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
+        listMessagesPage.clickLastPaginationButton();
 
-        assertTrue(listMessagesPage.checkIfMessageExists(firstMessage));
+        assertTrue(listMessagesPage.checkIfMessageExists(firstMessage)); // TODO: if on the last page there is no firstMessage, se should also check on previous page before failing
         assertTrue(listMessagesPage.checkIfMessageExists(secondMessage));
     }
 
@@ -272,34 +236,25 @@ public class MessageTest extends AbstractTest {
 
         String headline = createMessagePage.generateUniqueString();
         String text = createMessagePage.generateUniqueString();
-
-        Message firstUserMessage = new Message(headline, text);
+        String firstUserName = messages.getProperty(ADMIN_USER_NAME);
+        Message firstUserMessage = new Message(headline, text, firstUserName);
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(firstUserMessage);
 
         assertTrue(showMessagePage.checkTheMessageViewed(firstUserMessage));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.selectAllUsersMessagesCheckbox(); //row to delete!
 
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
+        listMessagesPage.clickLastPaginationButton();
 
         assertTrue(listMessagesPage.checkIfMessageExists(firstUserMessage));
 
-        listMessagesPage.clickLastRowViewButton();
+        listMessagesPage.clickViewButtonInCertainRow(firstUserMessage);
         assertTrue(showMessagePage.checkTheMessageViewed(firstUserMessage));
 
         showMessagePage.clickTabToMessagesList();
 
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
+        listMessagesPage.clickLastPaginationButton();
 
         assertTrue(listMessagesPage.checkIfMessageExists(firstUserMessage));
 
@@ -313,8 +268,8 @@ public class MessageTest extends AbstractTest {
 
         String secondHeadline = createMessagePage.generateUniqueString();
         String secondText = createMessagePage.generateUniqueString();
-
-        Message secondUserMessage = new Message(secondHeadline, secondText);
+        String secondUserName = messages.getProperty(SECOND_USER_NAME);
+        Message secondUserMessage = new Message(secondHeadline, secondText, secondUserName);
 
         listMessagesPage.clickNewMessageTab().createMessage(secondUserMessage);
 
@@ -323,11 +278,7 @@ public class MessageTest extends AbstractTest {
         showMessagePage.clickTabToMessagesList();
         assertEquals(listMessagesPage.checkPageTitle(), messages.getProperty(LIST_MESSAGES_PAGE_TITLE));
 
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
+        listMessagesPage.clickLastPaginationButton();
 
         assertTrue(listMessagesPage.checkIfMessageExists(secondUserMessage));
 
@@ -338,31 +289,15 @@ public class MessageTest extends AbstractTest {
         assertEquals(listMessagesPage.checkPageTitle(), messages.getProperty(LIST_MESSAGES_PAGE_TITLE));
         assertEquals(listMessagesPage.checkTextOfUserGreeting(), messages.getProperty(ADMIN_USER_GREETING));
 
-        listMessagesPage.selectAllUsersMessagesCheckbox();
+        listMessagesPage.clickAllUsersMessagesCheckbox();
+        listMessagesPage.clickLastPaginationButton();
 
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
-
-        assertTrue(listMessagesPage.checkIfMessageExists(firstUserMessage));
-        /*assertTrue(listMessagesPage.getTextOfBeforeTheLastTableRow().contains(messages.getProperty(ADMIN_USER_NAME)));*/
-
+        assertTrue(listMessagesPage.checkIfMessageExists(firstUserMessage)); // TODO: if on the last page there is no firstMessage, se should also check on previous page before failing
         assertTrue(listMessagesPage.checkIfMessageExists(secondUserMessage));
-        /*assertTrue(listMessagesPage.getTextOfTheLastTableRow().contains(messages.getProperty(SECOND_USER_NAME)));*/
 
-        try {
-            listMessagesPage.clickLastPaginationButton();
-        } catch (NullPointerException e) {
-            //do nothing
-        }
+        listMessagesPage.clickLastPaginationButton();
 
-        System.out.println(webDriver.getPageSource());
-
-        assertTrue(listMessagesPage.checkIfMessageExists(firstUserMessage));
+        assertTrue(listMessagesPage.checkIfMessageExists(firstUserMessage)); // TODO: if on the last page there is no firstMessage, se should also check on previous page before failing
         assertFalse(listMessagesPage.checkIfMessageExists(secondUserMessage));
-
-        /*assertFalse(listMessagesPage.getTextOfTheLastTableRow().contains(SECOND_USER_NAME));*/
     }
 }

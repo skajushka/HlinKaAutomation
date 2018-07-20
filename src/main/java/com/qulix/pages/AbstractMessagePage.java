@@ -61,16 +61,4 @@ public abstract class AbstractMessagePage extends AbstractPage {
     public String generateUniqueString() {
         return new Date().getTime() + "_" + System.getenv("COMPUTERNAME");
     }
-
-    public Boolean checkTheMessageViewed(Message message) {
-
-        Boolean result = false;
-
-        if ((webDriver.getPageSource().contains(message.getHeadline())) && (webDriver.getPageSource().contains(message.getText()))) {
-            result = true;
-        }
-
-        return result;
-    }
-
 }
