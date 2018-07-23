@@ -1,4 +1,5 @@
 import com.qulix.helpers.ResourceFactory;
+import com.qulix.logger.Log;
 import com.qulix.message.Message;
 import com.qulix.pages.*;
 
@@ -33,6 +34,7 @@ public class MessageTest extends AbstractTest {
 
     @BeforeMethod
     public void setup() {
+        Log.startLog("Test is starting.");
         startPage = openWebsite();
     }
 
@@ -59,14 +61,6 @@ public class MessageTest extends AbstractTest {
         listMessagesPage.clickAllUsersMessagesCheckbox(); //row to delete!
 
         listMessagesPage.clickLastPaginationButton();
-
-        //TODO Почему вы все считаете, что проверять надо последнюю строку? В тексте кейса что-то говорится про последнюю строку?
-        //TODO Это применимо ко всем тестам ниже
-        //TODO Реализация должна быть вида: assertTrue(listMessagesPage.messageExists(message))
-        //TODO listMessagesPage.viewMessage(message)
-        //TODO listMessagesPage.editMessage(message)
-        //TODO listMessagesPage.editMessage(message)
-        //TODO Никаких привязок к порядковому номеру
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
     }
@@ -223,7 +217,7 @@ public class MessageTest extends AbstractTest {
 
         listMessagesPage.clickLastPaginationButton();
 
-        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(firstMessage)); // TODO: if on the last page there is no firstMessage, se should also check on previous page before failing
+        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(firstMessage));
         assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(secondMessage));
     }
 
@@ -293,13 +287,13 @@ public class MessageTest extends AbstractTest {
         //listMessagesPage.clickAllUsersMessagesCheckbox();
         listMessagesPage.clickLastPaginationButton();
 
-        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(firstUserMessage)); // TODO: if on the last page there is no firstMessage, se should also check on previous page before failing
+        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(firstUserMessage));
         assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(secondUserMessage));
 
         listMessagesPage.clickAllUsersMessagesCheckbox(); //row to delete!
         listMessagesPage.clickLastPaginationButton();
 
-        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(firstUserMessage)); // TODO: if on the last page there is no firstMessage, se should also check on previous page before failing
+        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(firstUserMessage));
         assertFalse(listMessagesPage.checkIfMessageExistsOnThePage(secondUserMessage));
     }
 }
