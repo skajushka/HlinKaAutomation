@@ -55,19 +55,6 @@ public class ListMessagesPage extends AbstractPage {
         }
     }
 
-/*    private void goToPreLastPage() {
-        findPageElement(preLastTablePageButton).click();
-    }
-
-    private WebElement getBeforeTheLastTableRow() {
-        try {
-            return findPageElement(beforeLastTableRow);
-        } catch(java.util.NoSuchElementException e) {//todo не то исключение перехватываешь
-            this.goToPreLastPage();
-            return this.getLastTableRow();
-        }
-    }*/
-
     private WebElement getPageTitle() {
         return findPageElement(pageTitle);
     }
@@ -114,7 +101,8 @@ public class ListMessagesPage extends AbstractPage {
             } catch (NoSuchElementException e) {
                 //TODO: Log that no such row exists on the page
             }
-        } return null;
+        }
+        return null;
     }
 
     public EditMessagePage clickEditButtonInCertainRow(Message message) {
@@ -152,7 +140,28 @@ public class ListMessagesPage extends AbstractPage {
 
     public Boolean checkIfMessageExists(Message message) {
         WebElement tableRow = getRowWithMessage(message);
-        return (tableRow != null && tableRow.isDisplayed());
+        return tableRow != null && tableRow.isDisplayed();
+    }
+
+    public Boolean checkIfMessageExistsOnThePage (Message message) {
+
+        if(checkIfMessageExists(message)) {
+            return Boolean.TRUE;
+        }
+
+        goToPreLastPage();
+
+        if (checkIfMessageExists(message)) {
+            return Boolean.TRUE;
+        }
+
+        //TODO: log that message doesn't exist at all
+        return Boolean.FALSE;
+    }
+
+    public void goToPreLastPage() {
+        findPageElement(preLastTablePageButton).click();
     }
 }
+
 

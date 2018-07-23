@@ -223,8 +223,8 @@ public class MessageTest extends AbstractTest {
 
         listMessagesPage.clickLastPaginationButton();
 
-        assertTrue(listMessagesPage.checkIfMessageExists(firstMessage)); // TODO: if on the last page there is no firstMessage, se should also check on previous page before failing
-        assertTrue(listMessagesPage.checkIfMessageExists(secondMessage));
+        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(firstMessage)); // TODO: if on the last page there is no firstMessage, se should also check on previous page before failing
+        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(secondMessage));
     }
 
     @Test
@@ -244,6 +244,7 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(firstUserMessage));
 
         showMessagePage.clickTabToMessagesList();
+        listMessagesPage.clickAllUsersMessagesCheckbox(); //row to delete!
 
         listMessagesPage.clickLastPaginationButton();
 
@@ -289,15 +290,16 @@ public class MessageTest extends AbstractTest {
         assertEquals(listMessagesPage.checkPageTitle(), messages.getProperty(LIST_MESSAGES_PAGE_TITLE));
         assertEquals(listMessagesPage.checkTextOfUserGreeting(), messages.getProperty(ADMIN_USER_GREETING));
 
-        listMessagesPage.clickAllUsersMessagesCheckbox();
+        //listMessagesPage.clickAllUsersMessagesCheckbox();
         listMessagesPage.clickLastPaginationButton();
 
-        assertTrue(listMessagesPage.checkIfMessageExists(firstUserMessage)); // TODO: if on the last page there is no firstMessage, se should also check on previous page before failing
-        assertTrue(listMessagesPage.checkIfMessageExists(secondUserMessage));
+        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(firstUserMessage)); // TODO: if on the last page there is no firstMessage, se should also check on previous page before failing
+        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(secondUserMessage));
 
+        listMessagesPage.clickAllUsersMessagesCheckbox(); //row to delete!
         listMessagesPage.clickLastPaginationButton();
 
-        assertTrue(listMessagesPage.checkIfMessageExists(firstUserMessage)); // TODO: if on the last page there is no firstMessage, se should also check on previous page before failing
-        assertFalse(listMessagesPage.checkIfMessageExists(secondUserMessage));
+        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(firstUserMessage)); // TODO: if on the last page there is no firstMessage, se should also check on previous page before failing
+        assertFalse(listMessagesPage.checkIfMessageExistsOnThePage(secondUserMessage));
     }
 }
