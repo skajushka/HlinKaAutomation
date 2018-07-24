@@ -1,5 +1,4 @@
 import com.qulix.helpers.ResourceFactory;
-import com.qulix.logger.Log;
 import com.qulix.message.Message;
 import com.qulix.pages.*;
 
@@ -34,7 +33,6 @@ public class MessageTest extends AbstractTest {
 
     @BeforeMethod
     public void setup() {
-        Log.startLog("Test is starting.");
         startPage = openWebsite();
     }
 

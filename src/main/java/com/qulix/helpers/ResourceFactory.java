@@ -13,8 +13,9 @@ public class ResourceFactory {
 
         try(InputStream resourceStream = classloader.getResourceAsStream(resourcePath)) {
             properties.load(resourceStream);
-        } catch (IOException e) {
-            e.printStackTrace();//TODO Я же сказал не просто print
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
 
         return properties;

@@ -1,4 +1,3 @@
-import com.qulix.logger.Log;
 import com.qulix.pages.StartPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -27,9 +26,8 @@ public abstract class AbstractTest {
         return new StartPage(webDriver);
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        Log.endLog("Test is ending!");
         webDriver.quit();
     }
 }

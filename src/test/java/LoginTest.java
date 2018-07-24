@@ -1,4 +1,3 @@
-import com.qulix.logger.Log;
 import com.qulix.pages.LoginPage;
 import com.qulix.pages.StartPage;
 import org.testng.annotations.BeforeMethod;
@@ -12,7 +11,6 @@ public class LoginTest extends AbstractTest {
 
     @BeforeMethod
     public void setup() {
-        Log.startLog("Test is starting!");
         startPage = openWebsite();
     }
 
