@@ -20,6 +20,7 @@ public class ListMessagesPage extends AbstractPage {
     private static final By logoutButton = By.linkText("Logout");
     private static final By lastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()-1]");
     private static final By preLastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()]");
+    private static final String LIST_MESSAGES_PAGE_TITLE = "list.messages.page.title";
 
     ListMessagesPage(WebDriver webDriver) {
         super(webDriver);
@@ -50,8 +51,6 @@ public class ListMessagesPage extends AbstractPage {
         WebElement lastPageButton = getLastPaginationButton();
         if (lastPageButton != null && lastPageButton.isDisplayed()) {
             lastPageButton.click();
-        } else {
-            // TODO: log that the button was not found
         }
     }
 
@@ -59,8 +58,12 @@ public class ListMessagesPage extends AbstractPage {
         return findPageElement(pageTitle);
     }
 
-    public String checkPageTitle() {
+    private String checkPageTitle() {
         return this.getPageTitle().getText();
+    }
+
+    public Boolean verifyMessageListPageTitle() {
+        return checkPageTitle().equals(LIST_MESSAGES_PAGE_TITLE);
     }
 
     private WebElement getLogoutButton() {
@@ -76,11 +79,15 @@ public class ListMessagesPage extends AbstractPage {
         return findPageElement(userGreeting);
     }
 
-    public String checkTextOfUserGreeting() {
+    private String checkTextOfUserGreeting() {
         return this.getUserGreeting().getText();
     }
 
-    private WebElement getRowWithMessage(Message message) {
+    public Boolean verifyUserGreeting(String userName) {
+        return checkTextOfUserGreeting().contains(userName);
+    }
+
+    private WebElement getRowWithMessageOfCertainUser(Message message) {
 
         String messageText = message.getText();
         String messageHeadline = message.getHeadline();
@@ -105,13 +112,34 @@ public class ListMessagesPage extends AbstractPage {
         return null;
     }
 
+    private WebElement getRowWithMessage(Message message) {
+
+        String messageText = message.getText();
+        String messageHeadline = message.getHeadline();
+
+        List<WebElement> tableRows = webDriver.findElements(By.xpath("//tbody/tr"));
+
+        for (WebElement tableRow : tableRows) {
+
+            try {
+                WebElement cellWithMessageText = tableRow.findElement(By.xpath("./td[contains(text(), '" + messageText + "')]"));
+                WebElement cellWithMessageHeadline = tableRow.findElement(By.xpath("./td[contains(text(), '" + messageHeadline + "')]"));
+
+                if (cellWithMessageText.isDisplayed() && cellWithMessageHeadline.isDisplayed()) {
+                    return tableRow;
+                }
+            } catch (NoSuchElementException e) {
+                //TODO: Log that no such row exists on the page
+            }
+        }
+        return null;
+    }
+
     public EditMessagePage clickEditButtonInCertainRow(Message message) {
         WebElement tableRow = getRowWithMessage(message);
         WebElement buttonForEdition = tableRow.findElement(editButton);
         if (buttonForEdition != null && buttonForEdition.isDisplayed()) {
             buttonForEdition.click();
-        } else {
-            // TODO: log that the button was not found
         }
         return new EditMessagePage(webDriver);
     }
@@ -121,8 +149,6 @@ public class ListMessagesPage extends AbstractPage {
         WebElement buttonForDeletion = tableRow.findElement(deleteButton);
         if (buttonForDeletion != null && buttonForDeletion.isDisplayed()) {
             buttonForDeletion.click();
-        } else {
-            // TODO: log that the button was not found
         }
         return new ListMessagesPage(webDriver);
     }
@@ -132,14 +158,17 @@ public class ListMessagesPage extends AbstractPage {
         WebElement buttonForView = tableRow.findElement(viewButton);
         if (buttonForView != null && buttonForView.isDisplayed()) {
             buttonForView.click();
-        } else {
-            // TODO: log that the button was not found
         }
         return new ShowMessagePage(webDriver);
     }
 
     public Boolean checkIfMessageExists(Message message) {
         WebElement tableRow = getRowWithMessage(message);
+        return tableRow != null && tableRow.isDisplayed();
+    }
+
+    public Boolean checkIfMessageOfCertainUserExists(Message message) {
+        WebElement tableRow = getRowWithMessageOfCertainUser(message);
         return tableRow != null && tableRow.isDisplayed();
     }
 
@@ -155,11 +184,25 @@ public class ListMessagesPage extends AbstractPage {
             return Boolean.TRUE;
         }
 
-        //TODO: log that message doesn't exist at all
         return Boolean.FALSE;
     }
 
-    public void goToPreLastPage() {
+    public Boolean checkIfMessageOfCertainUserExistsOnThePage (Message message) {
+
+        if(checkIfMessageOfCertainUserExists(message)) {
+            return Boolean.TRUE;
+        }
+
+        goToPreLastPage();
+
+        if (checkIfMessageOfCertainUserExists(message)) {
+            return Boolean.TRUE;
+        }
+
+        return Boolean.FALSE;
+    }
+
+    private void goToPreLastPage() {
         findPageElement(preLastTablePageButton).click();
     }
 }

@@ -12,6 +12,11 @@ public class Message {
         this.userName = userName;
     }
 
+    public Message (String headline, String text) {
+        this.headline = headline;
+        this.text = text;
+    }
+
     public String getHeadline() {
         return headline;
     }
@@ -23,10 +28,5 @@ public class Message {
     public String getUserName() {
         return userName;
     }
-
-    public String toString() {
-        String result = headline + " " + text + " " + userName;
-        return result;
-    } // to delete!
 
 }
