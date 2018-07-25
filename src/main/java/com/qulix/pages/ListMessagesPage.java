@@ -119,7 +119,7 @@ public class ListMessagesPage extends AbstractPage {
                     }
                 }
             } catch (NoSuchElementException e) {
-
+                e.printStackTrace();
             }
         }
         return null;
@@ -127,29 +127,50 @@ public class ListMessagesPage extends AbstractPage {
 
     public EditMessagePage clickEditButtonInCertainRow(Message message) {
         WebElement tableRow = getRowWithMessage(message);
-        WebElement buttonForEdition = tableRow.findElement(editButton);
-        if (buttonForEdition != null && buttonForEdition.isDisplayed()) {
-            buttonForEdition.click();
+
+        if(tableRow != null) {
+            WebElement buttonForEdition = tableRow.findElement(editButton);
+
+            if(buttonForEdition != null && buttonForEdition.isDisplayed()) {
+                buttonForEdition.click();
+            }
+
+            return new EditMessagePage(webDriver);
         }
-        return new EditMessagePage(webDriver);
+
+        return null;
     }
 
     public ListMessagesPage clickDeleteButtonInCertainRow(Message message) {
         WebElement tableRow = getRowWithMessage(message);
-        WebElement buttonForDeletion = tableRow.findElement(deleteButton);
-        if (buttonForDeletion != null && buttonForDeletion.isDisplayed()) {
-            buttonForDeletion.click();
+
+        if(tableRow != null) {
+            WebElement buttonForDeletion = tableRow.findElement(deleteButton);
+
+            if(buttonForDeletion != null && buttonForDeletion.isDisplayed()) {
+                buttonForDeletion.click();
+            }
+
+            return new ListMessagesPage(webDriver);
         }
-        return new ListMessagesPage(webDriver);
+
+        return null;
     }
 
     public ShowMessagePage clickViewButtonInCertainRow(Message message) {
         WebElement tableRow = getRowWithMessage(message);
-        WebElement buttonForView = tableRow.findElement(viewButton);
-        if (buttonForView != null && buttonForView.isDisplayed()) {
-            buttonForView.click();
+
+        if(tableRow != null) {
+            WebElement buttonForView = tableRow.findElement(viewButton);
+
+            if (buttonForView != null && buttonForView.isDisplayed()) {
+                buttonForView.click();
+            }
+
+            return new ShowMessagePage(webDriver);
         }
-        return new ShowMessagePage(webDriver);
+
+        return null;
     }
 
     public Boolean checkIfMessageExists(Message message) {
