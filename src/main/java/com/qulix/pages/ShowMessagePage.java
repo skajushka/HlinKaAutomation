@@ -12,7 +12,7 @@ public class ShowMessagePage extends AbstractPage {
     private static final By messageHeadline = By.xpath("//td[contains(text(),'Headline')]/following-sibling::td");
     private static final By messageText = By.xpath("//td[contains(text(),'Text')]/following-sibling::td");
     private static final By tabToNewMessage = By.linkText("New Message");
-    private static final String SHOW_MESSAGE_PAGE_TITLE = "show.message.page.title";
+    private static final String SHOW_MESSAGE_PAGE_TITLE = "Show Message";
 
     ShowMessagePage(WebDriver webDriver) {
         super(webDriver);
@@ -35,12 +35,12 @@ public class ShowMessagePage extends AbstractPage {
         return new ListMessagesPage(webDriver);
     }
 
-    private String checkPageTitle() {
+    private String getTextOfPageTitle() {
         return this.getPageTitle().getText();
     }
 
     public Boolean verifyShowMessagePageTitle() {
-        return checkPageTitle().equals(SHOW_MESSAGE_PAGE_TITLE);
+        return getTextOfPageTitle().equals(SHOW_MESSAGE_PAGE_TITLE);
     }
 
     private WebElement getMessageHeadline() {

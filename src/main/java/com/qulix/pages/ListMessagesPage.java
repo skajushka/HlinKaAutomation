@@ -18,9 +18,12 @@ public class ListMessagesPage extends AbstractPage {
     private static final By editButton = By.xpath("./td/a[contains(text(),'Edit')]");
     private static final By deleteButton = By.xpath("./td/a[contains(text(),'Delete')]");
     private static final By logoutButton = By.linkText("Logout");
+    //todo last и pre перепутаны по-моему - все верно, prelast вызывается только если мессаджа не оказалось на last, где юзер находится в данный момент,
+    // todo: и тогда кнопка предпоследней страницы будет последней кнопкой в списке
+    // todo: а в случае с last, за ней еще идет кнопка Next, на которую кликать не нужно
     private static final By lastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()-1]");
     private static final By preLastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()]");
-    private static final String LIST_MESSAGES_PAGE_TITLE = "list.messages.page.title";
+    private static final String LIST_MESSAGES_PAGE_TITLE = "Message List";
 
     ListMessagesPage(WebDriver webDriver) {
         super(webDriver);
@@ -58,12 +61,12 @@ public class ListMessagesPage extends AbstractPage {
         return findPageElement(pageTitle);
     }
 
-    private String checkPageTitle() {
+    private String getTextOfPageTitle() {
         return this.getPageTitle().getText();
     }
 
     public Boolean verifyMessageListPageTitle() {
-        return checkPageTitle().equals(LIST_MESSAGES_PAGE_TITLE);
+        return this.getTextOfPageTitle().equals(LIST_MESSAGES_PAGE_TITLE);
     }
 
     private WebElement getLogoutButton() {
@@ -87,8 +90,11 @@ public class ListMessagesPage extends AbstractPage {
         return checkTextOfUserGreeting().contains(userName);
     }
 
-    private WebElement getRowWithMessageOfCertainUser(Message message) {
+    private WebElement getRowWithMessage(Message message) {
+        return getRowWithMessageOfCertainUser(message, Boolean.FALSE);
+    }
 
+    private WebElement getRowWithMessageOfCertainUser(Message message, Boolean considerUser) {
         String messageText = message.getText();
         String messageHeadline = message.getHeadline();
         String messageUserName = message.getUserName();
@@ -100,36 +106,20 @@ public class ListMessagesPage extends AbstractPage {
             try {
                 WebElement cellWithMessageText = tableRow.findElement(By.xpath("./td[contains(text(), '" + messageText + "')]"));
                 WebElement cellWithMessageHeadline = tableRow.findElement(By.xpath("./td[contains(text(), '" + messageHeadline + "')]"));
-                WebElement cellWithUserName = tableRow.findElement(By.xpath("./td[contains(text(), '" + messageUserName + "')]"));
-
-                if (cellWithMessageText.isDisplayed() && cellWithMessageHeadline.isDisplayed() && cellWithUserName.isDisplayed()) {
-                    return tableRow;
-                }
-            } catch (NoSuchElementException e) {
-                //TODO: Log that no such row exists on the page
-            }
-        }
-        return null;
-    }
-
-    private WebElement getRowWithMessage(Message message) {
-
-        String messageText = message.getText();
-        String messageHeadline = message.getHeadline();
-
-        List<WebElement> tableRows = webDriver.findElements(By.xpath("//tbody/tr"));
-
-        for (WebElement tableRow : tableRows) {
-
-            try {
-                WebElement cellWithMessageText = tableRow.findElement(By.xpath("./td[contains(text(), '" + messageText + "')]"));
-                WebElement cellWithMessageHeadline = tableRow.findElement(By.xpath("./td[contains(text(), '" + messageHeadline + "')]"));
 
                 if (cellWithMessageText.isDisplayed() && cellWithMessageHeadline.isDisplayed()) {
-                    return tableRow;
+                    if (considerUser) {
+                        WebElement cellWithUserName = tableRow.findElement(By.xpath("./td[contains(text(), '" + messageUserName + "')]"));
+
+                        if(cellWithUserName.isDisplayed()) {
+                            return tableRow;
+                        }
+                    } else {
+                        return tableRow;
+                    }
                 }
             } catch (NoSuchElementException e) {
-                //TODO: Log that no such row exists on the page
+
             }
         }
         return null;
@@ -167,35 +157,24 @@ public class ListMessagesPage extends AbstractPage {
         return tableRow != null && tableRow.isDisplayed();
     }
 
-    public Boolean checkIfMessageOfCertainUserExists(Message message) {
-        WebElement tableRow = getRowWithMessageOfCertainUser(message);
+    public Boolean checkIfMessageOfCertainUserExists(Message message, Boolean considerUser) {
+        WebElement tableRow = getRowWithMessageOfCertainUser(message, considerUser);
         return tableRow != null && tableRow.isDisplayed();
     }
 
     public Boolean checkIfMessageExistsOnThePage (Message message) {
-
-        if(checkIfMessageExists(message)) {
-            return Boolean.TRUE;
-        }
-
-        goToPreLastPage();
-
-        if (checkIfMessageExists(message)) {
-            return Boolean.TRUE;
-        }
-
-        return Boolean.FALSE;
+        return checkIfMessageOfCertainUserExistsOnThePage(message, Boolean.FALSE);
     }
 
-    public Boolean checkIfMessageOfCertainUserExistsOnThePage (Message message) {
+    public Boolean checkIfMessageOfCertainUserExistsOnThePage (Message message, Boolean considerUser) {
 
-        if(checkIfMessageOfCertainUserExists(message)) {
+        if(checkIfMessageOfCertainUserExists(message, considerUser)) {
             return Boolean.TRUE;
         }
 
         goToPreLastPage();
 
-        if (checkIfMessageOfCertainUserExists(message)) {
+        if (checkIfMessageOfCertainUserExists(message, considerUser)) {
             return Boolean.TRUE;
         }
 

@@ -8,10 +8,24 @@ import org.openqa.selenium.WebElement;
 public class EditMessagePage extends AbstractMessagePage {
 
     private static final By saveButton = By.name("_action_save");
+    private static final By pageTitle = By.tagName("h1");
     private static final String messageAttributeName = "value";
+    private static final String PAGE_TITLE = "Edit Message";
 
     EditMessagePage(WebDriver webDriver) {
         super(webDriver);
+    }
+
+    private WebElement getPageTitle() {
+        return webDriver.findElement(pageTitle);
+    }
+
+    private String getTextOfPageTitle() {
+        return getPageTitle().getText();
+    }
+
+    public Boolean verifyEditMessagePageTitle() {
+        return getTextOfPageTitle().equals(PAGE_TITLE);
     }
 
     private String getTextOfMessageHeadline() {
