@@ -29,13 +29,13 @@ public class MessageTest extends AbstractTest {
     public void createMessageTest(String login, String password) {
 
         ListMessagesPage listMessagesPage = startPage.clickOnUserControllerLink().login(login, password);
-        assertTrue(listMessagesPage.verifyMessageListPageTitle());
+        assertTrue(listMessagesPage.verifyMessageListPageTitle()); //TODO Не очень удобно. В случае ошибки у тебя assert будет с expected true but found false. Чтобы понять, что произошло надо будет смотреть stacktrace и искать нужную строку
 
         CreateMessagePage createMessagePage = listMessagesPage.clickNewMessageTab();
         assertTrue(createMessagePage.verifyCreateMessagePageTitle());
 
-        String headline = createMessagePage.generateUniqueString();
-        String text = createMessagePage.generateUniqueString();
+        String headline = createMessagePage.generateUniqueString(); //TODO Логически некорректно. Методу generateUniqueString в принципе нечего делать в странице. Под твои цели лучше создать Message.createUniqueMessage()
+        String text = createMessagePage.generateUniqueString();//TODO + абсолютно ненужное создание промежуточных переменных
 
         Message message = new Message(headline, text);
 
@@ -43,6 +43,7 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.verifyShowMessagePageTitle());
 
         showMessagePage.clickTabToMessagesList();
+        //TODO Кто и когда сказал, что проверять надо последнюю страницу?
         listMessagesPage.clickLastPaginationButton();
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
@@ -52,7 +53,7 @@ public class MessageTest extends AbstractTest {
     @Parameters({"Login", "Password"})
     public void showMessageTest(String login, String password) {
 
-        ListMessagesPage listMessagesPage = startPage.clickOnUserControllerLink().login(login, password);
+        ListMessagesPage listMessagesPage = startPage.clickOnUserControllerLink().login(login, password);//TODO Вот это у тебя 10 раз будет. Не проще ли создать метод login(String, String)?
         assertTrue(listMessagesPage.verifyMessageListPageTitle());
 
         CreateMessagePage createMessagePage = listMessagesPage.clickNewMessageTab();
@@ -235,7 +236,7 @@ public class MessageTest extends AbstractTest {
         String headline = createMessagePage.generateUniqueString();
         String text = createMessagePage.generateUniqueString();
 
-        Message firstUserMessage = new Message(headline, text, ADMIN_USER_NAME);
+        Message firstUserMessage = new Message(headline, text, ADMIN_USER_NAME);//TODO Поучему ADMIN_USER_NAME? А если firstLogin другого пользователя передам?
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(firstUserMessage);
 

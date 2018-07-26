@@ -22,10 +22,12 @@ public class CreateMessagePage extends AbstractMessagePage {
         return this.getPageTitle().getText();
     }
 
+    //TODO c булевыми и числовыми типами классы используем только если реально надо. Иначе boolean/long/int
     public Boolean verifyCreateMessagePageTitle() {
         return getTextOfPageTitle().equals(CREATE_MESSAGE_PAGE_TITLE);
     }
 
+    //TODO Лучше использовать createMessage и оставить тот же populateMessage, не надо вот этот доп. параметр
     public ShowMessagePage createMessage(Message message, Boolean save) {
         populateMessageFields(message);
 

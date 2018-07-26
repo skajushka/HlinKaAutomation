@@ -118,8 +118,7 @@ public class ListMessagesPage extends AbstractPage {
                         return tableRow;
                     }
                 }
-            } catch (NoSuchElementException e) {
-                e.printStackTrace();
+            } catch (NoSuchElementException ignore) {
             }
         }
         return null;
@@ -154,7 +153,7 @@ public class ListMessagesPage extends AbstractPage {
             return new ListMessagesPage(webDriver);
         }
 
-        return null;
+        return null;//todo nope. throw new RuntimeException("Can't delete message <message>. Such message not found")
     }
 
     public ShowMessagePage clickViewButtonInCertainRow(Message message) {
@@ -170,23 +169,24 @@ public class ListMessagesPage extends AbstractPage {
             return new ShowMessagePage(webDriver);
         }
 
-        return null;
+        return null;//todo nope
     }
 
     public Boolean checkIfMessageExists(Message message) {
         WebElement tableRow = getRowWithMessage(message);
-        return tableRow != null && tableRow.isDisplayed();
+        return tableRow != null && tableRow.isDisplayed();//todo no chance that row is not displayed here
     }
 
     public Boolean checkIfMessageOfCertainUserExists(Message message, Boolean considerUser) {
         WebElement tableRow = getRowWithMessageOfCertainUser(message, considerUser);
-        return tableRow != null && tableRow.isDisplayed();
+        return tableRow != null && tableRow.isDisplayed();//todo no chance that row is not displayed here
     }
 
     public Boolean checkIfMessageExistsOnThePage (Message message) {
         return checkIfMessageOfCertainUserExistsOnThePage(message, Boolean.FALSE);
     }
-
+//TODo Метод откровенно не ясен по названию в отношении к checkIfMessageExists и checkIfMessageOfCertainUserExists
+    //TODO К чему привязка к последней странице?
     public Boolean checkIfMessageOfCertainUserExistsOnThePage (Message message, Boolean considerUser) {
 
         if(checkIfMessageOfCertainUserExists(message, considerUser)) {
