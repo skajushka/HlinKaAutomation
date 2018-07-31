@@ -1,6 +1,10 @@
 package com.qulix.message;
 
+import java.util.Date;
+
 public class Message {
+
+    private static final String COMPUTERNAME = "COMPUTERNAME";
 
     private String headline;
     private String text;
@@ -27,6 +31,26 @@ public class Message {
 
     public String getUserName() {
         return userName;
+    }
+
+    private static String generateUniqueString() {
+        return new Date().getTime() + "_" + System.getenv(COMPUTERNAME);
+    }
+
+    public static Message createUniqueMessage() {
+        String headline = generateUniqueString();
+        String text = generateUniqueString();
+        return new Message(headline, text);
+    }
+
+    public static Message createUniqueMessageWithUserName(String userName) {
+        String headline = generateUniqueString();
+        String text = generateUniqueString();
+        return new Message(headline, text, userName);
+    }
+
+    public String toString() {
+        return this.getHeadline() + this.getText();
     }
 
 }

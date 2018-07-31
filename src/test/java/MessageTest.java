@@ -34,17 +34,13 @@ public class MessageTest extends AbstractTest {
         CreateMessagePage createMessagePage = listMessagesPage.clickNewMessageTab();
         assertTrue(createMessagePage.verifyCreateMessagePageTitle());
 
-        String headline = createMessagePage.generateUniqueString(); //TODO Логически некорректно. Методу generateUniqueString в принципе нечего делать в странице. Под твои цели лучше создать Message.createUniqueMessage()
-        String text = createMessagePage.generateUniqueString();//TODO + абсолютно ненужное создание промежуточных переменных
-
-        Message message = new Message(headline, text);
+        Message message = Message.createUniqueMessage();
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(message);
         assertTrue(showMessagePage.verifyShowMessagePageTitle());
 
         showMessagePage.clickTabToMessagesList();
-        //TODO Кто и когда сказал, что проверять надо последнюю страницу?
-        listMessagesPage.clickLastPaginationButton();
+        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
     }
@@ -59,16 +55,13 @@ public class MessageTest extends AbstractTest {
         CreateMessagePage createMessagePage = listMessagesPage.clickNewMessageTab();
         assertTrue(createMessagePage.verifyCreateMessagePageTitle());
 
-        String headline = createMessagePage.generateUniqueString();
-        String text = createMessagePage.generateUniqueString();
-
-        Message message = new Message(headline, text);
+        Message message = Message.createUniqueMessage();
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(message);
         assertTrue(showMessagePage.verifyShowMessagePageTitle());
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickLastPaginationButton();
+        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
 
@@ -77,7 +70,6 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(message));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickLastPaginationButton();
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
     }
@@ -92,10 +84,7 @@ public class MessageTest extends AbstractTest {
         CreateMessagePage createMessagePage = listMessagesPage.clickNewMessageTab();
         assertTrue(createMessagePage.verifyCreateMessagePageTitle());
 
-        String headline = createMessagePage.generateUniqueString();
-        String text = createMessagePage.generateUniqueString();
-
-        Message message = new Message(headline, text);
+        Message message = Message.createUniqueMessage();
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(message);
 
@@ -103,7 +92,7 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(message));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickLastPaginationButton();
+        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
 
@@ -112,10 +101,7 @@ public class MessageTest extends AbstractTest {
         assertTrue(editMessagePage.verifyEditMessagePageTitle());
         assertTrue(editMessagePage.checkTheMessageOpened(message));
 
-        String editedHeadline = createMessagePage.generateUniqueString();
-        String editedText = createMessagePage.generateUniqueString();
-
-        Message editedMessage = new Message(editedHeadline, editedText);
+        Message editedMessage = Message.createUniqueMessage();
 
         editMessagePage.populateMessageFields(editedMessage);
         editMessagePage.submitEditedMessage();
@@ -124,7 +110,6 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(editedMessage));
 
         editMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickLastPaginationButton();
 
         assertTrue(listMessagesPage.checkIfMessageExists(editedMessage));
     }
@@ -139,10 +124,7 @@ public class MessageTest extends AbstractTest {
         CreateMessagePage createMessagePage = listMessagesPage.clickNewMessageTab();
         assertTrue(createMessagePage.verifyCreateMessagePageTitle());
 
-        String headline = createMessagePage.generateUniqueString();
-        String text = createMessagePage.generateUniqueString();
-
-        Message message = new Message(headline, text);
+        Message message = Message.createUniqueMessage();
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(message);
 
@@ -150,12 +132,11 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(message));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickLastPaginationButton();
+        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
 
         listMessagesPage.clickDeleteButtonInCertainRow(message);
-        listMessagesPage.clickLastPaginationButton();
 
         assertFalse(listMessagesPage.checkIfMessageExists(message));
     }
@@ -170,14 +151,11 @@ public class MessageTest extends AbstractTest {
         CreateMessagePage createMessagePage = listMessagesPage.clickNewMessageTab();
         assertTrue(createMessagePage.verifyCreateMessagePageTitle());
 
-        String headline = createMessagePage.generateUniqueString();
-        String text = createMessagePage.generateUniqueString();
-
-        Message message = new Message(headline, text);
+        Message message = Message.createUniqueMessage();
 
         createMessagePage.createMessage(message, !CLICK_SAVE_BUTTON);
         createMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickLastPaginationButton();
+        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertFalse(listMessagesPage.checkIfMessageExists(message));
     }
@@ -192,10 +170,7 @@ public class MessageTest extends AbstractTest {
         CreateMessagePage createMessagePage = listMessagesPage.clickNewMessageTab();
         assertTrue(createMessagePage.verifyCreateMessagePageTitle());
 
-        String headline = createMessagePage.generateUniqueString();
-        String text = createMessagePage.generateUniqueString();
-
-        Message firstMessage = new Message(headline, text);
+        Message firstMessage = Message.createUniqueMessage();
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(firstMessage);
 
@@ -203,13 +178,11 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(firstMessage));
 
         showMessagePage.clickTabToNewMessagePage();
+        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertTrue(createMessagePage.verifyCreateMessagePageTitle());
 
-        String secondHeadline = createMessagePage.generateUniqueString();
-        String secondText = createMessagePage.generateUniqueString();
-
-        Message secondMessage = new Message(secondHeadline, secondText);
+        Message secondMessage = Message.createUniqueMessage();
 
         createMessagePage.createMessage(secondMessage);
 
@@ -217,10 +190,9 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(secondMessage));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickLastPaginationButton();
 
-        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(firstMessage));
-        assertTrue(listMessagesPage.checkIfMessageExistsOnThePage(secondMessage));
+        assertTrue(listMessagesPage.checkIfMessageExists(firstMessage));
+        assertTrue(listMessagesPage.checkIfMessageExists(secondMessage));
     }
 
     @Test
@@ -233,10 +205,7 @@ public class MessageTest extends AbstractTest {
         CreateMessagePage createMessagePage = listMessagesPage.clickNewMessageTab();
         assertTrue(createMessagePage.verifyCreateMessagePageTitle());
 
-        String headline = createMessagePage.generateUniqueString();
-        String text = createMessagePage.generateUniqueString();
-
-        Message firstUserMessage = new Message(headline, text, ADMIN_USER_NAME);//TODO Поучему ADMIN_USER_NAME? А если firstLogin другого пользователя передам?
+        Message firstUserMessage = Message.createUniqueMessageWithUserName(ADMIN_USER_NAME);//TODO Поучему ADMIN_USER_NAME? А если firstLogin другого пользователя передам?
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(firstUserMessage);
 
@@ -244,7 +213,6 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(firstUserMessage));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickLastPaginationButton();
 
         assertTrue(listMessagesPage.checkIfMessageExists(firstUserMessage));
 
@@ -254,7 +222,7 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(firstUserMessage));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickLastPaginationButton();
+        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertTrue(listMessagesPage.checkIfMessageExists(firstUserMessage));
 
@@ -267,17 +235,13 @@ public class MessageTest extends AbstractTest {
         assertTrue(listMessagesPage.verifyMessageListPageTitle());
         assertTrue(listMessagesPage.verifyUserGreeting(SECOND_USER_GREETING));
 
-        String secondHeadline = createMessagePage.generateUniqueString();
-        String secondText = createMessagePage.generateUniqueString();
-
-        Message secondUserMessage = new Message(secondHeadline, secondText, SECOND_USER_NAME);
+        Message secondUserMessage = Message.createUniqueMessageWithUserName(SECOND_USER_NAME);
 
         listMessagesPage.clickNewMessageTab().createMessage(secondUserMessage);
 
         assertTrue(showMessagePage.checkTheMessageViewed(secondUserMessage));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickLastPaginationButton();
 
         assertTrue(listMessagesPage.checkIfMessageExists(secondUserMessage));
 
@@ -289,15 +253,14 @@ public class MessageTest extends AbstractTest {
         assertTrue(listMessagesPage.verifyUserGreeting(ADMIN_USER_GREETING));
 
         listMessagesPage.clickAllUsersMessagesCheckbox();
-        listMessagesPage.clickLastPaginationButton();
 
-        assertTrue(listMessagesPage.checkIfMessageOfCertainUserExistsOnThePage(firstUserMessage, CONSIDER_USER));
-        assertTrue(listMessagesPage.checkIfMessageOfCertainUserExistsOnThePage(secondUserMessage, CONSIDER_USER));
+        assertTrue(listMessagesPage.checkIfMessageOfCertainUserExists(firstUserMessage, CONSIDER_USER));
+        assertTrue(listMessagesPage.checkIfMessageOfCertainUserExists(secondUserMessage, CONSIDER_USER));
 
         listMessagesPage.clickAllUsersMessagesCheckbox();
-        listMessagesPage.clickLastPaginationButton();
 
-        assertTrue(listMessagesPage.checkIfMessageOfCertainUserExistsOnThePage(firstUserMessage, CONSIDER_USER));
-        assertFalse(listMessagesPage.checkIfMessageOfCertainUserExistsOnThePage(secondUserMessage, CONSIDER_USER));
+        assertTrue(listMessagesPage.checkIfMessageOfCertainUserExists(firstUserMessage, CONSIDER_USER));
+        assertFalse(listMessagesPage.checkIfMessageOfCertainUserExists(secondUserMessage, CONSIDER_USER));
     }
+
 }

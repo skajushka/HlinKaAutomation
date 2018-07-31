@@ -68,6 +68,11 @@
             <artifactId>selenium-support</artifactId>
             <version>3.8.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.lithium.mineraloil</groupId>
+            <artifactId>mineraloil-selenium</artifactId>
+            <version>0.1.56</version>
+        </dependency>
     </dependencies>
 
 </project>

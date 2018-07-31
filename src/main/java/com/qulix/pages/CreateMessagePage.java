@@ -22,8 +22,7 @@ public class CreateMessagePage extends AbstractMessagePage {
         return this.getPageTitle().getText();
     }
 
-    //TODO c булевыми и числовыми типами классы используем только если реально надо. Иначе boolean/long/int
-    public Boolean verifyCreateMessagePageTitle() {
+    public boolean verifyCreateMessagePageTitle() {
         return getTextOfPageTitle().equals(CREATE_MESSAGE_PAGE_TITLE);
     }
 

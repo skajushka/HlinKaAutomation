@@ -18,11 +18,7 @@ public class ListMessagesPage extends AbstractPage {
     private static final By editButton = By.xpath("./td/a[contains(text(),'Edit')]");
     private static final By deleteButton = By.xpath("./td/a[contains(text(),'Delete')]");
     private static final By logoutButton = By.linkText("Logout");
-    //todo last и pre перепутаны по-моему - все верно, prelast вызывается только если мессаджа не оказалось на last, где юзер находится в данный момент,
-    // todo: и тогда кнопка предпоследней страницы будет последней кнопкой в списке
-    // todo: а в случае с last, за ней еще идет кнопка Next, на которую кликать не нужно
-    private static final By lastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()-1]");
-    private static final By preLastTablePageButton = By.xpath("//div[@class='paginateButtons']/a[last()]");
+    private static final By nextButton = By.className("nextLink");
     private static final String LIST_MESSAGES_PAGE_TITLE = "Message List";
 
     ListMessagesPage(WebDriver webDriver) {
@@ -46,15 +42,17 @@ public class ListMessagesPage extends AbstractPage {
         this.getAllUsersMessagesCheckbox().click();
     }
 
-    private WebElement getLastPaginationButton() {
-        return findPageElement(lastTablePageButton);
+    private WebElement getNextButton() {
+        return webDriver.findElement(nextButton);
     }
 
-    public void clickLastPaginationButton() {
-        WebElement lastPageButton = getLastPaginationButton();
-        if (lastPageButton != null && lastPageButton.isDisplayed()) {
-            lastPageButton.click();
-        }
+    private boolean checkIfNextButtonExists() {
+        return getNextButton().isDisplayed();
+    }
+
+    private ListMessagesPage clickNextButton() {
+        getNextButton().click();
+        return new ListMessagesPage(webDriver);
     }
 
     private WebElement getPageTitle() {
@@ -90,11 +88,8 @@ public class ListMessagesPage extends AbstractPage {
         return checkTextOfUserGreeting().contains(userName);
     }
 
-    private WebElement getRowWithMessage(Message message) {
-        return getRowWithMessageOfCertainUser(message, Boolean.FALSE);
-    }
+    private WebElement getRowWithMessageOfCertainUser(Message message, boolean considerUser) {
 
-    private WebElement getRowWithMessageOfCertainUser(Message message, Boolean considerUser) {
         String messageText = message.getText();
         String messageHeadline = message.getHeadline();
         String messageUserName = message.getUserName();
@@ -108,6 +103,7 @@ public class ListMessagesPage extends AbstractPage {
                 WebElement cellWithMessageHeadline = tableRow.findElement(By.xpath("./td[contains(text(), '" + messageHeadline + "')]"));
 
                 if (cellWithMessageText.isDisplayed() && cellWithMessageHeadline.isDisplayed()) {
+
                     if (considerUser) {
                         WebElement cellWithUserName = tableRow.findElement(By.xpath("./td[contains(text(), '" + messageUserName + "')]"));
 
@@ -117,6 +113,8 @@ public class ListMessagesPage extends AbstractPage {
                     } else {
                         return tableRow;
                     }
+
+                    return tableRow;
                 }
             } catch (NoSuchElementException ignore) {
             }
@@ -124,8 +122,31 @@ public class ListMessagesPage extends AbstractPage {
         return null;
     }
 
+    private WebElement findRowWithTheMessageOfCertainUser(Message message, boolean considerUser) {
+
+        WebElement tableRow = getRowWithMessageOfCertainUser(message, considerUser);
+
+        while (tableRow == null) {
+
+            try {
+                if (checkIfNextButtonExists()) {
+                    clickNextButton();
+                }
+            } catch (NoSuchElementException e){
+
+            }
+
+            tableRow = getRowWithMessageOfCertainUser(message,considerUser);
+        }
+        return tableRow;
+    }
+
+    private WebElement findRowWithTheMessage(Message message) {
+        return findRowWithTheMessageOfCertainUser(message, Boolean.FALSE);
+    }
+
     public EditMessagePage clickEditButtonInCertainRow(Message message) {
-        WebElement tableRow = getRowWithMessage(message);
+        WebElement tableRow = findRowWithTheMessage(message);
 
         if(tableRow != null) {
             WebElement buttonForEdition = tableRow.findElement(editButton);
@@ -141,7 +162,7 @@ public class ListMessagesPage extends AbstractPage {
     }
 
     public ListMessagesPage clickDeleteButtonInCertainRow(Message message) {
-        WebElement tableRow = getRowWithMessage(message);
+        WebElement tableRow = findRowWithTheMessage(message);
 
         if(tableRow != null) {
             WebElement buttonForDeletion = tableRow.findElement(deleteButton);
@@ -157,7 +178,7 @@ public class ListMessagesPage extends AbstractPage {
     }
 
     public ShowMessagePage clickViewButtonInCertainRow(Message message) {
-        WebElement tableRow = getRowWithMessage(message);
+        WebElement tableRow = findRowWithTheMessage(message);
 
         if(tableRow != null) {
             WebElement buttonForView = tableRow.findElement(viewButton);
@@ -173,37 +194,13 @@ public class ListMessagesPage extends AbstractPage {
     }
 
     public Boolean checkIfMessageExists(Message message) {
-        WebElement tableRow = getRowWithMessage(message);
-        return tableRow != null && tableRow.isDisplayed();//todo no chance that row is not displayed here
+        WebElement tableRow = findRowWithTheMessage(message);
+        return tableRow != null;
     }
 
     public Boolean checkIfMessageOfCertainUserExists(Message message, Boolean considerUser) {
-        WebElement tableRow = getRowWithMessageOfCertainUser(message, considerUser);
-        return tableRow != null && tableRow.isDisplayed();//todo no chance that row is not displayed here
-    }
-
-    public Boolean checkIfMessageExistsOnThePage (Message message) {
-        return checkIfMessageOfCertainUserExistsOnThePage(message, Boolean.FALSE);
-    }
-//TODo Метод откровенно не ясен по названию в отношении к checkIfMessageExists и checkIfMessageOfCertainUserExists
-    //TODO К чему привязка к последней странице?
-    public Boolean checkIfMessageOfCertainUserExistsOnThePage (Message message, Boolean considerUser) {
-
-        if(checkIfMessageOfCertainUserExists(message, considerUser)) {
-            return Boolean.TRUE;
-        }
-
-        goToPreLastPage();
-
-        if (checkIfMessageOfCertainUserExists(message, considerUser)) {
-            return Boolean.TRUE;
-        }
-
-        return Boolean.FALSE;
-    }
-
-    private void goToPreLastPage() {
-        findPageElement(preLastTablePageButton).click();
+        WebElement tableRow = findRowWithTheMessageOfCertainUser(message, considerUser);
+        return tableRow != null;
     }
 }
 
