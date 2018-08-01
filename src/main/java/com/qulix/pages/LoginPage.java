@@ -9,6 +9,8 @@ public class LoginPage extends AbstractPage {
     private static final By loginField = By.id("login");
     private static final By passwordField = By.id("password");
     private static final By buttonLogin = By.xpath("//input[@class='save']");
+    private static final By pageTitle = By.tagName("h1");
+    private static final String LOGIN_PAGE_TITLE = "Login";
 
     LoginPage(WebDriver webDriver) {
         super(webDriver);
@@ -34,8 +36,20 @@ public class LoginPage extends AbstractPage {
         return findPageElement(buttonLogin);
     }
 
-    public boolean checkIfLoginButtonIsPresent() {
-        return this.getButtonLogin().isDisplayed();
+    private WebElement getPageTitle() {
+        return findPageElement(pageTitle);
+    }
+
+    private String getTextOfPageTitle() {
+        return this.getPageTitle().getText();
+    }
+
+    public void verifyLoginPageTitle() {
+
+        if (!this.getTextOfPageTitle().equals(LOGIN_PAGE_TITLE)) {
+
+            throw new RuntimeException("Actual page title is '" + getTextOfPageTitle() + "' instead of expected '" + LOGIN_PAGE_TITLE + "'" );
+        }
     }
 
     private void clickLoginButton() {

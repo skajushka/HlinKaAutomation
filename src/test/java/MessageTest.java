@@ -11,12 +11,7 @@ public class MessageTest extends AbstractTest {
 
     private StartPage startPage;
 
-    private static final String ADMIN_USER_NAME = "Administrator";
-    private static final String ADMIN_USER_GREETING = "Hello Administrator!";
-    private static final String SECOND_USER_NAME = "John Doe";
-    private static final String SECOND_USER_GREETING = "Hello John Doe!";
     private static final boolean CONSIDER_USER = Boolean.TRUE;
-
 
     @BeforeMethod
     public void setup() {
@@ -39,7 +34,6 @@ public class MessageTest extends AbstractTest {
         showMessagePage.verifyShowMessagePageTitle();
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
     }
@@ -58,9 +52,7 @@ public class MessageTest extends AbstractTest {
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(message);
         showMessagePage.verifyShowMessagePageTitle();
-
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
 
@@ -91,7 +83,6 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(message));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
 
@@ -131,7 +122,6 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(message));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertTrue(listMessagesPage.checkIfMessageExists(message));
 
@@ -154,7 +144,6 @@ public class MessageTest extends AbstractTest {
 
         createMessagePage.populateMessageFields(message);
         createMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertFalse(listMessagesPage.checkIfMessageExists(message));
     }
@@ -188,15 +177,14 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(secondMessage));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertTrue(listMessagesPage.checkIfMessageExists(firstMessage));
         assertTrue(listMessagesPage.checkIfMessageExists(secondMessage));
     }
 
     @Test
-    @Parameters({"Login", "SecondUserLogin", "Password"})
-    public void viewOtherUsersMessagesTest(String login, String secondUserLogin, String password) {
+    @Parameters({"Login", "Password", "UserName", "SecondUserLogin", "SecondUserName"})
+    public void viewOtherUsersMessagesTest(String login, String password, String userName, String secondUserLogin, String secondUserName) {
 
         ListMessagesPage listMessagesPage = loginToTestSite(login, password);
         listMessagesPage.verifyMessageListPageTitle();
@@ -204,7 +192,7 @@ public class MessageTest extends AbstractTest {
         CreateMessagePage createMessagePage = listMessagesPage.clickNewMessageTab();
         createMessagePage.verifyCreateMessagePageTitle();
 
-        Message firstUserMessage = Message.createUniqueMessageWithUserName(ADMIN_USER_NAME);//TODO Поучему ADMIN_USER_NAME? А если firstLogin другого пользователя передам?
+        Message firstUserMessage = Message.createUniqueMessageWithUserName(userName);
 
         ShowMessagePage showMessagePage = createMessagePage.createMessage(firstUserMessage);
 
@@ -221,7 +209,6 @@ public class MessageTest extends AbstractTest {
         assertTrue(showMessagePage.checkTheMessageViewed(firstUserMessage));
 
         showMessagePage.clickTabToMessagesList();
-        listMessagesPage.clickAllUsersMessagesCheckbox(); // to delete!
 
         assertTrue(listMessagesPage.checkIfMessageExists(firstUserMessage));
 
@@ -232,9 +219,9 @@ public class MessageTest extends AbstractTest {
         loginPage.login(secondUserLogin, password);
 
         listMessagesPage.verifyMessageListPageTitle();
-        assertTrue(listMessagesPage.verifyUserGreeting(SECOND_USER_GREETING));
+        listMessagesPage.verifyUserGreeting(secondUserName);
 
-        Message secondUserMessage = Message.createUniqueMessageWithUserName(SECOND_USER_NAME);
+        Message secondUserMessage = Message.createUniqueMessageWithUserName(secondUserName);
 
         listMessagesPage.clickNewMessageTab().createMessage(secondUserMessage);
 
@@ -245,12 +232,10 @@ public class MessageTest extends AbstractTest {
         assertTrue(listMessagesPage.checkIfMessageExists(secondUserMessage));
 
         listMessagesPage.clickLogoutButton();
-
-        assertTrue(loginPage.checkIfLoginButtonIsPresent());
+        loginPage.verifyLoginPageTitle();
 
         loginPage.login(login, password);
-        assertTrue(listMessagesPage.verifyUserGreeting(ADMIN_USER_GREETING));
-
+        listMessagesPage.verifyUserGreeting(userName);
         listMessagesPage.clickAllUsersMessagesCheckbox();
 
         assertTrue(listMessagesPage.checkIfMessageOfCertainUserExists(firstUserMessage, CONSIDER_USER));

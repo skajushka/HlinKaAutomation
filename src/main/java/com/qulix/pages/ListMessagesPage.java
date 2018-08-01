@@ -84,12 +84,16 @@ public class ListMessagesPage extends AbstractPage {
         return findPageElement(userGreeting);
     }
 
-    private String checkTextOfUserGreeting() {
+    private String getTextOfUserGreeting() {
         return this.getUserGreeting().getText();
     }
 
-    public boolean verifyUserGreeting(String userName) {
-        return checkTextOfUserGreeting().contains(userName);
+    public void verifyUserGreeting(String userName) {
+
+        if(!getTextOfUserGreeting().contains(userName)) {
+
+            throw new RuntimeException("Wrong user greeting - '" + getTextOfUserGreeting() + "' doesn't contain '" + userName + "'" );
+        }
     }
 
     private WebElement getRowWithMessageOfCertainUser(Message message, boolean considerUser) {
@@ -127,7 +131,6 @@ public class ListMessagesPage extends AbstractPage {
     }
 
     private WebElement findRowWithTheMessageOfCertainUser(Message message, boolean considerUser) {
-
         WebElement tableRow = getRowWithMessageOfCertainUser(message, considerUser);
 
         while (tableRow == null) {
@@ -153,10 +156,10 @@ public class ListMessagesPage extends AbstractPage {
         WebElement tableRow = findRowWithTheMessage(message);
 
         if(tableRow != null) {
-            WebElement buttonForEdition = tableRow.findElement(editButton);
+            WebElement editButtonElement = tableRow.findElement(editButton);
 
-            if(buttonForEdition != null && buttonForEdition.isDisplayed()) {
-                buttonForEdition.click();
+            if(editButtonElement != null && editButtonElement.isDisplayed()) {
+                editButtonElement.click();
             }
 
             return new EditMessagePage(webDriver);
@@ -169,10 +172,10 @@ public class ListMessagesPage extends AbstractPage {
         WebElement tableRow = findRowWithTheMessage(message);
 
         if(tableRow != null) {
-            WebElement buttonForDeletion = tableRow.findElement(deleteButton);
+            WebElement deleteButtonElement = tableRow.findElement(deleteButton);
 
-            if(buttonForDeletion != null && buttonForDeletion.isDisplayed()) {
-                buttonForDeletion.click();
+            if(deleteButtonElement != null && deleteButtonElement.isDisplayed()) {
+                deleteButtonElement.click();
             }
 
             return new ListMessagesPage(webDriver);
@@ -185,10 +188,10 @@ public class ListMessagesPage extends AbstractPage {
         WebElement tableRow = findRowWithTheMessage(message);
 
         if(tableRow != null) {
-            WebElement buttonForView = tableRow.findElement(viewButton);
+            WebElement viewButtonElement = tableRow.findElement(viewButton);
 
-            if (buttonForView != null && buttonForView.isDisplayed()) {
-                buttonForView.click();
+            if (viewButtonElement != null && viewButtonElement.isDisplayed()) {
+                viewButtonElement.click();
             }
 
             return new ShowMessagePage(webDriver);

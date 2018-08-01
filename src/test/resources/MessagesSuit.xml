@@ -4,14 +4,16 @@
     <test name="MessageTest">
         <parameter name="Login" value="admin"/>
         <parameter name="Password" value="password"/>
+        <parameter name="UserName" value="Administrator"/>
         <parameter name="SecondUserLogin" value="jdoe"/>
+        <parameter name="SecondUserName" value="John Doe"/>
         <classes>
-<!--            <class name="LoginTest">
+            <class name="LoginTest">
                 <methods>
                     <include name="startPageOpenedTest"/>
                     <include name="loginPageOpenedTest"/>
                 </methods>
-            </class>-->
+            </class>
             <class name="MessageTest">
                 <methods>
                     <include name="createMessageTest"/>

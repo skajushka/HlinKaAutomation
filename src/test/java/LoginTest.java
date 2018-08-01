@@ -22,9 +22,6 @@ public class LoginTest extends AbstractTest {
     @Test
     public void loginPageOpenedTest() {
         LoginPage loginPage = startPage.clickOnUserControllerLink();
-
-        assertTrue(loginPage.checkIfLoginFieldIsPresent());
-        assertTrue(loginPage.checkIfPasswordFieldIsPresent());
-        assertTrue(loginPage.checkIfLoginButtonIsPresent());
+        loginPage.verifyLoginPageTitle();
     }
 }
