@@ -24,7 +24,7 @@ public class EditMessagePage extends AbstractMessagePage {
         return getPageTitle().getText();
     }
 
-    public Boolean verifyEditMessagePageTitle() {
+    public boolean verifyEditMessagePageTitle() {
         return getTextOfPageTitle().equals(PAGE_TITLE);
     }
 
@@ -45,7 +45,7 @@ public class EditMessagePage extends AbstractMessagePage {
         return new ShowMessagePage(webDriver);
     }
 
-    public Boolean checkTheMessageOpened(Message message) {
+    public boolean checkTheMessageOpened(Message message) {
         return(getTextOfMessageHeadline().equals(message.getHeadline())&&getTextOfMessageBody().equals(message.getText()));
     }
 }

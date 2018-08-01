@@ -39,8 +39,12 @@ public class ShowMessagePage extends AbstractPage {
         return this.getPageTitle().getText();
     }
 
-    public Boolean verifyShowMessagePageTitle() {
-        return getTextOfPageTitle().equals(SHOW_MESSAGE_PAGE_TITLE);
+    public void verifyShowMessagePageTitle() {
+
+        if (!this.getTextOfPageTitle().equals(SHOW_MESSAGE_PAGE_TITLE)) {
+
+            throw new RuntimeException("Actual page title is '" + getTextOfPageTitle() + "' instead of expected '" + SHOW_MESSAGE_PAGE_TITLE + "'" );
+        }
     }
 
     private WebElement getMessageHeadline() {
@@ -64,7 +68,7 @@ public class ShowMessagePage extends AbstractPage {
         return new CreateMessagePage(webDriver);
     }
 
-    public Boolean checkTheMessageViewed(Message message) {
+    public boolean checkTheMessageViewed(Message message) {
         return(getTextOfMessageHeadline().equals(message.getHeadline())&&getTextOfMessageBody().equals(message.getText()));
     }
 }

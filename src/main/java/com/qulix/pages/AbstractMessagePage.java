@@ -13,7 +13,6 @@ public abstract class AbstractMessagePage extends AbstractPage {
     private static final By messageHeadline = By.id("headline");
     private static final By messageText = By.id("text");
     private static final By submitButton = By.className("save");
-    private static final String COMPUTERNAME = "COMPUTERNAME";
 
     protected AbstractMessagePage(WebDriver webDriver) {
         super(webDriver);
@@ -57,9 +56,5 @@ public abstract class AbstractMessagePage extends AbstractPage {
     public ListMessagesPage clickTabToMessagesList() {
         this.getTabToMessagesList().click();
         return new ListMessagesPage(webDriver);
-    }
-
-    public String generateUniqueString() {
-        return new Date().getTime() + "_" + System.getenv(COMPUTERNAME);
     }
 }

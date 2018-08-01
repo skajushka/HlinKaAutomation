@@ -22,22 +22,17 @@ public class CreateMessagePage extends AbstractMessagePage {
         return this.getPageTitle().getText();
     }
 
-    public boolean verifyCreateMessagePageTitle() {
-        return getTextOfPageTitle().equals(CREATE_MESSAGE_PAGE_TITLE);
-    }
+    public void verifyCreateMessagePageTitle() {
 
-    //TODO Лучше использовать createMessage и оставить тот же populateMessage, не надо вот этот доп. параметр
-    public ShowMessagePage createMessage(Message message, Boolean save) {
-        populateMessageFields(message);
+        if (!this.getTextOfPageTitle().equals(CREATE_MESSAGE_PAGE_TITLE)) {
 
-        if (save) {
-            clickSubmitButton();
+            throw new RuntimeException("Actual page title is '" + getTextOfPageTitle() + "' instead of expected '" + CREATE_MESSAGE_PAGE_TITLE + "'" );
         }
-
-        return new ShowMessagePage(webDriver);
     }
 
     public ShowMessagePage createMessage(Message message) {
-        return createMessage(message, Boolean.TRUE);
+        populateMessageFields(message);
+        clickSubmitButton();
+        return new ShowMessagePage(webDriver);
     }
 }

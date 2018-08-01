@@ -63,8 +63,12 @@ public class ListMessagesPage extends AbstractPage {
         return this.getPageTitle().getText();
     }
 
-    public Boolean verifyMessageListPageTitle() {
-        return this.getTextOfPageTitle().equals(LIST_MESSAGES_PAGE_TITLE);
+    public void verifyMessageListPageTitle() {
+
+        if (!this.getTextOfPageTitle().equals(LIST_MESSAGES_PAGE_TITLE)) {
+
+            throw new RuntimeException("Actual page title is '" + getTextOfPageTitle() + "' instead of expected '" + LIST_MESSAGES_PAGE_TITLE + "'" );
+        }
     }
 
     private WebElement getLogoutButton() {
@@ -84,7 +88,7 @@ public class ListMessagesPage extends AbstractPage {
         return this.getUserGreeting().getText();
     }
 
-    public Boolean verifyUserGreeting(String userName) {
+    public boolean verifyUserGreeting(String userName) {
         return checkTextOfUserGreeting().contains(userName);
     }
 
@@ -133,7 +137,7 @@ public class ListMessagesPage extends AbstractPage {
                     clickNextButton();
                 }
             } catch (NoSuchElementException e){
-
+                break;
             }
 
             tableRow = getRowWithMessageOfCertainUser(message,considerUser);
@@ -158,7 +162,7 @@ public class ListMessagesPage extends AbstractPage {
             return new EditMessagePage(webDriver);
         }
 
-        return null;
+        throw new RuntimeException("Can't edit message " + message.toString() + ". Such message not found");
     }
 
     public ListMessagesPage clickDeleteButtonInCertainRow(Message message) {
@@ -174,7 +178,7 @@ public class ListMessagesPage extends AbstractPage {
             return new ListMessagesPage(webDriver);
         }
 
-        return null;//todo nope. throw new RuntimeException("Can't delete message <message>. Such message not found")
+        throw new RuntimeException("Can't delete message " + message.toString() + ". Such message not found");
     }
 
     public ShowMessagePage clickViewButtonInCertainRow(Message message) {
@@ -190,15 +194,15 @@ public class ListMessagesPage extends AbstractPage {
             return new ShowMessagePage(webDriver);
         }
 
-        return null;//todo nope
+        throw new RuntimeException("Can't view message " + message.toString() + ". Such message not found");
     }
 
-    public Boolean checkIfMessageExists(Message message) {
+    public boolean checkIfMessageExists(Message message) {
         WebElement tableRow = findRowWithTheMessage(message);
         return tableRow != null;
     }
 
-    public Boolean checkIfMessageOfCertainUserExists(Message message, Boolean considerUser) {
+    public boolean checkIfMessageOfCertainUserExists(Message message, boolean considerUser) {
         WebElement tableRow = findRowWithTheMessageOfCertainUser(message, considerUser);
         return tableRow != null;
     }
