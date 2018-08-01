@@ -28,10 +28,6 @@ public class LoginPage extends AbstractPage {
         return findPageElement(passwordField);
     }
 
-    public boolean checkIfPasswordFieldIsPresent() {
-        return this.getPasswordField().isDisplayed();
-    }
-
     private WebElement getButtonLogin() {
         return findPageElement(buttonLogin);
     }
